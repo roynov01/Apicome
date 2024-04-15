@@ -25,14 +25,15 @@ if (!dir.exists(dir_output)) {dir.create(dir_output)}
 
 # import current data
 ```{r}
-prot_cur = read.csv("X:\\Common\\Lab_Papers\\Roy_apicome_paper\\code\\human_proteomics\\output\\processed_data.csv")
+
+prot_cur = read.csv(paste(root_dir,"human_proteomics","output","processed_data.csv",sep="/"))
 prot_cur = prot_cur[,c("gene","a_b_ratio")]
 ```
 
 # impot paper data
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3094140/
 ```{r}
-bb = read.csv("X:\\roy\\apicome\\analysis\\proteomics_analysis\\correlations_with_datasets\\brush_border\\Proteomic analysis of the enterocyte brush border_tableS1.csv")
+bb = read.csv(paste(directory,"input","Proteomic analysis of the enterocyte brush border_tableS1.csv",sep="/"))
 bb = separate(data=bb,col=Refseq.ID,into=c("x1","x2","x3","refseq_peptide","x4"),sep="\\.|\\|")
 bb[,c(1:3,5,7:15)] = NULL
 
@@ -50,7 +51,7 @@ bb$Coverage = as.numeric(gsub("%","",bb$Coverage))
 
 bb = bb[order(bb$Coverage,decreasing=T),]
 
-orthology = read.csv("X:/Common/Lab_Papers/Roy_apicome_paper/code/comparisons/human_mouse_rna/input/Mouse_Human_orthology_ENS109.csv")
+orthology = read.csv(paste(root_dir,"comparisons","human_mouse_rna","input","Mouse_Human_orthology_ENS109.csv",sep="/"))
 orthology = orthology[orthology$Human.orthology.confidence..0.low..1.high.==1 & !is.na(orthology$Gene.name),c("Gene.name","Human.gene.name")]
 orthology = na.omit(orthology)
 orthology$Gene.name = toupper(orthology$Gene.name)

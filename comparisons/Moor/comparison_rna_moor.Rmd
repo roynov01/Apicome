@@ -1,0 +1,92 @@
+---
+title: "Comparison mouse RNA-seq and Moor et al."
+output: html_notebook
+author: "Roy Novoselsky"
+date: "April 2024"
+---
+
+```{r}
+rm(list=ls()) 
+```
+
+# dependencies
+```{r}
+library(ggplot2)
+library(stringr)
+library(dplyr)
+library(ggpubr)
+library(viridis)
+library(ggrepel)
+library(Seurat)
+
+directory = getwd()
+directory_split = unlist(strsplit(directory, '/'))
+root_dir =  paste0(directory_split[-c(length(directory_split), length(directory_split)-1)], collapse = '/')
+source(paste(root_dir,"/functions.R",sep=""))
+dir_output = paste(directory,"output",sep="/")
+if (!dir.exists(dir_output)) {dir.create(dir_output)}
+```
+
+# import supplementary table
+```{r}
+medians = read.csv(paste(directory,"input","aan2399_table_s1.csv",sep="/"),sep=";")
+```
+
+# Import current LCM RNA-seq data
+```{r}
+mouse_path = paste(root_dir, "mouse_rna", "output","medians.csv",sep="/")
+mouse = read.csv(mouse_path,row.names=1)
+
+pseudo_num = 1e-6
+mouse$apical = apply(mouse[,c("apical_tip","apical_base")],1,mean)
+mouse$basal = apply(mouse[,c("basal_tip","basal_base")],1,mean)
+mouse$ratio = (mouse$apical+pseudo_num)/(mouse$basal+pseudo_num)
+mouse$ratio = log(mouse$ratio,2)
+mouse = mouse[,c("ratio","qval","expression_min","expression_max","gene")]
+```
+
+# merge
+```{r Warning=F}
+andreas_mouse = merge(mouse,medians[c("gene","qval","ratio")],by="gene",suffixes=c("_curLCM","_andreas"))
+
+```
+
+# violin plot
+```{r}
+EXP_THRESH = 1e-5
+QVAL_THRESHOLD = 0.1
+plot = andreas_mouse[!is.na(andreas_mouse$qval_andreas) & !is.na(andreas_mouse$qval_curLCM) & 
+                       andreas_mouse$expression_max > EXP_THRESH,]
+plot$signif = NA
+plot$signif[plot$qval_andreas <= QVAL_THRESHOLD & plot$ratio_andreas < 0] = "Basal"
+plot$signif[plot$qval_andreas <= QVAL_THRESHOLD & plot$ratio_andreas > 0] = "Apical"
+plot = plot[!is.na(plot$signif),]
+plot = plot[,c("gene","ratio_curLCM","signif")]
+
+p_values = data.frame(group=c("Apical","Basal"),pval = c(NA,NA), x = c(1,2))
+p_basal = wilcox.test(plot$ratio_curLCM[plot$signif=="Basal"])$p.value
+p_apical = wilcox.test(plot$ratio_curLCM[plot$signif=="Apical"])$p.value
+p_values$pval[p_values$group=="Basal"] = p_basal
+p_values$pval[p_values$group=="Apical"] = p_apical
+
+max_y = max(plot$ratio_curLCM) * 1.7 
+
+ggplot(plot, aes(signif, ratio_curLCM)) +
+  geom_violin(alpha=0.6, fill="limegreen",trim=F) +
+  geom_jitter(size=1, alpha=0.3, position=position_jitter(width =0.2)) +
+  geom_boxplot(outlier.shape=NA, width=0.1,fill="cornsilk") +
+  theme_bw(base_size=18) + 
+  theme(legend.position ="none",panel.grid = element_blank(),
+        axis.text=element_text(color="black"))+
+  xlab("Significant polarization in Moor et al.") + ggtitle("") +
+  ylab("log2(apical/basal) - Current study") + lapply(1:nrow(p_values), function(i) {
+      annotate("text",x=p_values$x[i],y=max_y,label=sprintf(paste0("p=",format.pval(p_values$pval[i],digits=2))), size=4)
+    }) + geom_hline(yintercept=0,alpha=0.5,linetype="dashed") 
+ggsave(paste(dir_output,"moor_corr_violin.pdf",sep="/"),width=5, height=5,units="in")
+
+```
+
+# export
+```{r}
+write.csv(andreas_mouse,paste(dir_output,"moor_corr.csv",sep="/"),row.names=F)
+```

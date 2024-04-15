@@ -1,0 +1,147 @@
+---
+title: "Human apicome LCM proteomics analysis - preprocessing"
+output: html_notebook
+author: "Roy Novoselsky"
+date: "April 2024"
+---
+
+```{r}
+rm(list=ls()) 
+```
+
+# Dependencies
+```{r warning=FALSE}
+library(dplyr)
+library(tidyverse)
+library(data.table)
+
+directory = getwd()
+```
+
+```{r}
+# analyse = 2
+analyse = c(1,2) # which batches to analyze
+min_unique_peptide = 2
+
+dir_output = paste(directory,"output",sep="/")
+if (!dir.exists(dir_output)) {dir.create(dir_output)}
+dir_input = paste(directory,"input",sep="/")
+files = c(paste(dir_input,"human_proteomics_1.txt",sep="/"),
+          paste(dir_input,"human_proteomics_2.txt",sep="/"))
+```
+
+## read tables and filter
+```{r}
+datas = list()
+metadatas = list()
+for (i in 1:length(files)){
+  file = files[i]
+  dat = read.table(file,sep='\t',header=T)
+  
+  # edit column names:
+  for (j in 1:ncol(dat)){
+    col = colnames(dat)[j]
+    if (startsWith(col,'iBAQ')){
+      splitted = strsplit(col,'_')
+      colnames(dat)[j] = paste(splitted[[1]][1:3],collapse='_')
+    }
+  }
+  colnames(dat) = gsub("/|\\+|%|\\[|\\]|\\s|\\.|\\-","_", colnames(dat))
+  colnames(dat) = gsub("__|___|___|____","_", colnames(dat))
+  
+  # add genes to "gene_names" column that are not assigned for some reason:
+  dat$Gene_names[grepl("GN=CALM1",dat$Fasta_headers)] = "CALM1"
+  dat$Gene_names[grepl("GN=UGT2A2",dat$Fasta_headers)] = "UGT2A2"
+  dat$Gene_names[grepl("GN=MGAM2",dat$Fasta_headers)] = "MGAM2"
+  dat$Gene_names[grepl("GN=MISP3",dat$Fasta_headers)] = "MISP3"
+
+  # filtering:
+  dat = dat[
+    dat$Gene_names!="" &
+    dat$Unique_peptides >= min_unique_peptide &
+    dat$Q_value<= 0.1 &
+    !grepl("CON_",dat$Protein_IDs),]
+  
+  # separate the data and metadata:
+  rownames(dat) = dat$Gene_names
+  data = dat[,grepl( "iBAQ_" , colnames(dat))]
+  colnames(data) = gsub("iBAQ_","",colnames(data))
+  data = as.data.frame(lapply(data, as.numeric),row.names=rownames(data))
+
+  # reverse log transformation:
+  data = 2 ^ data 
+  
+  # substract noise:
+  min_val = min(data,na.rm=T)
+  data = data - min_val
+  
+  data = data.frame(apply(data, 2, function(x) ifelse(is.nan(x), NA, x)))
+  data$gene = rownames(data)
+  datas[[i]] = data
+  metadata_features = dat[,c("Protein_IDs","Protein_names","Gene_names","Mol_weight_kDa_")]
+  colnames(metadata_features)[colnames(metadata_features)=="Gene_names"] = "gene"
+  metadatas[[i]] = metadata_features
+}
+
+```
+
+## merge batches
+```{r}
+if (length(analyse)==1) {
+  data = datas[[analyse]]
+  metadata_features = metadatas[[analyse]]
+} else {
+  for (i in analyse){
+    if (i==1) {# first element
+      data = datas[[1]] 
+      metadata_features = metadatas[[1]]
+    } else {
+      data = merge(data, datas[[i]], by="gene",all=T)
+      metadata_features = merge(metadata_features, metadatas[[i]], by=c("gene","Protein_IDs","Protein_names","Mol_weight_kDa_"),all=T)
+    }
+  }
+}
+```
+
+## change names of non-unique proteins (peptides that map to possible multiple proteins)
+```{r}
+choose_names = function(data, averege_duplicated=T) {
+  data_copy = data
+  for (i in 1:nrow(data_copy)){
+    proteins = data_copy$gene[i]
+    if (grepl(";",proteins)){ # is not unique
+      non_unique = strsplit(proteins,";")[[1]]
+      non_unique = sort(non_unique)
+      non_unique_joined = paste(non_unique, collapse=';')
+      data_copy$gene[i] = non_unique_joined
+      for (protein in non_unique){
+        if (protein %in% data_copy$gene){
+          chosen = protein
+          break
+        } else {
+          chosen = non_unique[1]
+        }
+      }
+      data_copy$gene[i] = chosen
+    }
+  }
+  if (averege_duplicated==T) {
+    # mean of duplicated rows
+    data_copy = aggregate(.~gene, data=data_copy, mean, na.rm=T, na.action=NULL)
+  } else { 
+    # delete duplicated rows
+    data_copy = as.data.frame(unique(data.table(data_copy), by="gene"))
+  }
+  rownames(data_copy) = data_copy$gene
+  return(data_copy)
+}
+
+data = choose_names(data,averege_duplicated=T)
+metadata_features = choose_names(metadata_features,averege_duplicated=F)
+```
+
+## export CSV
+```{r}
+write.csv(data, paste0(dir_output,"/data.csv"))
+write.csv(metadata_features, paste0(dir_output,"/metadata.csv"))
+```

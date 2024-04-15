@@ -1,0 +1,311 @@
+---
+title: "Human apicome LCM RNA-seq analysis"
+output: html_notebook
+author: "Roy Novoselsky"
+date: "April 2024"
+---
+
+```{r}
+rm(list=ls()) 
+```
+
+# Dependencies
+```{r Warning=F}
+library(ggplot2)
+library(dplyr)
+library(ggrepel)
+library(gridExtra)
+library(Seurat)
+library(ggtext)
+library(stringr)
+library(ggpubr)
+library(tidyr)
+library(tidyverse)
+
+directory = getwd()
+root_dir =  paste0(unlist(strsplit(directory, '/'))[-length(unlist(strsplit(directory, '/')))], collapse = '/')
+source(paste(root_dir,"/functions.R",sep=""))
+outputs_dir = paste(directory,"output",sep="/")
+if (!dir.exists(outputs_dir)) {dir.create(outputs_dir)}
+```
+# type of pipeline, which genes to filter
+(uncomment )
+
+# Input data
+## read tables
+```{r}
+input_dir = paste(directory,"input",sep="/")
+
+human_lcm = read.csv(paste(input_dir,"UMI_TABLE_HUMAN_APICOME_UTAP.csv",sep="/"), row.names=1)
+
+sample_names = data.frame(samples = colnames(human_lcm))
+meta = sample_names %>% separate(samples, into = c("apicome", "zone", "patient"), sep = "_")
+rownames(meta) = sample_names$samples
+
+human_lcm = CreateSeuratObject(counts=human_lcm,meta.data=meta)
+human_lcm$Sample_origin = paste(human_lcm$apicome,human_lcm$zone,sep="_")
+
+```
+
+# QC plots
+```{r}
+Idents(human_lcm) = human_lcm$Sample_origin
+```
+
+
+```{r}
+THRESHOLD_UMI = 10000
+human_lcm[["percent.mito"]] = PercentageFeatureSet(human_lcm, pattern = "^MT-|MTRNR")
+human_lcm[["percent.ribo"]] = PercentageFeatureSet(human_lcm, pattern ="^RP[SL]")
+
+VlnPlot(human_lcm, c("percent.mito"),split.by="apicome") + xlab("")
+# ggsave(paste(outputs_dir,"/mito_precent_violin.pdf",sep=''),width=12,height=8,units="in")
+
+VlnPlot(human_lcm, c("percent.ribo"),split.by="apicome") + xlab("")
+# ggsave(paste(outputs_dir,"/ribo_precent_violin.pdf",sep=''),width=12,height=8,units="in")
+
+VlnPlot(human_lcm, c("nCount_RNA"),split.by="apicome") + xlab("")
+# ggsave(paste(outputs_dir,"/UMIs_violin.pdf",sep=''),width=12,height=8,units="in")
+
+meta = human_lcm@meta.data
+meta$color = "black"
+meta$color[meta$nCount_RNA < THRESHOLD_UMI] = "red"
+meta$sample_names_patient = paste(meta$Sample_origin,meta$patient,sep="_")
+ggplot(meta, aes(x=sample_names_patient,y=nCount_RNA,fill=color)) + 
+  geom_col()+ 
+  coord_flip() +
+  theme_bw(base_size=18)  + 
+  theme(axis.text.y = element_markdown(),axis.title.x = element_blank(),axis.title.y = element_blank())+ 
+  scale_fill_identity()+
+  geom_hline(yintercept=THRESHOLD_UMI, linetype="dashed", color = "orange")+
+  ggtitle("number of UMIs")
+# ggsave(paste(outputs_dir,"/UMIs_bar.pdf",sep=''),width=12,height=8,units="in")
+```
+
+# Filtering (non-coding/mitochondrial or epithelial only)
+## export table
+```{r}
+raw_data = as.data.frame(human_lcm@assays$RNA$counts)
+write.csv(human_lcm@assays$RNA$counts,paste(outputs_dir,"/data_all_genes.csv",sep=""))
+```
+## filter protein coding genes
+```{r}
+types = read.csv(paste(input_dir,"Human_GRch38_101_ensemblBioMart_ref.csv",sep="/"))
+
+types = types[!duplicated(types$external_gene_name), ]
+rownames(types) = types$external_gene_name
+description = types[types$external_gene_name %in% rownames(human_lcm),c("external_gene_name","description")]
+
+human_lcm = subset(human_lcm,features = rownames(human_lcm)[(rownames(human_lcm) %in% types$external_gene_name[types$gene_biotype == "protein_coding"])])
+human_lcm = human_lcm[!grepl("^MT-|MTRNR", rownames(human_lcm)), ]
+
+```
+## export table
+```{r}
+raw_data = as.data.frame(human_lcm@assays$RNA$counts)
+write.csv(human_lcm@assays$RNA$counts,paste(outputs_dir,"/data.csv",sep=""))
+```
+
+# Normilization
+```{r}
+human_lcm = NormalizeData(object = human_lcm,normalization.method="RC",scale.factor = 1, verbose = F)
+```
+
+# PCA
+## scale data + PCA
+```{r}
+umi_thresh = 10000
+human_lcm_high = subset(human_lcm,subset=nCount_RNA>umi_thresh)
+human_lcm_high = FindVariableFeatures(object = human_lcm_high, verbose = F)
+
+human_lcm_high = ScaleData(human_lcm_high, features=rownames(human_lcm_high), verbose = F)
+human_lcm_high = RunPCA(object = human_lcm_high,features=VariableFeatures(object=human_lcm_high),npcs=7, verbose = F)
+```
+
+## PC1+PC2 plot
+```{r}
+p1 = DimPlot(human_lcm_high, reduction = 'pca', group.by="zone", pt.size = 3) + 
+  xlab(paste("PC1 (",round(human_lcm_high@reductions$pca@stdev[1],1),"%)",sep="")) +
+  theme_bw(base_size=18)+
+  ylab("") +
+  theme(legend.background=element_rect(colour="black",linewidth=0.5),legend.position=c(0.18,0.2),
+        panel.grid=element_blank(),axis.text=element_text(color="black")) +
+  ggtitle(element_blank()) +
+  scale_color_manual(values=c("#6acc64","#956cb4"))+
+  coord_fixed(ratio = 1)
+
+p2 = DimPlot(human_lcm_high,group.by="apicome", pt.size = 3,  reduction = 'pca') + 
+  theme_bw(base_size=18)+
+  xlab("")+
+  ylab("") +
+  theme(legend.background=element_rect(colour="black",linewidth=0.5),legend.position=c(0.18,0.2),
+        panel.grid=element_blank(),axis.text=element_text(color="black")) +
+  ggtitle(element_blank()) +
+  scale_color_manual(values=c("#ee854a","#82c6e2")) +
+  coord_fixed(ratio = 1)
+
+p3 = DimPlot(human_lcm_high,group.by="patient", pt.size = 3,  reduction = 'pca') + 
+  theme_bw(base_size=18)+
+  xlab("") +
+  ylab("") +
+  theme(legend.position=c(0.45,0.2),
+        legend.background=element_rect(colour="black",linewidth=0.5),
+        # legend.box.background=element_rect(fill="white", color ="black"),
+        legend.direction="horizontal",panel.grid=element_blank(),axis.text=element_text(color="black")) +
+  # theme(legend.position=c(0.2,0.2),legend.box.background=element_rect(fill="white", color ="black"),legend.direction="horizontal") +
+  ggtitle(element_blank())+
+  coord_fixed(ratio = 1)
+
+plot = arrangeGrob(p2,p1,p3,ncol=3,top=paste("PC2 (",round(human_lcm_high@reductions$pca@stdev[2],1),"%)",sep="")) 
+ggsave(paste(outputs_dir,"/PCA_all.pdf",sep=''),width=16,height=6,units="in",plot=plot)
+shell.exec(paste(outputs_dir,"/PCA_all.pdf",sep=''))
+```
+
+# Apicome score
+```{r}
+patients = unique(human_lcm$patient)
+medians = raw_data
+medians = matnorm(medians)
+medians$expression_mean = apply(medians,1,mean)
+medians$expression_max = apply(medians,1,max)
+medians$expression_min = apply(medians,1,min)
+
+mn = apply(medians,1,median)
+pn = min(mn[mn>0])
+
+# # calculate geometric averege of expression
+for (cond in c("apical_tip","basal_tip","apical_base","basal_base")){ 
+  log_med = log(medians[,grepl(cond,colnames(medians))] + pn)
+  medians[[cond]] = apply(log_med, 1, mean)
+  medians[[cond]] = exp(medians[[cond]])
+}
+
+# calculate geometric averege of ratios
+for (p in patients){
+  medians[[paste0("ratio_tip_",p)]] = (medians[,paste0("apical_tip_",p)]+pn)/(medians[,paste0("basal_tip_",p)]+pn)
+  medians[[paste0("ratio_base_",p)]] = (medians[,paste0("apical_base_",p)]+pn)/(medians[,paste0("basal_base_",p)]+pn)
+}
+medians[,grepl("ratio_",colnames(medians))] = log( medians[,grepl("ratio_",colnames(medians))],2)
+
+medians$log2_fc = apply(medians[,grepl("ratio_",colnames(medians))],1,mean)
+medians$tip_a_b = apply(medians[,grepl("ratio_tip",colnames(medians))],1,mean)
+medians$base_a_b = apply(medians[,grepl("ratio_base",colnames(medians))],1,mean)
+medians$gene = rownames(medians)
+```
+
+# Signed rank test
+```{r}
+EXP_THRESH = 1e-5
+
+df = raw_data
+df = matnorm(df)
+expression_mean = apply(df,1,mean)
+expression_mean_values = unname(expression_mean)
+high_expressed = df[expression_mean >= EXP_THRESH,]
+df = df[rownames(high_expressed),]
+
+df$p_val = NA
+df$qval = NA
+df$p_val_viliChange = NA
+df$qval_viliChange = NA
+for (g in 1:nrow(df)){
+  gene = rownames(df)[g]
+  cur_gene_df = NULL
+  for (i in 1:length(patients)){
+    if (is.null(cur_gene_df)){
+        cur_gene_df = df[gene,grepl(paste0(patients[i],"$"),colnames(df))]
+        colnames(cur_gene_df) = gsub(paste0("_",patients[i]),"",colnames(cur_gene_df))
+        cur_gene_df$patient = patients[i]
+      } else {
+        cur_gene_df_new = df[gene,grepl(paste0(patients[i],"$"),colnames(df))]
+        colnames(cur_gene_df_new) = gsub(paste0("_",patients[i]),"",colnames(cur_gene_df_new))
+        cur_gene_df_new$patient = patients[i]
+        cur_gene_df = bind_rows(cur_gene_df,cur_gene_df_new)
+      }
+  }
+  apical = c(cur_gene_df$apical_tip,cur_gene_df$apical_base)
+  basal = c(cur_gene_df$basal_tip,cur_gene_df$basal_base)
+  ratio_tip = (cur_gene_df$apical_tip+pn) / (cur_gene_df$basal_tip+pn)
+  ratio_base = (cur_gene_df$apical_base+pn) / (cur_gene_df$basal_base+pn)
+  df$p_val[g] = suppressWarnings({wilcox.test(apical,basal,paired=T,alternative="two.sided",exact=T)$p.value})
+  df$p_val_viliChange[g] = suppressWarnings({wilcox.test(ratio_tip,ratio_base,paired=T,alternative="two.sided",exact=T)$p.value})
+}
+df$qval = p.adjust(df$p_val,method="BH")
+df$qval_viliChange = p.adjust(df$p_val_viliChange,method="BH")
+df$gene = rownames(df)
+```
+## add qval to "medians"
+```{r}
+medians = merge(medians, df[,c("gene","p_val","qval","p_val_viliChange","qval_viliChange")], by="gene",all=T)
+rownames(medians) = medians$gene
+medians[,grepl("apical_tip_|apical_base_|basal_tip_|basal_base_",colnames(medians))] = NULL
+
+```
+
+# MA with selected genes
+```{r}
+QVAL_THRESH = 0.25
+genes = c("CPS1","DSP","MYH14","CDH1","APOA4", "SLC5A1")
+
+plot = medians
+plot$signif = "no"
+plot$signif[plot$qval < QVAL_THRESH] = "signif"
+plot$signif[plot$gene %in% genes] = "selected"
+plot$signif = factor(plot$signif, levels = c("no", "signif", "selected"))
+plot = arrange(plot, signif)
+
+plot$log10_expression = log(plot$expression_mean,10)
+
+ggplot(plot, aes(log10_expression,log2_fc)) +
+  geom_point(aes(color=signif,fill=signif, size=signif),shape=21) +
+  geom_text_repel(aes(label=gene),data=plot[plot$signif == "selected",],max.overlaps = 30,color="red",size=5) +
+  scale_color_manual(values = c("no"="black","signif"="blue","selected"="red"),name="Significant",guide = "none") +
+  scale_fill_manual(values = c("no"="black","signif"="blue","selected"="blue"),name="Significant",guide = "none")+
+  scale_size_manual(values=c("no"=1,"signif"=1,"selected"=3))+
+  xlab(expression("log10(mean expression)")) +
+  ylab(expression("log2(apical/basal)")) +
+  theme_bw(base_size=20)+
+  theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank(),legend.position="none",axis.text.y=element_text(color="black"))
+
+ggsave(paste(outputs_dir,"MA_with_selected.pdf",sep="\\"),width=6,height=6,units="in")
+
+```
+
+# plot apicome across villi zones
+```{r}
+EXPRESSION_THRESHOLD = 1e-4
+FC_THRESH = 0
+
+plot = medians[medians$expression_mean > EXPRESSION_THRESHOLD,]
+
+plot$signif = F
+plot$signif[(plot$tip_a_b > FC_THRESH | plot$tip_a_b < -FC_THRESH) |
+                       (plot$base_a_b > FC_THRESH | plot$base_a_b < -FC_THRESH)] = T
+
+plot$qval_viliChange_log10 = -log(plot$qval_viliChange,10)
+plot$log10_expression = log(plot$expression_mean,10)
+
+ggplot(plot, aes(tip_a_b, base_a_b)) +
+  geom_hline(yintercept=0, linetype="dashed",alpha = 0.3) +
+  geom_vline(xintercept=0, linetype="dashed",alpha = 0.3) +
+  geom_point(aes(fill=qval_viliChange_log10),color="black",shape=21,size=1)+
+  geom_text_repel(data=plot[plot$signif == T,],aes(tip_a_b, base_a_b,label=gene),max.overlaps = 15, size=3) +
+  ggtitle("") +
+  theme_bw(base_size=18) +
+  theme(axis.line = element_line(),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),axis.text=element_text(color="black"),legend.position="none")+
+  xlab("log2(apical/basal) - Villus top") + ylab("log2(apical/basal) - Villus bottom") +
+  
+  scale_fill_gradient(low="black",high="black",name="log10(q-val)")+
+  stat_cor(aes(tip_a_b, base_a_b), digits=2,method = "spearman", inherit.aes=F,label.y.npc = "top",label.x.npc = "left",size=5)
+  
+ggsave(paste(outputs_dir,"/scatter_general.pdf",sep=''),width=8,height=8,units="in")
+
+```
+
+# export data
+```{r}
+saveRDS(human_lcm,paste(outputs_dir,"/export_LCM_SEURAT.rds",sep=""))
+write.csv(human_lcm@meta.data, paste(outputs_dir,"/export_metadata.csv",sep=""))
+write.csv(human_lcm@assays$RNA$counts, paste(outputs_dir,"/export_data.csv",sep=""))
+write.csv(medians, paste(outputs_dir,"/medians.csv",sep=""))
+```

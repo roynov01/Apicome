@@ -1,0 +1,215 @@
+---
+title: "Comparison of human and mouse RNA-seq"
+output: html_notebook
+author: "Roy Novoselsky"
+date: "April 2024"
+---
+
+```{r}
+rm(list=ls()) 
+```
+
+```{r}
+library(ggplot2)
+```
+
+```{r}
+directory = getwd()
+directory_split = unlist(strsplit(directory, '/'))
+root_dir =  paste0(directory_split[-c(length(directory_split), length(directory_split)-1)], collapse = '/')
+source(paste(root_dir,"/functions.R",sep=""))
+dir_output = paste(directory,"output",sep="/")
+if (!dir.exists(dir_output)) {dir.create(dir_output)}
+```
+
+# import data
+```{r}
+mouse_med = read.csv(paste(root_dir,"mouse_rna","output","medians.csv",sep="/"),row.names=1)
+
+mouse_med$gene = toupper(mouse_med$gene)
+human_med = read.csv(paste(root_dir,"human_rna","output","medians.csv",sep="/"),row.names=1)
+```
+
+
+# change orthology naming
+```{r}
+orthology = read.csv("input/Mouse_Human_orthology_ENS109.csv")
+orthology = orthology[orthology$Human.orthology.confidence..0.low..1.high.==1 & !is.na(orthology$Gene.name),c("Gene.name","Human.gene.name")]
+orthology = na.omit(orthology)
+orthology$Gene.name = toupper(orthology$Gene.name)
+orthology = orthology[!duplicated(orthology$Gene.name),]
+orthology$Human.gene.name[orthology$Human.gene.name==""] = NA
+
+mouse_med = merge(mouse_med, orthology, by.x="gene",by.y="Gene.name",all.x=T, all.y=F)
+mouse_med$gene = ifelse(is.na(mouse_med$Human.gene.name), mouse_med$gene, mouse_med$Human.gene.name)
+mouse_med$Human.gene.name = NULL
+
+mouse_med = mouse_med[!duplicated(mouse_med$gene),]
+
+```
+
+# combine ratios
+```{r}
+columns = "p_val|qval|log2_fc|gene|expression_mean|ratio_"
+medians_combined = merge(mouse_med[,grepl(columns,colnames(mouse_med))],
+                         human_med[,grepl(columns,colnames(human_med))],
+                         by="gene",all=F,suffixes=c("_mouse","_human"))
+medians_combined$expression_mean = apply(medians_combined[,grepl("expression_mean",colnames(medians_combined))],1,mean)
+rownames(medians_combined) = NULL
+
+```
+
+
+# signed rank test
+```{r}
+EXPRESSION_THRESHOLD = 1e-4
+medians_combined_high = medians_combined[medians_combined$expression_mean >= EXPRESSION_THRESHOLD,]
+medians_combined_high$pval_species_tip = NA
+medians_combined_high$pval_species_base = NA
+
+human_tip = grepl("ratio_tip_P",colnames(medians_combined_high))
+mouse_tip = grepl("ratio_tip_R",colnames(medians_combined_high))
+human_base = grepl("ratio_base_P",colnames(medians_combined_high))
+mouse_base = grepl("ratio_base_R",colnames(medians_combined_high))
+for (i in 1:nrow(medians_combined_high)){
+  group1 = as.numeric(medians_combined_high[i,human_tip])
+  group2 = as.numeric(medians_combined_high[i,mouse_tip])
+  medians_combined_high$pval_species_tip[i] = suppressWarnings({
+wilcox.test(group1,group2,paired=F,alternative="two.sided")$p.value
+  })
+  group1 = as.numeric(medians_combined_high[i,human_base])
+  group2 = as.numeric(medians_combined_high[i,mouse_base])
+  medians_combined_high$pval_species_base[i] = suppressWarnings({
+wilcox.test(group1,group2,paired=F,alternative="two.sided")$p.value
+  })
+}
+
+medians_combined_high$pval_species = apply(medians_combined_high[,c("pval_species_base","pval_species_tip")],1,min)
+medians_combined_high$qval_species = p.adjust(medians_combined_high$pval_species,"BH")
+```
+
+# plot spearman correlation
+```{r}
+QVAL_THRESHOLD_change = 0.2
+QVAL_THRESHOLD_each_species = 0.1
+
+plot = medians_combined_high[medians_combined_high$expression_mean > EXPRESSION_THRESHOLD ,c("gene","pval_species","qval_species","log2_fc_human","log2_fc_mouse","qval_mouse","qval_human")]
+
+genes_to_plot = plot[order(plot$qval_species),]
+genes_to_plot$qval_species[is.na(genes_to_plot$qval_species)] = 1
+genes_to_plot$qval_mouse[is.na(genes_to_plot$qval_mouse)] = 1
+genes_to_plot$qval_human[is.na(genes_to_plot$qval_human)] = 1
+
+genes_to_plot = genes_to_plot$gene[(genes_to_plot$qval_species <= QVAL_THRESHOLD_change & # qval of change is significant
+                              (genes_to_plot$qval_mouse <= QVAL_THRESHOLD_each_species | # qval of at least one specie is significant
+                                     genes_to_plot$qval_human <= QVAL_THRESHOLD_each_species)) &
+                                     ((genes_to_plot$log2_fc_mouse > 0 & genes_to_plot$log2_fc_human < 0)|
+                                        (genes_to_plot$log2_fc_mouse < 0 & genes_to_plot$log2_fc_human > 0))]
+
+plot$signif = F
+plot$signif[plot$gene %in% genes_to_plot] = T
+plot = plot[order(plot$signif),]
+
+ggplot(plot, aes(log2_fc_mouse, log2_fc_human)) + 
+  geom_hline(yintercept=0, linetype="dashed",alpha = 0.3)+
+  geom_vline(xintercept=0, linetype="dashed",alpha = 0.3) +
+  geom_point(aes(size=signif,color=signif)) + 
+
+    geom_text_repel(data=plot[plot$signif!=F,],aes(log2_fc_mouse,log2_fc_human,label=gene,color=signif),max.overlaps=30,size=5) +
+  geom_text_repel(data=plot[plot$signif==F,],aes(log2_fc_mouse,log2_fc_human,label=gene,color=signif),max.overlaps=5,size=3,color="black") +
+  scale_color_manual(values=c("black","red"),guide = "none")+
+  scale_size_manual(values=c(1,3),guide = "none")+
+  theme_bw(base_size=18) +
+  stat_cor(aes(log2_fc_mouse, log2_fc_human), digits=2,method = "spearman", inherit.aes=F,label.y.npc = "bottom",label.x.npc = "left",label.x=1,label.y=-4,size=5) +
+  theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank(),rect = element_rect(fill = "transparent"),axis.text=element_text(color="black"))+ 
+  xlab("log2(apical/basal) - Mouse") + ylab("log2(apical/basal) - Human") 
+
+ggsave(paste(dir_output,"/comparison_rna_scatter.pdf",sep=""),width=6,height=6,units="in")
+```
+
+# export data
+```{r}
+rownames(medians_combined_high) = medians_combined_high$gene
+write.csv(medians_combined_high[,colnames(medians_combined_high)!="gene"], paste(dir_output,"/data.csv",sep=""))
+
+```
+
+# compare mitochondrial bias
+## import raw data and calculate geometric mean of ratios
+```{r}
+mouse_mito = read.csv(paste(root_dir,"mouse_rna","output","data_all_genes.csv",sep="/"),row.names=1)
+mouse_mito = matnorm(mouse_mito)
+mn = apply(mouse_mito,1,median)
+pn = min(mn[mn>0])
+mouse_mito$expression_max = apply(mouse_mito,1,max)
+mouse_mito = mouse_mito[grepl("^mt-",rownames(mouse_mito)),]
+mice = unique(sapply(strsplit(colnames(mouse_mito), "_"), function(x) x[3]))
+
+for (p in mice){ 
+  if (paste0("apical_tip_",p) %in% colnames(mouse_mito) & paste0("basal_tip_",p) %in% colnames(mouse_mito)){
+  mouse_mito[[paste0("ratio_tip_",p)]] = (mouse_mito[,paste0("apical_tip_",p)]+pn)/(mouse_mito[,paste0("basal_tip_",p)]+pn)
+  }
+}
+mouse_mito[,grepl("ratio",colnames(mouse_mito))] = log(mouse_mito[,grepl("ratio",colnames(mouse_mito))],2)
+mouse_mito$tip_a_b = apply(mouse_mito[,grepl("ratio",colnames(mouse_mito))],1,mean)
+mouse_mito$organism = "Mouse"
+mouse_mito = mouse_mito[,c("tip_a_b","organism","expression_max")]
+rownames(mouse_mito) = toupper(rownames(mouse_mito))
+```
+
+```{r}
+human_mito = read.csv(paste(root_dir,"human_rna","output","data_all_genes.csv",sep="/"),row.names=1)
+human_mito = matnorm(human_mito)
+mn = apply(human_mito,1,median)
+pn = min(mn[mn>0])
+human_mito$expression_max = apply(human_mito,1,max)
+human_mito = human_mito[grepl("^MT-",rownames(human_mito)),]
+patients = unique(sapply(strsplit(colnames(human_mito), "_"), function(x) x[3]))
+
+for (p in patients){ 
+  if (paste0("apical_tip_",p) %in% colnames(human_mito) & paste0("basal_tip_",p) %in% colnames(human_mito)){
+  human_mito[[paste0("ratio_tip_",p)]] = (human_mito[,paste0("apical_tip_",p)]+pn)/(human_mito[,paste0("basal_tip_",p)]+pn)
+  }
+}
+human_mito[,grepl("ratio",colnames(human_mito))] = log(human_mito[,grepl("ratio",colnames(human_mito))],2)
+human_mito$tip_a_b = apply(human_mito[,grepl("ratio",colnames(human_mito))],1,mean)
+human_mito$organism = "Human"
+human_mito = human_mito[,c("tip_a_b","organism","expression_max")]
+```
+
+## merge human+mouse
+```{r}
+mito = rbind(mouse_mito,human_mito)
+
+EXPRESSION_THRESHOLD = 1e-4
+plot = mito[mito$expression_max > EXPRESSION_THRESHOLD,]
+```
+
+## wilcox.test
+```{r}
+pvalues = data.frame(organism=c("Human","Mouse"),
+                     x=c(1,2),p=c(NA,NA))
+p_human = wilcox.test(plot$tip_a_b[plot$organism=="Human"])$p.value
+p_mouse = wilcox.test(plot$tip_a_b[plot$organism=="Mouse"])$p.value
+
+pvalues$p[pvalues$organism=="Human"] = p_human
+pvalues$p[pvalues$organism=="Mouse"] = p_mouse
+```
+
+## plot violin
+```{r}
+max_y = max(plot$tip_a_b) * 1.4 
+ggplot(data=plot, aes(x=organism, y=tip_a_b)) +
+    geom_hline(yintercept=0,alpha=0.5,linetype="dashed") +
+    geom_violin(alpha=1, fill="chocolate",trim=F) +
+    geom_jitter(size=1, alpha=0.5, color="black", position=position_jitter(width =.2)) +
+    geom_boxplot(outlier.shape=NA, width=0.1) +
+    theme_bw(base_size=18) + 
+    theme(legend.position ="none",axis.text.x=element_text(color="black",angle=0,vjust=0.6),panel.grid = element_blank(),axis.text.y=element_text(color="black")) +
+    xlab("") + ggtitle("Mitochondrial RNA") +
+    ylab("log2(apical/basal) - mRNA") +
+    lapply(1:nrow(pvalues), function(i) {
+      annotate("text",x=pvalues$x[i],y=max_y,label=sprintf(paste0("p=",format.pval(pvalues$p[i],digits=2))), size=4)
+    })
+ggsave(paste(dir_output,"/mitochondrial_RNA_violin.pdf",sep=""),width=6,height=4,units="in")
+```

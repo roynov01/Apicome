@@ -1,0 +1,169 @@
+---
+title: "Comparison of proteomics and RNA-seq"
+output: html_notebook
+author: "Roy Novoselsky"
+date: "April 2024"
+---
+
+```{r}
+rm(list=ls()) 
+```
+
+# dependencies
+```{r}
+library(tidyr)
+library(dplyr)
+library(ggpubr)
+library(patchwork)
+library(ggrepel)
+
+directory = getwd()
+directory_split = unlist(strsplit(directory, '/'))
+root_dir =  paste0(directory_split[-c(length(directory_split), length(directory_split)-1)], collapse = '/')
+source(paste(root_dir,"/functions.R",sep=""))
+dir_output = paste(directory,"output",sep="/")
+if (!dir.exists(dir_output)) {dir.create(dir_output)}
+```
+
+# import data
+## Import proteomics data 
+```{r}
+data = read.csv(paste(root_dir,"human_proteomics","output","processed_data.csv",sep="/"))
+rownames(data) = data$gene
+prot_raw = data[1:8]
+
+prot_med = read.csv(paste(root_dir,"human_proteomics","output","processed_data.csv",sep="/"))
+colnames(prot_med)[colnames(prot_med)=="a_b_ratio"] = "log2_fc"
+```
+
+## Import RNA-seq data 
+```{r}
+rna_raw = read.csv(paste(root_dir,"human_rna","output","export_data.csv",sep="/"),row.names=1)
+rna_med = read.csv(paste(root_dir,"human_rna","output","medians.csv",sep="/"),row.names=1)
+```
+
+# non-normilized correlation
+## merge median values 
+```{r}
+columns = "gene|expression_mean|log2_fc|qval$"
+rna_prot = merge(rna_med[,grepl(columns,colnames(rna_med))],prot_med[,grepl(columns,colnames(prot_med))],by="gene",suffixes=c("_rna","_prot"))
+```
+
+## plot spearman correlation
+```{r}
+EXPRESS_THRESH = 1e-5
+plot = rna_prot[rna_prot$expression_mean_rna > EXPRESS_THRESH & rna_prot$expression_mean_prot > EXPRESS_THRESH,]
+plot$signif = F
+plot$signif[grepl("CDH1$|MYH14|SLC5A1",plot$gene)] = T
+ggplot(plot, aes(log2_fc_rna, log2_fc_prot)) +
+  geom_point(aes(color=signif,size=signif,fill=signif),shape=21,fill="black") +
+  stat_cor(method="spearman",digits=2,label.y=10) +
+  geom_text_repel(data=plot[plot$signif == T,],aes(log2_fc_rna, log2_fc_prot,label=gene,color=signif),max.overlaps = 30, size=3) +
+  geom_text_repel(data=plot[plot$signif == F,],aes(log2_fc_rna, log2_fc_prot,label=gene),max.overlaps = 5, size=3)+
+  theme_bw(base_size=18) +
+  scale_color_manual(values = c("black","red")) +
+  scale_size_manual(values=c(1,3))+
+  xlab("log2(apical/basal) - mRNA") +  ylab("log2(apical/basal) - Protein") +
+  geom_hline(yintercept=0, color="black",alpha = 0.2,linetype="dashed") +
+  geom_vline(xintercept=0, color="black",alpha = 0.2,linetype="dashed") +
+  theme(legend.position="none",panel.grid=element_blank(),axis.text=element_text(color="black"))+
+  ggtitle("all genes")
+
+ggsave(paste(dir_output,"/RNA_protein_scatter_all.pdf",sep=""),width=6,height=6,units="in")
+# shell.exec(paste(dir_output,"/RNA_protein_scatter_all.pdf",sep=""))
+```
+
+# import and filter for enterocyte specific genes
+## load sc_data, from yotam
+```{r}
+dataset = read.csv(paste(directory,"input","signature_matrix_yotams.csv",sep="/"),row.names=1)
+# dataset = read.csv(paste(directory,"input","signature_matrix_elmentaite.csv",sep="/"),row.names=1)
+
+dataset = dataset[rowSums(dataset)>0,]
+dataset$Best4 = NULL
+dataset$Enterocytes = dataset$Enterocytes..mature.
+dataset = matnorm(dataset)
+dataset[,colnames(dataset)[grepl("Enterocytes.",colnames(dataset))]] = NULL
+celltypes = colnames(dataset)
+
+epi = dataset[,celltypes[grepl("Enterocytes|Fibroblasts",celltypes)]]
+epi$Fibroblasts = NULL
+
+other = dataset[,celltypes[!grepl("Enterocytes",celltypes)]]
+
+epi_max = apply(epi,1,max)
+other_max = apply(other,1,max)
+
+epithelial_specific = data.frame(epi_max,other_max)
+colnames(epithelial_specific) = c("enterocyte","other")
+
+pn = min(epithelial_specific[epithelial_specific>0])
+epithelial_specific$ratio = (epithelial_specific$enterocyte+pn)/(epithelial_specific$other+pn)
+
+epithelial_specific$gene = rownames(epithelial_specific)
+epithelial_specific = epithelial_specific[order(epithelial_specific$ratio,decreasing=T),]
+
+# epithelial_specific[c("CPS1","NET1","MYH14","CDH1","DSP","HEPH","APOA1","MUC2"),]
+
+```
+
+# plot (epithelial specific normilized)
+```{r}
+thresh_ratio = 2
+thresh_expr = 1e-5
+
+epithelial_specific_genes = epithelial_specific$gene[epithelial_specific$ratio>thresh_ratio & epithelial_specific$enterocyte > thresh_expr ]
+
+# merge
+rna_epi = rna_raw[rownames(rna_raw) %in% epithelial_specific_genes,]
+prot_epi = prot_raw[rownames(prot_raw) %in% epithelial_specific_genes,]
+
+# normilize over enterocyte genes
+rna_epi = matnorm(rna_epi)
+prot_epi = matnorm(prot_epi)
+
+vector = colnames(rna_epi)[colnames(rna_epi)!="gene"]
+patients = unique(sapply(strsplit(vector, "_"), function(x) if(length(x) >= 3) x[3] else NA))
+
+pn = min(rna_epi[,!grepl("gene",colnames(rna_epi))][rna_epi[,!grepl("gene",colnames(rna_epi))]>0])
+
+# calculate geometric averege of ratios
+for (p in patients){
+  rna_epi[[paste0("ratio_",p)]] = (rna_epi[,paste0("apical_tip_",p)]+pn)/(rna_epi[,paste0("basal_tip_",p)]+pn)
+}
+rna_epi[,grepl("ratio_",colnames(rna_epi))] = log(rna_epi[,grepl("ratio_",colnames(rna_epi))],2)
+
+rna_epi$a_b_ratio = apply(rna_epi[,grepl("ratio_",colnames(rna_epi))],1,mean)
+rna_epi$gene = rownames(rna_epi)
+pn = min(prot_epi[,!grepl("gene",colnames(prot_epi))][prot_epi[,!grepl("gene",colnames(prot_epi))]>0])
+
+prot_epi$apical = apply(prot_epi[,grepl("apical_tip",colnames(prot_epi))],1,median) 
+prot_epi$basal = apply(prot_epi[,grepl("basal_tip",colnames(prot_epi))],1,median) 
+prot_epi$ratio = (prot_epi$apical+pn)/(prot_epi$basal+pn)
+prot_epi$a_b_ratio = log(prot_epi$ratio,2)
+prot_epi$gene = rownames(prot_epi)
+
+plot = merge(prot_epi[,c("a_b_ratio","gene")],rna_epi[,c("a_b_ratio","gene")],by="gene",suffixes=c("_prot","_rna"))
+plot$signif = F
+
+ggplot(plot, aes(a_b_ratio_rna, a_b_ratio_prot)) +
+  geom_point(aes(color=signif,size=signif,fill=signif),shape=21,fill="black") +
+  stat_cor(method="spearman",digits=2) + 
+  geom_text_repel(data=plot[plot$signif == F,],aes(a_b_ratio_rna, a_b_ratio_prot,label=gene),max.overlaps = 3, size=3)+
+  theme_bw(base_size=18) +
+  scale_color_manual(values = c("black","red")) +
+  scale_size_manual(values=c(1,3))+
+  xlab("log2(apical/basal) - mRNA") +  ylab("log2(apical/basal) - Protein") +
+  geom_hline(yintercept=0, color="black",alpha = 0.2,linetype="dashed") +
+  geom_vline(xintercept=0, color="black",alpha = 0.2,linetype="dashed") +
+  theme(legend.position="none",panel.grid=element_blank(),axis.text=element_text(color="black")) +
+  ggtitle(paste0("ratio: ",thresh_ratio,",  expression > ",thresh_expr))
+
+ggsave(paste(dir_output,"/RNA_protein_scatter_normilized_enterocyte.pdf",sep=""),width=6,height=6,units="in")
+```
+
+# export
+```{r}
+write.csv(rna_prot, paste(dir_output,"/rna_prot.csv",sep=""))
+write.csv(epithelial_specific, paste(dir_output,"/epithelial_specific_genes.csv",sep=""))
+```

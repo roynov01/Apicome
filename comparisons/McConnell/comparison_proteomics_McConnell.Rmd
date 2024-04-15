@@ -1,0 +1,87 @@
+---
+title: "Correlation of proteomics with McConnell et all."
+output: html_notebook
+author: "Roy Novoselsky"
+date: "April 2024"
+---
+
+```{r}
+rm(list=ls()) 
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+```
+
+```{r}
+directory = getwd()
+directory_split = unlist(strsplit(directory, '/'))
+root_dir =  paste0(directory_split[-c(length(directory_split), length(directory_split)-1)], collapse = '/')
+source(paste(root_dir,"/functions.R",sep=""))
+dir_output = paste(directory,"output",sep="/")
+if (!dir.exists(dir_output)) {dir.create(dir_output)}
+```
+
+# import current data
+```{r}
+prot_cur = read.csv("X:\\Common\\Lab_Papers\\Roy_apicome_paper\\code\\human_proteomics\\output\\processed_data.csv")
+prot_cur = prot_cur[,c("gene","a_b_ratio")]
+```
+
+# impot paper data
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3094140/
+```{r}
+bb = read.csv("X:\\roy\\apicome\\analysis\\proteomics_analysis\\correlations_with_datasets\\brush_border\\Proteomic analysis of the enterocyte brush border_tableS1.csv")
+bb = separate(data=bb,col=Refseq.ID,into=c("x1","x2","x3","refseq_peptide","x4"),sep="\\.|\\|")
+bb[,c(1:3,5,7:15)] = NULL
+
+translation = read.csv("X:\\roy\\resources\\Ensemble\\refseq_peptide_genes.csv")
+bb = merge(bb,translation[,c("external_gene_name","refseq_peptide")],by="refseq_peptide")
+bb$external_gene_name = toupper(bb$external_gene_name)
+bb$gene = bb$external_gene_name
+bb$external_gene_name = NULL
+bb = bb[!duplicated(bb$gene),]
+rownames(bb) = bb$gene
+
+bb[,c("Category","refseq_peptide","Gene.Name.Description")] = NULL
+
+bb$Coverage = as.numeric(gsub("%","",bb$Coverage))
+
+bb = bb[order(bb$Coverage,decreasing=T),]
+
+orthology = read.csv("X:/Common/Lab_Papers/Roy_apicome_paper/code/comparisons/human_mouse_rna/input/Mouse_Human_orthology_ENS109.csv")
+orthology = orthology[orthology$Human.orthology.confidence..0.low..1.high.==1 & !is.na(orthology$Gene.name),c("Gene.name","Human.gene.name")]
+orthology = na.omit(orthology)
+orthology$Gene.name = toupper(orthology$Gene.name)
+orthology = orthology[!duplicated(orthology$Gene.name),]
+orthology$Human.gene.name[orthology$Human.gene.name==""] = NA
+
+bb = merge(bb, orthology, by.x="gene",by.y="Gene.name",all.x=T, all.y=F)
+bb$gene = ifelse(is.na(bb$Human.gene.name), bb$gene, bb$Human.gene.name)
+bb$Human.gene.name = NULL
+```
+
+# plot violins
+```{r}
+bb$q = "1-25 %"
+bb$q[bb$Coverage>=25] = "26-50 %"
+bb$q[bb$Coverage>=50] = "51-75 %"
+
+bb$q[bb$Coverage>=75] = "76-100 %"
+
+plot = merge(prot_cur,bb,by="gene",all.x=T)
+plot$q[is.na(plot$Coverage)] = "0 %"
+plot$q = factor(plot$q, levels = c("76-100 %", "51-75 %", "26-50 %", "1-25 %", "0 %"))
+
+ggplot(data=plot, aes(x=q, y=a_b_ratio)) +
+      geom_hline(yintercept=0,alpha=0.5,linetype="dashed") +
+      geom_violin(scale="width",alpha=1, fill="chocolate",trim=F,width =0.3) +
+      geom_boxplot(outlier.shape=NA, width=0.1) +
+      theme_bw(base_size=18) + 
+      theme(legend.position ="none",axis.text.x=element_text(color="black",angle=0,vjust=0.6),panel.grid = element_blank(),axis.text.y=element_text(color="black")) +
+      xlab("Coverege in mouse brush border isolation") + ggtitle("Brush border") +
+      ylab("log2(apical/basal)") 
+ggsave(paste(dir_output,"/brush_border_proteins.pdf",sep=""),width=8,height=4,units="in")
+
+```

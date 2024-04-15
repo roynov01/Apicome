@@ -1,0 +1,647 @@
+Refseq ID,Coverage,SID,GID,CID,Total spectra,Prep 1,Prep 2,Prep 3,Prep 4,Prep 5,Category,Gene Name/Description
+gi|6680606|ref|NP_032497.1|,86%,1,566,4,872,119,176,177,245,155,cytoskeleton,"keratin, type I cytoskeletal 19 [Mus musculus]"
+gi|114145561|ref|NP_112447.2|,85%,1,34,3,1450,147,343,345,363,252,cytoskeleton,"keratin, type II cytoskeletal 8 [Mus musculus]"
+gi|6671509|ref|NP_031419.1|,81%,1,542,6,2512,549,442,429,731,361,cytoskeleton,"actin, cytoplasmic 1 [Mus musculus]"
+gi|33620739|ref|NP_034990.1|,76%,1,485,123,88,24,25,17,11,11,cytoskeleton,myosin light polypeptide 6 [Mus musculus]
+gi|13384618|ref|NP_079554.1|,76%,1,91,254,30,7,8,8,3,4,signaling,guanine nucleotide-binding protein G(I)/G(S)/G(O) subunit gamma-12 [Mus musculus]
+gi|21592285|ref|NP_075745.1|,75%,1,280,4,326,24,71,90,79,62,cytoskeleton,"keratin, type I cytoskeletal 20 [Mus musculus]"
+gi|124487037|ref|NP_001074688.1|,74%,1,65,1,1582,315,352,354,323,238,cytoskeleton,myosin-1a [Mus musculus]
+gi|83921618|ref|NP_033536.2|,73%,1,635,1,453,45,92,105,112,99,cytoskeleton,ezrin [Mus musculus]
+gi|94363353|ref|XP_484859.3|,73%,1,652,123,83,23,23,16,11,10,cytoskeleton,PREDICTED: myosin light polypeptide 6-like [Mus musculus]
+gi|31980648|ref|NP_058054.2|,72%,1,459,36,327,74,92,57,51,53,mitochondrial,"ATP synthase subunit beta, mitochondrial precursor [Mus musculus]"
+gi|254540068|ref|NP_034794.2|,71%,1,362,4,158,25,25,46,36,26,cytoskeleton,"keratin, type I cytoskeletal 18 [Mus musculus]"
+gi|23943876|ref|NP_081194.1|,71%,1,337,201,81,20,10,10,17,24,trafficking,zymogen granule membrane protein 16 precursor [Mus musculus]
+gi|29336026|ref|NP_082297.1|,70%,1,422,1,2468,492,583,546,462,385,cytoskeleton,non-muscle myosin IIc [Mus musculus]
+gi|85986577|ref|NP_001028382.1|,70%,1,647,16,529,99,134,111,118,67,cytoskeleton,plastin-1 [Mus musculus]
+gi|27369886|ref|NP_766209.1|,69%,1,403,141,68,3,20,19,16,10,channel/transporter,chloride intracellular channel protein 5 [Mus musculus]
+gi|225579120|ref|NP_067492.2|,68%,1,307,44,131,13,47,35,18,18,channel/transporter,Na(+)/H(+) exchange regulatory cofactor NHE-RF3 [Mus musculus]
+gi|190684696|ref|NP_033535.2|,68%,1,230,11,658,161,211,128,85,73,cytoskeleton,villin-1 [Mus musculus]
+gi|6671507|ref|NP_031418.1|,67%,1,541,6,1278,364,275,242,228,169,cytoskeleton,"actin, aortic smooth muscle [Mus musculus]"
+gi|22094075|ref|NP_031477.1|,66%,1,290,49,270,56,67,35,64,48,mitochondrial,ADP/ATP translocase 2 [Mus musculus]
+gi|31982186|ref|NP_032643.2|,64%,1,473,67,72,1,54,9,2,6,mitochondrial,"malate dehydrogenase, mitochondrial precursor [Mus musculus]"
+gi|21313526|ref|NP_084494.1|,64%,1,263,40,126,4,30,30,39,23,unknown,hypothetical protein LOC78906 [Mus musculus]
+gi|114326446|ref|NP_071855.2|,63%,1,36,1,793,187,190,188,93,135,cytoskeleton,non-muscle myosin IIa [Mus musculus]
+gi|23956196|ref|NP_081487.1|,63%,1,342,70,80,26,28,19,3,4,membrane,annexin A13 [Mus musculus]
+gi|21361209|ref|NP_291074.1|,63%,1,268,108,349,89,79,73,58,50,nuclear,histone H4 [Mus musculus]
+gi|309265743|ref|XP_981474.2|,63%,13,268,108,349,89,79,73,58,50,nuclear,PREDICTED: histone H4-like [Mus musculus]
+gi|11230802|ref|NP_068695.1|,62%,1,27,19,187,59,31,42,28,27,cytoskeleton,alpha-actinin-4 [Mus musculus]
+gi|21728376|ref|NP_075891.1|,62%,1,289,127,41,19,5,11,3,3,cytoskeleton,myosin regulatory light chain 12B [Mus musculus]
+gi|254675265|ref|NP_958796.2|,60%,1,368,2,986,131,189,305,153,208,cytoskeleton,plectin [Mus musculus]
+gi|111038118|ref|NP_032238.2|,60%,1,22,100,46,0,16,12,6,12,mitochondrial,"hydroxyacyl-coenzyme A dehydrogenase, mitochondrial precursor [Mus musculus]"
+gi|19745150|ref|NP_084063.1|,60%,1,243,87,84,16,29,18,7,14,mitochondrial,NADH-cytochrome b5 reductase 3 [Mus musculus]
+gi|241982716|ref|NP_038635.2|,59%,1,349,1,569,103,207,119,47,93,cytoskeleton,smooth muscle myosin heavy chain [Mus musculus]
+gi|20070412|ref|NP_613063.1|,59%,2,134,111,76,20,23,19,6,8,mitochondrial,"ATP synthase subunit O, mitochondrial precursor [Mus musculus]"
+gi|149251053|ref|XP_001478145.1|,59%,1,134,111,76,20,23,19,6,8,mitochondrial,"PREDICTED: ATP synthase subunit O, mitochondrial-like [Mus musculus]"
+gi|113866024|ref|NP_077776.2|,59%,1,31,68,19,7,1,5,2,4,signaling,ras-related protein Rab-5C [Mus musculus]
+gi|22165384|ref|NP_666228.1|,58%,1,296,38,69,33,3,17,9,7,cytoskeleton,tubulin beta-2C chain [Mus musculus]
+gi|194473667|ref|NP_001123985.1|,58%,1,233,21,288,51,72,71,57,37,hydrolase,angiotensin-converting enzyme 2 precursor [Mus musculus]
+gi|58218988|ref|NP_082252.1|,58%,1,531,25,366,68,88,80,65,65,metabolism,long-chain-fatty-acid--CoA ligase 5 [Mus musculus]
+gi|42415475|ref|NP_035162.1|,58%,1,506,50,150,44,49,25,14,18,metabolism,protein disulfide-isomerase precursor [Mus musculus]
+gi|225637487|ref|NP_032512.2|,57%,1,308,9,1346,229,255,257,357,248,hydrolase,aminopeptidase N [Mus musculus]
+gi|6996913|ref|NP_031611.1|,57%,1,612,79,104,56,18,17,9,4,membrane,annexin A2 [Mus musculus]
+gi|254540023|ref|NP_001156929.1|,56%,1,361,15,341,82,117,61,40,41,channel/transporter,microsomal triglyceride transfer protein large subunit isoform 1 [Mus musculus]
+gi|161016833|ref|NP_031902.2|,56%,1,183,66,94,15,23,22,22,12,hydrolase,dipeptidase 1 precursor [Mus musculus]
+gi|124487323|ref|NP_001074551.1|,56%,1,70,18,321,68,67,84,61,41,hydrolase,intestinal alkaline phosphatase [Mus musculus]
+gi|6680748|ref|NP_031531.1|,56%,1,570,43,319,85,77,58,51,48,mitochondrial,"ATP synthase subunit alpha, mitochondrial precursor [Mus musculus]"
+gi|7106439|ref|NP_035785.1|,55%,1,615,38,67,34,3,12,11,7,cytoskeleton,tubulin beta-5 chain [Mus musculus]
+gi|6679587|ref|NP_033022.1|,55%,1,561,51,34,10,10,4,8,2,signaling,ras-related protein Rab-1A [Mus musculus]
+gi|124487275|ref|NP_001074606.1|,54%,1,68,2,1398,330,291,262,278,237,hydrolase,"sucrase-isomaltase, intestinal [Mus musculus]"
+gi|6754004|ref|NP_034431.1|,54%,1,593,34,138,34,30,30,21,23,signaling,guanine nucleotide-binding protein subunit alpha-11 [Mus musculus]
+gi|30425250|ref|NP_780706.1|,53%,1,431,6,861,241,168,169,158,125,cytoskeleton,beta-actin-like protein 2 [Mus musculus]
+gi|113931150|ref|NP_081639.1|,53%,1,32,207,26,7,8,6,2,3,ER,calcineurin B homologous protein 2 [Mus musculus]
+gi|31543255|ref|NP_032630.2|,53%,1,452,24,379,62,74,100,84,59,hydrolase,neprilysin [Mus musculus]
+gi|22267442|ref|NP_080175.1|,53%,1,299,71,76,23,18,16,8,11,mitochondrial,"cytochrome b-c1 complex subunit 2, mitochondrial precursor [Mus musculus]"
+gi|112181182|ref|NP_031773.2|,53%,1,24,272,12,4,1,2,0,5,mitochondrial,"cytochrome c oxidase subunit 5A, mitochondrial precursor [Mus musculus]"
+gi|13385090|ref|NP_079904.1|,53%,1,96,385,13,1,7,1,1,3,mitochondrial,cytochrome c oxidase subunit 6B1 [Mus musculus]
+gi|6681115|ref|NP_031845.1|,52%,1,575,45,105,30,29,19,9,18,mitochondrial,cytochrome P450 3A13 [Mus musculus]
+gi|6753294|ref|NP_033948.1|,51%,1,585,30,111,32,29,25,9,16,cytoskeleton,catenin alpha-1 [Mus musculus]
+gi|31980844|ref|NP_081095.2|,51%,1,463,135,37,6,6,11,8,6,mitochondrial,dehydrogenase/reductase SDR family member 1 [Mus musculus]
+gi|126723336|ref|NP_031557.2|,51%,1,81,124,55,27,8,6,3,11,mitochondrial,prohibitin-2 [Mus musculus]
+gi|112293264|ref|NP_031978.2|,50%,1,25,64,61,23,23,7,1,7,channel/transporter,protein disulfide-isomerase A3 precursor [Mus musculus]
+gi|21450277|ref|NP_659149.1|,50%,1,274,8,743,209,220,122,92,100,channel/transporter,sodium/potassium-transporting ATPase subunit alpha-1 precursor [Mus musculus]
+gi|19527082|ref|NP_598628.1|,50%,1,238,56,87,6,20,21,19,21,cytoskeleton,epidermal growth factor receptor kinase substrate 8-like protein 3 [Mus musculus]
+gi|6680836|ref|NP_031617.1|,50%,1,572,119,25,4,17,2,1,1,ER,calreticulin precursor [Mus musculus]
+gi|283483997|ref|NP_001164474.1|,50%,1,415,2,1220,296,279,262,178,205,hydrolase,maltase-glucoamylase [Mus musculus]
+gi|57222282|ref|NP_001009546.1|,50%,1,526,48,313,45,85,72,65,46,hydrolase,N-acetylated-alpha-linked acidic dipeptidase-like protein [Mus musculus]
+gi|28316760|ref|NP_783595.1|,50%,4,181,131,245,44,53,56,48,44,nuclear,histone H2B type 1-B [Mus musculus]
+gi|31980840|ref|NP_059078.2|,50%,1,462,192,29,11,4,6,4,4,signaling,ras-related protein Rab-11A [Mus musculus]
+gi|118026911|ref|NP_796364.2|,49%,1,48,1,265,74,57,58,30,46,cytoskeleton,myosin-1d [Mus musculus]
+gi|16716597|ref|NP_444492.1|,49%,1,201,82,57,14,13,11,6,13,metabolism,estradiol 17-beta-dehydrogenase 11 [Mus musculus]
+gi|31980744|ref|NP_038823.2|,49%,2,136,315,32,6,7,6,1,12,mitochondrial,"ATP synthase subunit g, mitochondrial [Mus musculus]"
+gi|149253631|ref|XP_001478505.1|,49%,1,136,315,32,6,7,6,1,12,mitochondrial,"PREDICTED: ATP synthase subunit g, mitochondrial-like [Mus musculus]"
+gi|21313162|ref|NP_083852.1|,49%,1,261,51,28,7,6,3,8,4,signaling,ras-related protein Rab-1B [Mus musculus]
+gi|6680832|ref|NP_031615.1|,48%,1,571,256,23,8,6,4,3,2,cytoskeleton,calmodulin [Mus musculus]
+gi|309265983|ref|XP_003086649.1|,48%,2,138,237,17,12,2,2,0,1,ER,"PREDICTED: 40S ribosomal protein S8-like, partial [Mus musculus]"
+gi|13385268|ref|NP_080073.1|,48%,1,98,316,25,5,8,3,4,5,mitochondrial,cytochrome b5 [Mus musculus]
+gi|33563266|ref|NP_035016.1|,48%,1,483,382,17,7,5,3,0,2,mitochondrial,NADH dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 4 [Mus musculus]
+gi|33859811|ref|NP_849209.1|,48%,1,489,41,126,33,41,24,11,17,mitochondrial,"trifunctional enzyme subunit alpha, mitochondrial precursor [Mus musculus]"
+gi|21489955|ref|NP_659539.1|,48%,1,278,122,83,25,13,16,22,7,nuclear,histone H3.1 [Mus musculus]
+gi|6680159|ref|NP_032236.1|,48%,3,439,122,87,25,14,16,24,8,nuclear,histone H3.3 [Mus musculus]
+gi|6680161|ref|NP_032237.1|,48%,4,439,122,87,25,14,16,24,8,nuclear,histone H3.3 [Mus musculus]
+gi|309264552|ref|XP_003086287.1|,48%,1,439,122,87,25,14,16,24,8,nuclear,PREDICTED: histone H3.3-like [Mus musculus]
+gi|94395561|ref|XP_995553.1|,48%,6,439,122,87,25,14,16,24,8,nuclear,PREDICTED: histone H3.3-like isoform 1 [Mus musculus]
+gi|261823963|ref|NP_115770.2|,47%,1,393,5,362,36,83,111,59,73,cytoskeleton,myosin-7b [Mus musculus]
+gi|295054266|ref|NP_001171138.1|,47%,1,426,7,226,20,62,54,28,62,cytoskeleton,"spectrin alpha chain, brain isoform 2 [Mus musculus]"
+gi|148747424|ref|NP_031476.3|,47%,1,129,49,117,16,22,15,43,21,mitochondrial,ADP/ATP translocase 1 [Mus musculus]
+gi|31542438|ref|NP_079834.2|,47%,1,450,288,20,1,7,6,2,4,mitochondrial,cytochrome b5 type B precursor [Mus musculus]
+gi|160420310|ref|NP_001091448.2|,47%,2,181,131,245,44,53,56,48,44,nuclear,"H2b histone family, member A [Mus musculus]"
+gi|160420312|ref|NP_001104025.1|,47%,3,181,131,245,44,53,56,48,44,nuclear,predicted gene 11277 [Mus musculus]
+gi|6755566|ref|NP_036160.1|,46%,1,605,89,75,4,27,19,14,11,channel/transporter,Na(+)/H(+) exchange regulatory cofactor NHE-RF1 [Mus musculus]
+gi|6679299|ref|NP_032857.1|,46%,1,554,191,40,25,1,5,5,4,ER,prohibitin [Mus musculus]
+gi|6679653|ref|NP_031960.1|,46%,1,562,14,510,106,118,114,89,83,hydrolase,glutamyl aminopeptidase [Mus musculus]
+gi|21313679|ref|NP_082138.1|,46%,1,266,294,13,4,3,0,1,5,mitochondrial,"ATP synthase subunit d, mitochondrial [Mus musculus]"
+gi|6679583|ref|NP_033023.1|,46%,1,560,192,27,11,5,6,1,4,signaling,ras-related protein Rab-11B [Mus musculus]
+gi|261823961|ref|NP_001034635.2|,45%,1,392,5,179,36,46,47,11,39,cytoskeleton,myosin-6 [Mus musculus]
+gi|254540166|ref|NP_071705.3|,45%,1,363,20,117,42,37,15,9,14,ER,78 kDa glucose-regulated protein precursor [Mus musculus]
+gi|94390243|ref|XP_001003212.1|,45%,2,176,303,9,4,2,2,0,1,ER,PREDICTED: 60S ribosomal protein L12-like [Mus musculus]
+gi|6753674|ref|NP_034204.1|,45%,2,320,37,236,50,48,56,43,39,hydrolase,dipeptidyl peptidase 4 [Mus musculus]
+gi|45597453|ref|NP_036119.1|,45%,1,509,47,77,16,33,17,2,9,metabolism,long-chain fatty acid transport protein 4 [Mus musculus]
+gi|71774133|ref|NP_035279.2|,45%,1,617,145,35,13,14,4,1,3,metabolism,peptidyl-prolyl cis-trans isomerase B precursor [Mus musculus]
+gi|6753428|ref|NP_034027.1|,45%,1,588,125,50,18,17,3,9,3,mitochondrial,"creatine kinase U-type, mitochondrial precursor [Mus musculus]"
+gi|13385006|ref|NP_079843.1|,45%,1,93,129,31,3,13,5,3,7,mitochondrial,"cytochrome c1, heme protein, mitochondrial [Mus musculus]"
+gi|229608938|ref|NP_001153488.1|,45%,1,328,78,153,34,26,26,29,38,signaling,guanine nucleotide-binding protein G(I)/G(S)/G(T) subunit beta-1 [Mus musculus]
+gi|13937391|ref|NP_034442.1|,45%,1,115,78,127,27,26,23,22,29,signaling,guanine nucleotide-binding protein G(I)/G(S)/G(T) subunit beta-2 [Mus musculus]
+gi|6753498|ref|NP_034071.1|,44%,1,591,230,24,5,11,4,2,2,mitochondrial,"cytochrome c oxidase subunit 4 isoform 1, mitochondrial precursor [Mus musculus]"
+gi|19526848|ref|NP_598445.1|,44%,1,235,102,45,14,12,8,3,8,mitochondrial,"MOSC domain-containing protein 2, mitochondrial precursor [Mus musculus]"
+gi|30061401|ref|NP_835734.1|,44%,1,428,122,102,25,16,16,31,14,nuclear,histone H3.2 [Mus musculus]
+gi|153791547|ref|NP_035206.2|,43%,1,155,13,362,77,84,90,48,63,channel/transporter,multidrug resistance protein 3 [Mus musculus]
+gi|126032329|ref|NP_034236.2|,43%,1,79,88,75,17,5,24,11,18,ER,elongation factor 1-alpha 1 [Mus musculus]
+gi|31981690|ref|NP_112442.2|,43%,1,471,20,80,22,13,16,16,13,ER,heat shock cognate 71 kDa protein [Mus musculus]
+gi|15147224|ref|NP_081600.1|,43%,1,152,170,17,7,3,1,2,4,ER,sideroflexin-1 [Mus musculus]
+gi|21539585|ref|NP_079628.1|,43%,1,279,321,16,1,0,2,7,6,mitochondrial,cytochrome b-c1 complex subunit 8 [Mus musculus]
+gi|117938334|ref|NP_033286.2|,42%,1,46,10,172,31,48,39,19,35,cytoskeleton,"spectrin beta chain, brain 1 isoform 2 [Mus musculus]"
+gi|14149647|ref|NP_035422.1|,42%,1,117,358,385,154,56,57,37,81,ER,60S ribosomal protein [Mus musculus]
+gi|309264139|ref|XP_003086220.1|,42%,2,117,358,7,3,0,1,1,2,ER,PREDICTED: 60S ribosomal protein L9-like [Mus musculus]
+gi|10946884|ref|NP_067456.1|,42%,1,12,65,123,32,40,27,17,7,hydrolase,trehalase precursor [Mus musculus]
+gi|28316750|ref|NP_783594.1|,42%,1,413,131,69,7,14,15,15,18,nuclear,histone H2B type 1-A [Mus musculus]
+gi|6755963|ref|NP_035824.1|,41%,1,608,134,31,21,2,3,0,5,channel/transporter,voltage-dependent anion-selective channel protein 1 [Mus musculus]
+gi|225903444|ref|NP_032500.2|,41%,1,310,3,82,9,11,41,10,11,cytoskeleton,"keratin, type II cuticular Hb4 [Mus musculus]"
+gi|6678469|ref|NP_033474.1|,41%,1,551,72,69,30,7,12,5,15,cytoskeleton,tubulin alpha-1C chain [Mus musculus]
+gi|160333212|ref|NP_001103969.1|,41%,1,175,80,72,18,21,13,10,10,ER,calnexin precursor [Mus musculus]
+gi|28974982|ref|NP_803231.1|,41%,1,419,142,47,11,10,10,4,12,metabolism,2-acylglycerol O-acyltransferase 2 [Mus musculus]
+gi|95007017|ref|NP_778160.2|,41%,1,654,381,22,3,5,8,5,1,metabolism,microsomal glutathione S-transferase 2 [Mus musculus]
+gi|29126205|ref|NP_803421.1|,41%,1,420,166,19,0,17,0,0,2,mitochondrial,"3-ketoacyl-CoA thiolase, mitochondrial [Mus musculus]"
+gi|78214312|ref|NP_033855.2|,41%,1,626,126,48,15,14,7,5,7,mitochondrial,"ATP synthase subunit b, mitochondrial precursor [Mus musculus]"
+gi|13386414|ref|NP_083838.1|,41%,1,107,73,59,9,17,11,7,15,mitochondrial,cytochrome P450 2D26 [Mus musculus]
+gi|268607516|ref|NP_082467.2|,41%,1,396,46,55,5,19,14,4,13,mitochondrial,"cytochrome P450, family 2, subfamily c, polypeptide 65 [Mus musculus]"
+gi|31542143|ref|NP_058082.2|,40%,1,449,147,27,3,8,4,7,5,cytoskeleton,transforming protein RhoA precursor [Mus musculus]
+gi|6755863|ref|NP_035761.1|,40%,1,607,23,102,26,26,27,7,16,ER,endoplasmin [Mus musculus]
+gi|46559389|ref|NP_997507.1|,40%,1,511,29,210,32,57,54,35,32,hydrolase,angiotensin-converting enzyme isoform 1 [Mus musculus]
+gi|110347479|ref|NP_031458.2|,40%,1,16,18,108,34,15,31,16,12,hydrolase,intestinal alkaline phosphatase precursor [Mus musculus]
+gi|153791321|ref|NP_001093387.1|,40%,1,154,132,106,3,41,29,14,19,membrane,transmembrane protein C19orf77 homolog precursor [Mus musculus]
+gi|255759902|ref|NP_776101.3|,40%,1,383,42,90,16,40,13,9,12,mitochondrial,amine oxidase [flavin-containing] A [Mus musculus]
+gi|46593021|ref|NP_079683.2|,40%,1,513,133,48,19,11,6,2,10,mitochondrial,"cytochrome b-c1 complex subunit 1, mitochondrial precursor [Mus musculus]"
+gi|8393866|ref|NP_058674.1|,40%,1,636,118,26,0,24,0,2,0,mitochondrial,"ornithine aminotransferase, mitochondrial precursor [Mus musculus]"
+gi|38372905|ref|NP_075615.2|,40%,1,499,51,27,7,8,6,2,4,signaling,ras-related protein Rab-8A [Mus musculus]
+gi|34328471|ref|NP_062364.3|,40%,1,493,184,13,1,5,2,2,3,signaling,ras-related protein Ral-A precursor [Mus musculus]
+gi|14861854|ref|NP_149064.1|,39%,1,127,3,169,13,45,50,32,29,cytoskeleton,"keratin, type II cytoskeletal 7 [Mus musculus]"
+gi|149264635|ref|XP_001473856.1|,39%,1,146,211,20,8,4,3,1,4,ER,PREDICTED: 40S ribosomal protein S18-like [Mus musculus]
+gi|229892316|ref|NP_663493.2|,39%,1,329,60,51,18,13,6,4,10,mitochondrial,"NADH-ubiquinone oxidoreductase 75 kDa subunit, mitochondrial precursor [Mus musculus]"
+gi|148747526|ref|NP_033031.2|,39%,1,131,269,13,10,0,0,1,2,signaling,ras-related protein Rab-7a [Mus musculus]
+gi|27229101|ref|NP_081740.2|,39%,1,401,158,32,14,9,4,2,3,unknown,hypothetical protein LOC70564 precursor [Mus musculus]
+gi|6755965|ref|NP_035825.1|,38%,1,609,228,31,20,6,3,0,2,channel/transporter,voltage-dependent anion-selective channel protein 2 [Mus musculus]
+gi|260166642|ref|NP_001159374.1|,38%,1,391,27,96,17,40,22,4,13,cytoskeleton,catenin beta-1 [Mus musculus]
+gi|6753262|ref|NP_033928.1|,38%,1,584,199,15,4,1,5,2,3,cytoskeleton,F-actin-capping protein subunit beta isoform b [Mus musculus]
+gi|117938332|ref|NP_787030.2|,38%,1,45,10,173,30,49,40,21,33,cytoskeleton,"spectrin beta chain, brain 1 isoform 1 [Mus musculus]"
+gi|154240724|ref|NP_598766.2|,38%,1,157,39,181,26,49,51,25,30,metabolism,ectonucleotide pyrophosphatase/phosphodiesterase family member 3 [Mus musculus]
+gi|31981562|ref|NP_035229.2|,38%,1,469,92,40,9,2,12,5,12,metabolism,pyruvate kinase isozymes M1/M2 [Mus musculus]
+gi|282398108|ref|NP_598694.3|,38%,1,412,96,38,16,10,6,1,5,mitochondrial,dolichyl-diphosphooligosaccharide--protein glycosyltransferase subunit 1 [Mus musculus]
+gi|7710086|ref|NP_057885.1|,38%,1,625,51,32,11,8,5,3,5,signaling,ras-related protein Rab-10 [Mus musculus]
+gi|10946940|ref|NP_067493.1|,38%,1,13,266,15,5,5,4,1,0,signaling,ras-related protein Rab-2A [Mus musculus]
+gi|226246550|ref|NP_001139668.1|,37%,1,311,93,39,10,16,9,2,2,cytoskeleton,adseverin isoform 1 [Mus musculus]
+gi|51491845|ref|NP_001003908.1|,37%,1,521,26,146,19,21,27,31,48,cytoskeleton,clathrin heavy chain 1 [Mus musculus]
+gi|28395018|ref|NP_034723.1|,37%,1,417,27,65,7,24,12,6,16,cytoskeleton,junction plakoglobin [Mus musculus]
+gi|309266388|ref|XP_003086751.1|,37%,2,105,263,16,5,2,3,1,5,ER,PREDICTED: 40S ribosomal protein S13-like [Mus musculus]
+gi|9055168|ref|NP_061300.1|,37%,1,651,75,149,39,34,32,28,16,hydrolase,neutral ceramidase [Mus musculus]
+gi|75677435|ref|NP_031463.2|,37%,1,623,31,71,17,22,10,6,16,metabolism,fatty aldehyde dehydrogenase [Mus musculus]
+gi|16716343|ref|NP_444301.1|,37%,3,143,383,16,5,6,3,2,0,mitochondrial,cytochrome c oxidase subunit 6C [Mus musculus]
+gi|6680027|ref|NP_032159.1|,37%,1,565,84,35,3,25,4,0,3,mitochondrial,"glutamate dehydrogenase 1, mitochondrial precursor [Mus musculus]"
+gi|19526818|ref|NP_598429.1|,37%,2,139,110,110,15,27,15,33,20,mitochondrial,"phosphate carrier protein, mitochondrial precursor [Mus musculus]"
+gi|149263103|ref|XP_001478266.1|,37%,1,143,383,16,5,6,3,2,0,mitochondrial,PREDICTED: cytochrome c oxidase subunit 6C-like [Mus musculus]
+gi|149258501|ref|XP_001475977.1|,37%,1,139,110,110,15,27,15,33,20,mitochondrial,"PREDICTED: phosphate carrier protein, mitochondrial-like [Mus musculus]"
+gi|6753364|ref|NP_033991.1|,37%,1,586,99,28,9,11,4,2,2,signaling,cell division control protein 42 homolog precursor [Mus musculus]
+gi|11612509|ref|NP_071722.1|,37%,1,41,184,14,2,3,1,2,6,signaling,ras-related protein Ral-B precursor [Mus musculus]
+gi|23956222|ref|NP_076224.1|,36%,1,343,182,22,10,8,3,1,0,cytoskeleton,actin-related protein 3 [Mus musculus]
+gi|149262383|ref|XP_001473243.1|,36%,1,142,404,8,5,1,1,0,1,ER,PREDICTED: 60S ribosomal protein L27 [Mus musculus]
+gi|19527228|ref|NP_598768.1|,36%,1,241,438,9,0,4,1,3,1,metabolism,CDGSH iron-sulfur domain-containing protein 1 [Mus musculus]
+gi|23956406|ref|NP_705826.1|,36%,1,345,22,54,10,17,11,10,6,metabolism,UDP-glucuronosyltransferase 2B10 [Mus musculus]
+gi|21312260|ref|NP_082546.1|,36%,1,254,31,53,7,36,5,1,4,mitochondrial,"aldehyde dehydrogenase X, mitochondrial precursor [Mus musculus]"
+gi|112807195|ref|NP_034072.2|,36%,1,28,398,9,2,6,0,0,1,mitochondrial,"cytochrome c oxidase subunit 5B, mitochondrial [Mus musculus]"
+gi|149263037|ref|XP_001475467.1|,36%,2,28,398,9,2,6,0,0,1,mitochondrial,"PREDICTED: cytochrome c oxidase subunit 5B, mitochondrial-like [Mus musculus]"
+gi|28316756|ref|NP_783589.1|,36%,1,414,109,208,31,51,46,43,37,nuclear,"histone cluster 1, H2aa [Mus musculus]"
+gi|6678924|ref|NP_032647.1|,36%,1,552,152,19,6,7,4,1,1,signaling,"55 kDa erythrocyte membrane protein, EMP55 [Mus musculus]"
+gi|18390323|ref|NP_080973.1|,36%,1,219,301,9,3,3,1,0,2,signaling,ras-related protein Rab-14 [Mus musculus]
+gi|9625037|ref|NP_062512.1|,36%,1,655,99,11,3,3,2,1,2,signaling,rho-related GTP-binding protein RhoG precursor [Mus musculus]
+gi|146219830|ref|NP_001078919.1|,35%,1,123,57,73,9,29,11,5,19,adhesion,catenin delta-1 isoform 1 [Mus musculus]
+gi|190194418|ref|NP_076331.2|,35%,1,229,2,244,55,56,66,23,44,cytoskeleton,desmoplakin [Mus musculus]
+gi|309262784|ref|XP_003085887.1|,35%,2,82,351,7,5,1,0,0,1,ER,PREDICTED: 40S ribosomal protein S19-like [Mus musculus]
+gi|149251177|ref|XP_001474740.1|,35%,1,135,214,19,10,3,2,2,2,ER,PREDICTED: 60S ribosomal protein L13-like [Mus musculus]
+gi|46849705|ref|NP_034836.1|,35%,1,514,69,56,4,10,12,13,17,membrane,galectin-4 [Mus musculus]
+gi|6754534|ref|NP_034837.1|,35%,1,595,69,38,9,8,7,8,6,membrane,galectin-6 [Mus musculus]
+gi|254939648|ref|NP_001157228.1|,35%,1,375,33,94,13,34,17,11,19,metabolism,carboxylesterase 5 [Mus musculus]
+gi|47059123|ref|NP_964004.1|,35%,1,516,22,80,15,21,16,12,16,metabolism,UDP-glucuronosyltransferase 1-7C precursor [Mus musculus]
+gi|257196228|ref|NP_766366.2|,35%,1,388,42,30,2,14,4,3,7,mitochondrial,amine oxidase [flavin-containing] B [Mus musculus]
+gi|254692859|ref|NP_079634.2|,35%,1,371,8,21,2,3,4,6,6,mitochondrial,"NADH dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 9, mitochondrial precursor [Mus musculus]"
+gi|6679421|ref|NP_032924.1|,35%,1,557,112,39,9,13,11,3,3,mitochondrial,NADPH--cytochrome P450 reductase [Mus musculus]
+gi|294712564|ref|NP_001171015.1|,35%,3,414,109,208,31,51,46,43,37,nuclear,histone H2A type 1 [Mus musculus]
+gi|34328400|ref|NP_775550.2|,35%,1,492,243,13,13,0,0,0,0,nuclear,serine/arginine-rich splicing factor 1 isoform 1 [Mus musculus]
+gi|194353962|ref|NP_001123880.1|,35%,1,232,229,23,7,5,5,0,6,signaling,ADP-ribosylation factor 1 [Mus musculus]
+gi|295317325|ref|NP_001171263.1|,35%,1,427,377,5,1,2,1,0,1,trafficking,synaptosomal-associated protein 23 [Mus musculus]
+gi|112293275|ref|NP_032558.2|,34%,1,26,190,62,8,22,13,7,12,adhesion,epithelial cell adhesion molecule [Mus musculus]
+gi|309266362|ref|XP_003086745.1|,34%,2,215,213,19,11,5,2,0,1,ER,PREDICTED: 40S ribosomal protein S2-like [Mus musculus]
+gi|149264508|ref|XP_001474465.1|,34%,1,145,495,5,2,0,1,2,0,ER,PREDICTED: 40S ribosomal protein S29-like [Mus musculus]
+gi|21704206|ref|NP_663578.1|,34%,1,288,33,74,12,27,12,13,10,metabolism,carboxylesterase 2 precursor [Mus musculus]
+gi|6754976|ref|NP_035164.1|,34%,1,597,251,10,5,0,2,0,3,metabolism,peroxiredoxin-1 [Mus musculus]
+gi|226453479|ref|YP_002791046.1|,34%,2,204,482,10,1,5,3,0,1,mitochondrial,ATP synthase F0 subunit 8 [Mus musculus castaneus]
+gi|13385168|ref|NP_079986.1|,34%,1,97,252,10,3,4,1,1,1,mitochondrial,"cytochrome b-c1 complex subunit Rieske, mitochondrial [Mus musculus]"
+gi|6681113|ref|NP_031844.1|,34%,1,574,91,45,12,18,9,1,5,mitochondrial,cytochrome P450 3A11 [Mus musculus]
+gi|160415213|ref|NP_031510.2|,34%,1,180,147,22,3,5,3,7,4,signaling,rho-related GTP-binding protein RhoC precursor [Mus musculus]
+gi|110347473|ref|NP_031494.2|,33%,1,15,169,17,7,1,6,1,2,channel/transporter,apolipoprotein A-IV precursor [Mus musculus]
+gi|6678467|ref|NP_033473.1|,33%,1,550,72,38,11,4,10,1,12,cytoskeleton,tubulin alpha-4A chain [Mus musculus]
+gi|6671569|ref|NP_031501.1|,33%,2,442,235,18,15,2,0,0,1,ER,60S acidic ribosomal protein P0 [Mus musculus]
+gi|309266351|ref|XP_003086742.1|,33%,1,442,235,18,15,2,0,0,1,ER,PREDICTED: 60S acidic ribosomal protein P0-like [Mus musculus]
+gi|147901863|ref|NP_032612.2|,33%,1,125,62,189,57,36,44,26,26,hydrolase,meprin A subunit beta precursor [Mus musculus]
+gi|13385010|ref|NP_079845.1|,33%,1,94,267,14,6,5,2,0,1,membrane,microsomal glutathione S-transferase 3 [Mus musculus]
+gi|66793429|ref|NP_056544.2|,33%,1,556,138,28,4,10,8,0,6,metabolism,peroxisomal acyl-coenzyme A oxidase 1 [Mus musculus]
+gi|163838641|ref|NP_065640.2|,33%,1,195,174,45,16,12,5,2,10,mitochondrial,"ATP synthase subunit gamma, mitochondria [Mus musculus]"
+gi|50080153|ref|NP_034129.1|,33%,1,518,46,46,13,12,10,3,8,mitochondrial,cytochrome P450 2B10 isoform 2 [Mus musculus]
+gi|12963633|ref|NP_075801.1|,33%,1,83,335,10,3,4,2,0,1,mitochondrial,NADH dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 13 [Mus musculus]
+gi|21312012|ref|NP_080979.1|,33%,1,253,420,6,1,2,1,1,1,mitochondrial,NADH dehydrogenase [ubiquinone] 1 alpha subcomplex subunit 8 [Mus musculus]
+gi|31981655|ref|NP_599252.2|,32%,1,470,113,37,6,5,9,12,5,channel/transporter,"solute carrier family 26, member 6 [Mus musculus]"
+gi|61097906|ref|NP_598917.1|,32%,1,534,19,87,28,15,22,8,14,cytoskeleton,alpha-actinin-1 [Mus musculus]
+gi|6753036|ref|NP_033786.1|,32%,1,580,31,28,4,20,4,0,0,mitochondrial,"aldehyde dehydrogenase, mitochondrial precursor [Mus musculus]"
+gi|54607098|ref|NP_075770.1|,32%,1,523,101,45,10,20,5,4,6,mitochondrial,"succinate dehydrogenase [ubiquinone] flavoprotein subunit, mitochondrial precursor [Mus musculus]"
+gi|45592934|ref|NP_033033.1|,32%,1,508,99,43,13,10,5,6,9,signaling,ras-related C3 botulinum toxin substrate 1 precursor [Mus musculus]
+gi|27734154|ref|NP_775589.1|,32%,1,408,51,19,6,5,4,2,2,signaling,ras-related protein Rab-8B [Mus musculus]
+gi|9790073|ref|NP_062727.1|,31%,1,659,81,72,14,32,13,3,10,adhesion,cadherin-17 precursor [Mus musculus]
+gi|6755040|ref|NP_035202.1|,31%,1,600,447,7,0,0,3,2,2,cytoskeleton,profilin-1 [Mus musculus]
+gi|94385943|ref|XP_001004069.1|,31%,5,177,373,5,2,1,1,0,1,ER,PREDICTED: 60S ribosomal protein L36-like [Mus musculus]
+gi|82880886|ref|XP_890389.1|,31%,1,629,204,34,8,13,7,4,2,ER,PREDICTED: 60S ribosomal protein L6-like [Mus musculus]
+gi|262050625|ref|NP_001159952.1|,31%,1,395,333,10,5,0,2,1,2,ER,translocon-associated protein subunit delta [Mus musculus]
+gi|19527178|ref|NP_598721.1|,31%,1,239,33,59,8,24,10,6,11,metabolism,carboxylesterase 6 isoform 1 [Mus musculus]
+gi|83715998|ref|NP_031533.2|,31%,1,633,445,8,2,2,2,0,2,mitochondrial,"ATP synthase subunit e, mitochondrial [Mus musculus]"
+gi|84662745|ref|NP_032165.3|,31%,1,639,34,42,14,12,11,2,3,signaling,guanine nucleotide-binding protein G(q) subunit alpha [Mus musculus]
+gi|117647224|ref|NP_076018.2|,31%,1,43,328,12,1,5,3,1,2,signaling,membrane-spanning 4-domains subfamily A member 10 [Mus musculus]
+gi|21704066|ref|NP_663516.1|,31%,1,286,233,19,4,8,6,1,0,signaling,ras-related protein Rap-1A precursor [Mus musculus]
+gi|33859753|ref|NP_077777.1|,31%,1,488,233,18,4,7,6,1,0,signaling,ras-related protein Rap-1b precursor [Mus musculus]
+gi|21312502|ref|NP_082345.1|,30%,1,255,98,75,16,18,15,11,15,adhesion,"mucin-like protocadherin, cdhr5 isoform 2 [Mus musculus]"
+gi|6753138|ref|NP_033851.1|,30%,1,583,173,81,14,36,15,8,8,channel/transporter,sodium/potassium-transporting ATPase subunit beta-1 [Mus musculus]
+gi|119120879|ref|NP_033231.2|,30%,1,50,76,71,22,16,16,9,8,channel/transporter,"solute carrier family 3, member 1 [Mus musculus]"
+gi|58037267|ref|NP_082235.1|,30%,1,529,236,16,3,5,4,0,4,ER,protein disulfide-isomerase A6 [Mus musculus]
+gi|13195690|ref|NP_077239.1|,30%,1,87,379,44,11,11,9,5,8,ER,ubiquitin-40S ribosomal protein S27a [Mus musculus]
+gi|238637277|ref|NP_001154885.1|,30%,1,334,128,32,7,16,9,0,0,membrane,4F2 cell-surface antigen heavy chain [Mus musculus]
+gi|7305395|ref|NP_038660.1|,30%,1,620,198,19,7,8,2,1,1,metabolism,purine nucleoside phosphorylase [Mus musculus]
+gi|145699099|ref|NP_964007.2|,30%,1,119,22,97,20,25,18,14,20,metabolism,UDP-glucuronosyltransferase 1-1 [Mus musculus]
+gi|18079339|ref|NP_542364.1|,30%,1,214,105,31,0,25,2,2,2,mitochondrial,"aconitate hydratase, mitochondrial precursor [Mus musculus]"
+gi|9790055|ref|NP_062732.1|,30%,1,658,227,32,5,14,6,3,4,mitochondrial,mitochondrial carrier homolog 2 [Mus musculus]
+gi|58037117|ref|NP_080964.1|,30%,1,528,258,22,8,3,8,1,2,mitochondrial,"NADH dehydrogenase [ubiquinone] iron-sulfur protein 3, mitochondrial precursor [Mus musculus]"
+gi|13385374|ref|NP_080163.1|,30%,1,99,68,10,3,1,2,0,4,signaling,ras-related protein Rab-5A [Mus musculus]
+gi|227116298|ref|NP_001153016.1|,30%,1,321,150,20,1,7,4,5,3,signaling,tyrosine-protein kinase FRK [Mus musculus]
+gi|307691256|ref|NP_001182694.1|,30%,2,177,373,5,2,1,1,0,1,unknown,hypothetical protein LOC622534 [Mus musculus]
+gi|261824023|ref|NP_062784.3|,29%,1,394,17,321,61,79,75,49,57,channel/transporter,sodium/glucose cotransporter 1 [Mus musculus]
+gi|309265379|ref|XP_003086524.1|,29%,2,338,247,11,5,1,0,0,5,ER,PREDICTED: 60S ribosomal protein L5-like [Mus musculus]
+gi|124487297|ref|NP_001074547.1|,29%,1,69,12,570,110,131,126,111,92,hydrolase,lactase-phlorizin hydrolase preproprotein [Mus musculus]
+gi|133778994|ref|NP_573476.2|,29%,1,90,95,52,15,14,14,7,2,hydrolase,"X-prolyl aminopeptidase (aminopeptidase P) 2, membrane-bound isoform 1 [Mus musculus]"
+gi|6680854|ref|NP_031642.1|,29%,1,573,403,8,2,3,2,0,1,membrane,caveolin-1 [Mus musculus]
+gi|18700004|ref|NP_570934.1|,29%,1,221,209,23,6,12,2,0,3,metabolism,"3-ketoacyl-CoA thiolase A, peroxisomal precursor [Mus musculus]"
+gi|124248512|ref|NP_001074278.1|,29%,1,60,35,101,24,47,11,2,17,mitochondrial,"carbamoyl-phosphate synthase [ammonia], mitochondrial precursor [Mus musculus]"
+gi|8567402|ref|NP_038691.1|,29%,1,642,459,6,6,0,0,0,0,nuclear,serine/arginine-rich splicing factor 3 [Mus musculus]
+gi|31980806|ref|NP_058063.2|,29%,1,460,217,15,2,5,4,2,2,signaling,membrane-associated progesterone receptor component 1 [Mus musculus]
+gi|94721328|ref|NP_038961.2|,29%,1,653,205,26,7,5,4,0,10,trafficking,vesicle-associated membrane protein-associated protein A [Mus musculus]
+gi|149249111|ref|XP_001476570.1|,28%,1,133,318,17,5,1,2,3,6,ER,PREDICTED: 60S ribosomal protein L21-like [Mus musculus]
+gi|309262617|ref|XP_003085845.1|,28%,1,437,236,16,3,5,4,1,3,ER,PREDICTED: protein disulfide-isomerase A6-like [Mus musculus]
+gi|8567342|ref|NP_059501.1|,28%,2,315,194,14,4,7,0,3,0,metabolism,retinol dehydrogenase 7 [Mus musculus]
+gi|210031252|ref|NP_758468.2|,28%,1,251,139,22,4,7,3,2,6,mitochondrial,"choline dehydrogenase, mitochondrial precursor [Mus musculus]"
+gi|226453478|ref|YP_002791045.1|,28%,2,203,188,68,13,25,16,7,7,mitochondrial,cytochrome c oxidase subunit II [Mus musculus castaneus]
+gi|224922803|ref|NP_034404.3|,28%,1,301,77,47,19,7,9,4,8,mitochondrial,"glycerol-3-phosphate dehydrogenase, mitochondrial precursor [Mus musculus]"
+gi|21314826|ref|NP_080886.1|,28%,3,148,496,5,0,2,2,0,1,mitochondrial,NADH dehydrogenase [ubiquinone] 1 beta subcomplex subunit 4 [Mus musculus]
+gi|149266669|ref|XP_001476621.1|,28%,1,148,496,5,0,2,2,0,1,mitochondrial,PREDICTED: NADH dehydrogenase [ubiquinone] 1 beta subcomplex subunit 4-like [Mus musculus]
+gi|28916687|ref|NP_803130.1|,28%,1,418,68,12,6,1,1,0,4,signaling,ras-related protein Rab-5B isoform 1 [Mus musculus]
+gi|33859662|ref|NP_036167.1|,28%,1,487,176,25,9,1,6,7,2,trafficking,synaptic vesicle membrane protein VAT-1 homolog [Mus musculus]
+gi|124486799|ref|NP_001074779.1|,28%,1,64,202,50,7,14,18,4,7,unknown,hypothetical protein LOC625286 [Mus musculus]
+gi|33563250|ref|NP_034173.1|,27%,1,481,3,48,4,17,12,7,8,cytoskeleton,desmin [Mus musculus]
+gi|75677397|ref|NP_031971.2|,27%,1,622,97,26,0,4,7,3,12,cytoskeleton,epidermal growth factor receptor kinase substrate 8 [Mus musculus]
+gi|40556608|ref|NP_032328.2|,27%,1,504,23,51,19,2,14,5,11,ER,heat shock protein HSP 90-beta [Mus musculus]
+gi|71892414|ref|NP_001025462.1|,27%,1,618,159,32,5,9,7,6,5,hydrolase,ectonucleotide pyrophosphatase/phosphodiesterase family member 7 [Mus musculus]
+gi|31541815|ref|NP_076226.2|,27%,1,448,120,25,3,11,6,1,4,metabolism,peroxisomal bifunctional enzyme [Mus musculus]
+gi|7305031|ref|NP_038841.1|,26%,1,619,94,34,4,14,2,6,8,cytoskeleton,band 4.1-like protein 3 [Mus musculus]
+gi|309262863|ref|XP_003085904.1|,26%,4,248,109,202,28,48,46,44,36,cytoskeleton,cortactin [Mus musculus]
+gi|31982755|ref|NP_035831.2|,26%,1,478,3,49,5,15,15,7,7,cytoskeleton,vimentin [Mus musculus]
+gi|149234297|ref|XP_001479218.1|,26%,1,132,478,5,2,0,2,1,0,ER,PREDICTED: 60S ribosomal protein L31-like [Mus musculus]
+gi|158635979|ref|NP_001103610.1|,26%,1,172,58,49,18,16,7,6,2,ER,sarcoplasmic/endoplasmic reticulum calcium ATPase 2 isoform a [Mus musculus]
+gi|294997230|ref|NP_996988.2|,26%,1,424,416,6,0,1,2,0,3,immunological ,"histocompatibility 2, class II antigen A, beta 1 precursor [Mus musculus]"
+gi|31981068|ref|NP_064330.2|,26%,1,464,392,10,1,3,4,0,2,membrane,microsomal glutathione S-transferase 1 [Mus musculus]
+gi|254553342|ref|NP_001156958.1|,26%,1,364,82,12,3,2,4,0,3,metabolism,17-beta-hydroxysteroid dehydrogenase 13 isoform 1 [Mus musculus]
+gi|9789991|ref|NP_062631.1|,26%,1,656,285,7,3,4,0,0,0,metabolism,estradiol 17-beta-dehydrogenase 12 [Mus musculus]
+gi|19527026|ref|NP_598568.1|,26%,1,236,287,24,6,6,5,0,7,metabolism,leucine-rich repeat-containing protein 59 [Mus musculus]
+gi|21703836|ref|NP_663394.1|,26%,1,282,55,54,22,16,9,1,6,metabolism,putative hexokinase HKDC1 [Mus musculus]
+gi|10181184|ref|NP_065607.1|,26%,1,11,325,14,2,8,3,1,0,mitochondrial,"ATP synthase subunit f, mitochondrial [Mus musculus]"
+gi|23956396|ref|NP_705820.1|,26%,1,344,262,16,9,4,0,0,3,mitochondrial,erlin-2 [Mus musculus]
+gi|21704100|ref|NP_663533.1|,26%,1,287,148,24,10,8,3,0,3,mitochondrial,"trifunctional enzyme subunit beta, mitochondrial precursor [Mus musculus]"
+gi|6755448|ref|NP_035472.1|,26%,1,604,366,6,2,1,2,0,1,trafficking,vesicle-trafficking protein SEC22b [Mus musculus]
+gi|254911003|ref|NP_076138.2|,25%,2,373,163,22,0,10,6,3,3,cytoskeleton,harmonin [Mus musculus]
+gi|21450625|ref|NP_659207.1|,25%,1,277,85,20,9,0,3,0,8,ER,eukaryotic initiation factor 4A-I [Mus musculus]
+gi|13507622|ref|NP_109617.1|,25%,1,113,154,18,2,7,2,2,5,hydrolase,phosphatidylinositide phosphatase SAC1 [Mus musculus]
+gi|124487227|ref|NP_001074876.1|,25%,1,67,52,71,14,26,20,2,9,hydrolase,"phospholipase B1, membrane-associated isoform 1 [Mus musculus]"
+gi|9845263|ref|NP_063931.1|,25%,1,660,277,9,1,0,2,2,4,metabolism,sulfotransferase family cytosolic 1B member 1 [Mus musculus]
+gi|58743310|ref|NP_001011707.1|,25%,1,532,46,34,3,11,10,2,8,mitochondrial,"cytochrome P450, family 2, subfamily c, polypeptide 66 [Mus musculus]"
+gi|70608131|ref|NP_083949.2|,25%,1,613,106,30,7,6,6,5,6,mitochondrial,mitochondrial inner membrane protein [Mus musculus]
+gi|58037109|ref|NP_080960.1|,25%,1,527,454,7,1,3,1,1,1,mitochondrial,NADH dehydrogenase [ubiquinone] 1 beta subcomplex subunit 10 [Mus musculus]
+gi|309263866|ref|XP_003086141.1|,25%,2,284,250,10,0,8,1,0,1,mitochondrial,"PREDICTED: NAD-dependent malic enzyme, mitochondrial-like [Mus musculus]"
+gi|295789166|ref|NP_001171472.1|,24%,2,377,437,11,8,0,1,1,1,ER,predicted gene 6654 [Mus musculus]
+gi|309266179|ref|XP_003086717.1|,24%,3,85,441,8,2,1,0,2,3,ER,PREDICTED: 40S ribosomal protein S23-like [Mus musculus]
+gi|149260643|ref|XP_001473265.1|,24%,1,141,348,8,4,1,2,0,1,ER,PREDICTED: 60S ribosomal protein L23a-like [Mus musculus]
+gi|309264589|ref|XP_003086295.1|,24%,1,440,477,5,2,0,0,2,1,ER,PREDICTED: 60S ribosomal protein L27a [Mus musculus]
+gi|52627143|ref|NP_080435.3|,24%,1,522,178,23,6,5,6,1,5,metabolism,"all-trans-retinol 13,14-reductase precursor [Mus musculus]"
+gi|23956140|ref|NP_079914.1|,24%,1,341,270,13,2,4,3,2,2,metabolism,glycerophosphodiester phosphodiesterase domain-containing protein 1 [Mus musculus]
+gi|23680945|ref|NP_694773.1|,24%,1,333,194,16,4,6,3,2,1,metabolism,retinol dehydrogenase 9 [Mus musculus]
+gi|113374154|ref|NP_036108.2|,24%,1,30,218,15,1,4,4,3,3,metabolism,very long-chain acyl-CoA synthetase [Mus musculus]
+gi|170014720|ref|NP_780386.3|,24%,1,208,215,18,3,6,3,0,6,mitochondrial,"D-beta-hydroxybutyrate dehydrogenase, mitochondrial precursor [Mus musculus]"
+gi|21703972|ref|NP_663469.1|,24%,1,284,250,10,0,8,1,0,1,mitochondrial,"NAD-dependent malic enzyme, mitochondrial precursor [Mus musculus]"
+gi|23956084|ref|NP_059062.1|,24%,1,339,151,20,7,4,4,1,4,mitochondrial,"very long-chain specific acyl-CoA dehydrogenase, mitochondrial precursor [Mus musculus]"
+gi|154759295|ref|NP_001094078.1|,24%,2,85,441,8,2,1,0,2,3,unknown,predicted gene 15450 [Mus musculus]
+gi|312222784|ref|NP_001185927.1|,23%,1,446,134,15,10,1,2,0,2,channel/transporter,voltage-dependent anion-selective channel protein 3 [Mus musculus]
+gi|165905585|ref|NP_001107017.1|,23%,1,198,103,33,4,5,9,5,10,cytoskeleton,LIM domain and actin-binding protein 1 isoform a [Mus musculus]
+gi|46399202|ref|NP_963894.1|,23%,1,510,1,58,12,16,18,1,11,cytoskeleton,myosin-5b [Mus musculus]
+gi|20149756|ref|NP_619610.1|,23%,1,246,85,14,10,0,1,0,3,ER,eukaryotic initiation factor 4A-III [Mus musculus]
+gi|149262861|ref|XP_001480343.1|,23%,2,95,378,5,1,0,3,0,1,ER,PREDICTED: 60S ribosomal protein L15-like [Mus musculus]
+gi|31543694|ref|NP_033189.2|,23%,1,453,149,22,4,11,5,1,1,hydrolase,sphingosine-1-phosphate lyase 1 [Mus musculus]
+gi|157951741|ref|NP_033934.2|,23%,1,170,200,15,0,10,2,0,3,metabolism,catalase [Mus musculus]
+gi|114158675|ref|NP_079705.2|,23%,1,35,279,9,2,1,2,0,4,metabolism,leukocyte elastase inhibitor A [Mus musculus]
+gi|85861164|ref|NP_035086.2|,23%,1,646,114,32,2,16,6,2,6,mitochondrial,"2-oxoglutarate dehydrogenase, mitochondrial precursor [Mus musculus]"
+gi|6753110|ref|NP_033835.1|,23%,1,582,264,16,0,13,1,0,2,mitochondrial,"arginase-2, mitochondrial precursor [Mus musculus]"
+gi|6677819|ref|NP_033127.1|,23%,1,547,470,5,0,0,2,0,3,signaling,ras-related protein R-Ras precursor [Mus musculus]
+gi|40254290|ref|NP_780553.2|,22%,1,502,90,57,7,20,15,8,7,channel/transporter,anoctamin-6 [Mus musculus]
+gi|60218877|ref|NP_033017.2|,22%,1,533,160,30,9,6,4,5,6,channel/transporter,ATP-binding cassette sub-family D member 3 [Mus musculus]
+gi|31981310|ref|NP_036190.2|,22%,1,466,259,20,1,7,4,2,6,ER,B-cell receptor-associated protein 31 [Mus musculus]
+gi|30424591|ref|NP_776112.1|,22%,1,430,180,22,5,7,7,1,2,metabolism,acetolactate synthase-like protein [Mus musculus]
+gi|27370510|ref|NP_766594.1|,22%,1,407,336,10,2,2,3,0,3,metabolism,serum paraoxonase/lactonase 3 [Mus musculus]
+gi|19527190|ref|NP_598730.1|,22%,1,240,196,20,7,5,6,0,2,mitochondrial,cytochrome P450 4V3 [Mus musculus]
+gi|31982856|ref|NP_031887.2|,22%,1,479,245,12,2,6,1,2,1,mitochondrial,"dihydrolipoyl dehydrogenase, mitochondrial precursor [Mus musculus]"
+gi|21312994|ref|NP_077173.1|,22%,1,260,344,8,4,1,0,0,3,mitochondrial,mitochondrial 2-oxoglutarate/malate carrier protein [Mus musculus]
+gi|6755698|ref|NP_035642.1|,22%,1,606,203,35,10,10,9,3,3,nuclear,surfeit locus protein 4 [Mus musculus]
+gi|134288869|ref|NP_033893.2|,22%,1,110,317,18,1,5,5,1,6,signaling,ADP-ribosyl cyclase 2 [Mus musculus]
+gi|41054806|ref|NP_032164.2|,22%,1,505,34,19,7,5,3,2,2,signaling,guanine nucleotide-binding protein G(i) subunit alpha-2 [Mus musculus]
+gi|226442772|ref|NP_081834.1|,22%,1,313,476,5,0,2,3,0,0,signaling,membrane-associated progesterone receptor component 2 [Mus musculus]
+gi|31980629|ref|NP_058074.2|,22%,1,458,501,5,0,2,2,0,1,trafficking,vesicle-associated membrane protein 8 [Mus musculus]
+gi|6752944|ref|NP_036050.1|,21%,1,578,143,40,8,12,10,2,8,channel/transporter,ATP-binding cassette sub-family G member 2 [Mus musculus]
+gi|116063566|ref|NP_038834.2|,21%,1,40,59,92,12,25,25,18,12,channel/transporter,canalicular multispecific organic anion transporter 1 [Mus musculus]
+gi|253970442|ref|NP_997125.2|,21%,1,359,54,190,27,50,50,32,31,channel/transporter,Niemann-Pick C1-like protein 1 precursor [Mus musculus]
+gi|21450321|ref|NP_659170.1|,21%,1,275,8,323,82,103,53,45,40,channel/transporter,sodium/potassium-transporting ATPase subunit alpha-3 [Mus musculus]
+gi|157951604|ref|NP_031624.2|,21%,1,167,306,8,0,1,3,1,3,cytoskeleton,adenylyl cyclase-associated protein 1 [Mus musculus]
+gi|30520041|ref|NP_848784.1|,21%,1,433,432,18,1,4,6,2,5,cytoskeleton,clarin-3 [Mus musculus]
+gi|309264110|ref|XP_003086224.1|,21%,3,438,32,86,0,13,55,5,13,ECM,PREDICTED: collagen alpha-3(VI) chain [Mus musculus]
+gi|20846986|ref|XP_144599.1|,21%,1,249,452,7,5,1,1,0,0,ER,PREDICTED: 40S ribosomal protein S25-like [Mus musculus]
+gi|149259021|ref|XP_001477595.1|,21%,1,140,304,9,3,0,3,0,3,ER,PREDICTED: 60S ribosomal protein L10-like [Mus musculus]
+gi|149251993|ref|XP_001475458.1|,21%,2,100,326,12,9,2,1,0,0,ER,PREDICTED: 60S ribosomal protein L11 [Mus musculus]
+gi|309266497|ref|XP_003086778.1|,21%,1,443,326,6,4,2,0,0,0,ER,PREDICTED: 60S ribosomal protein L11-like [Mus musculus]
+gi|168823441|ref|NP_001028431.2|,21%,1,206,331,10,2,1,1,5,1,membrane,coiled-coil domain-containing protein 109A [Mus musculus]
+gi|61098088|ref|NP_035994.2|,21%,1,535,153,19,0,0,5,2,12,metabolism,bifunctional 3'-phosphoadenosine 5'-phosphosulfate synthase 2 [Mus musculus]
+gi|13385680|ref|NP_080448.1|,21%,1,102,300,10,1,6,2,0,1,mitochondrial,"2,4-dienoyl-CoA reductase, mitochondrial precursor [Mus musculus]"
+gi|34996495|ref|NP_062616.2|,21%,1,495,206,26,10,4,6,2,4,mitochondrial,dolichyl-diphosphooligosaccharide--protein glycosyltransferase subunit 2 [Mus musculus]
+gi|309264540|ref|XP_003086306.1|,21%,2,418,68,12,6,1,1,0,4,signaling,PREDICTED: ras-related protein Rab-5B [Mus musculus]
+gi|163644277|ref|NP_031485.3|,21%,1,194,107,24,7,0,6,1,10,trafficking,AP-2 complex subunit alpha-2 [Mus musculus]
+gi|11037800|ref|NP_067623.1|,20%,1,18,292,14,4,5,3,0,2,adhesion,cell surface A33 antigen precursor [Mus musculus]
+gi|119392092|ref|NP_444309.2|,20%,1,53,63,176,27,46,38,44,21,channel/transporter,solute carrier family 15 member 1 [Mus musculus]
+gi|6754254|ref|NP_034610.1|,20%,1,594,23,44,13,2,14,3,12,ER,heat shock protein HSP 90-alpha [Mus musculus]
+gi|149267855|ref|XP_001000635.2|,20%,1,149,472,5,2,0,0,1,2,ER,PREDICTED: 40S ribosomal protein S24-like [Mus musculus]
+gi|149265827|ref|XP_001480995.1|,20%,1,147,302,9,6,1,1,0,1,ER,PREDICTED: 40S ribosomal protein S3a-like [Mus musculus]
+gi|6679995|ref|NP_032142.1|,20%,1,564,157,36,16,9,6,1,4,hydrolase,gamma-glutamyltranspeptidase 1 [Mus musculus]
+gi|6679891|ref|NP_032086.1|,20%,1,563,115,31,3,9,8,0,11,hydrolase,neutral alpha-glucosidase AB [Mus musculus]
+gi|188497650|ref|NP_780612.2|,20%,1,224,362,7,4,0,2,0,1,membrane,malectin precursor [Mus musculus]
+gi|19527360|ref|NP_598891.1|,20%,1,242,323,15,2,7,2,3,1,metabolism,abhydrolase domain-containing protein 3 [Mus musculus]
+gi|6753632|ref|NP_034176.1|,20%,1,592,261,16,5,5,3,2,1,metabolism,diacylglycerol O-acyltransferase 1 [Mus musculus]
+gi|31982273|ref|NP_032318.2|,20%,1,475,146,32,6,10,7,3,6,metabolism,peroxisomal multifunctional enzyme type 2 [Mus musculus]
+gi|254587896|ref|NP_082370.2|,20%,1,365,22,16,3,3,5,3,2,metabolism,UDP-glucuronosyltransferase 2A3 precursor [Mus musculus]
+gi|157364978|ref|NP_001098629.1|,20%,1,164,91,21,5,8,3,1,4,mitochondrial,cytochrome P450 3A41 [Mus musculus]
+gi|254911131|ref|NP_001157185.1|,20%,1,374,297,10,2,1,4,1,2,mitochondrial,"elongation factor Tu, mitochondrial isoform [Mus musculus]"
+gi|291575137|ref|NP_001167570.1|,19%,1,421,4,43,7,9,18,5,4,cytoskeleton,"keratin, type I cuticular Ha6 [Mus musculus]"
+gi|309271626|ref|XP_003085374.1|,19%,6,438,32,86,0,13,55,5,13,ECM,PREDICTED: LOW QUALITY PROTEIN: collagen alpha-3(VI) chain [Mus musculus]
+gi|133922588|ref|NP_001001892.2|,19%,1,108,181,13,2,4,2,2,3,immunological ,"H-2 class I histocompatibility antigen, K-W28 alpha chain isoform 1 [Mus musculus]"
+gi|7710018|ref|NP_038543.1|,19%,1,624,291,14,5,2,4,0,3,membrane,erythrocyte band 7 integral membrane protein [Mus musculus]
+gi|31560264|ref|NP_079617.2|,19%,1,455,273,12,4,4,2,0,2,metabolism,monoacylglycerol lipase ABHD6 [Mus musculus]
+gi|183396771|ref|NP_034607.3|,19%,1,218,183,22,0,12,7,0,3,mitochondrial,"60 kDa heat shock protein, mitochondrial [Mus musculus]"
+gi|21703976|ref|NP_663471.1|,19%,1,285,281,8,1,1,3,0,3,mitochondrial,bifunctional ATP-dependent dihydroxyacetone kinase/FAD-AMP lyase (cyclizing) [Mus musculus]
+gi|21313618|ref|NP_079612.1|,19%,1,264,414,6,2,2,1,0,1,mitochondrial,"coiled-coil-helix-coiled-coil-helix domain-containing protein 3, mitochondrial precursor [Mus musculus]"
+gi|254826790|ref|NP_038798.2|,19%,1,372,339,9,2,5,0,1,1,mitochondrial,mitochondrial dicarboxylate carrier [Mus musculus]
+gi|21312950|ref|NP_083548.1|,19%,1,257,313,6,4,0,0,0,2,mitochondrial,"NADH dehydrogenase [ubiquinone] iron-sulfur protein 7, mitochondrial precursor [Mus musculus]"
+gi|21426823|ref|NP_085112.1|,19%,1,270,86,30,8,4,5,7,6,nuclear,histone H1.1 [Mus musculus]
+gi|22550094|ref|NP_032950.1|,19%,1,304,372,5,0,1,1,1,2,signaling,cAMP-dependent protein kinase type II-alpha regulatory subunit [Mus musculus]
+gi|21314830|ref|NP_647453.1|,19%,1,267,440,9,3,0,2,2,2,signaling,receptor expression-enhancing protein 6 [Mus musculus]
+gi|117676363|ref|NP_075708.2|,18%,1,44,17,112,20,41,27,13,11,channel/transporter,solute carrier family 5 member 4b [Mus musculus]
+gi|13386054|ref|NP_080828.1|,18%,1,106,455,7,2,2,1,0,2,cytoskeleton,actin-related protein 2/3 complex subunit 4 isoform 1 [Mus musculus]
+gi|309272591|ref|XP_003085561.1|,18%,1,445,162,23,0,4,7,5,7,cytoskeleton,PREDICTED: myosin-15-like [Mus musculus]
+gi|33859482|ref|NP_031933.1|,18%,1,486,187,13,2,0,6,1,4,ER,elongation factor 2 [Mus musculus]
+gi|6756041|ref|NP_035870.1|,18%,1,610,424,5,0,0,1,4,0,metabolism,14-3-3 protein zeta/delta [Mus musculus]
+gi|226443015|ref|NP_034303.3|,18%,1,314,232,21,3,6,6,2,4,metabolism,fatty-acid amide hydrolase 1 [Mus musculus]
+gi|145864463|ref|NP_964006.2|,18%,1,120,22,65,13,16,10,12,14,metabolism,UDP-glucuronosyltransferase 1-9 precursor [Mus musculus]
+gi|82934691|ref|XP_895812.1|,18%,1,630,122,14,4,1,6,3,0,nuclear,PREDICTED: histone H3.3-like [Mus musculus]
+gi|122937372|ref|NP_001073856.1|,18%,1,59,361,7,6,0,1,0,0,nuclear,serine/arginine-rich splicing factor 10 isoform 2 [Mus musculus]
+gi|254750706|ref|NP_001157135.1|,18%,2,86,375,5,4,0,0,1,0,signaling,ras-related protein Rab-6A isoform 1 [Mus musculus]
+gi|13195674|ref|NP_077249.1|,18%,1,86,375,5,4,0,0,1,0,signaling,ras-related protein Rab-6A isoform 2 [Mus musculus]
+gi|8567338|ref|NP_059505.1|,18%,1,641,168,17,9,0,3,1,4,trafficking,coatomer subunit gamma isoform 1 [Mus musculus]
+gi|253970410|ref|NP_653127.2|,18%,1,358,451,7,6,0,1,0,0,unknown,hypothetical protein LOC78354 [Mus musculus]
+gi|85719301|ref|NP_001034275.1|,17%,2,645,319,16,4,2,4,4,2,adhesion,CEACAM-1 [Mus musculus]
+gi|124486700|ref|NP_001074529.1|,17%,1,62,161,24,2,2,7,4,9,channel/transporter,"sodium/hydrogen exchanger 3, NHE3 [Mus musculus]"
+gi|22122825|ref|NP_666355.1|,17%,1,294,268,14,2,8,3,0,1,cytoskeleton,actin-related protein 2 [Mus musculus]
+gi|157277948|ref|NP_033067.2|,17%,1,162,1,140,14,31,33,30,32,cytoskeleton,radixin [Mus musculus]
+gi|224994260|ref|NP_035159.3|,17%,1,303,334,292,144,43,33,23,49,ER,40S ribosomal protein [Mus musculus]
+gi|176865892|ref|NP_038534.2|,17%,1,213,85,13,8,0,1,0,4,ER,eukaryotic initiation factor 4A-II [Mus musculus]
+gi|309264022|ref|XP_003086186.1|,17%,2,303,334,10,10,0,0,0,0,ER,PREDICTED: 40S ribosomal protein SA-like [Mus musculus]
+gi|82950040|ref|XP_914375.1|,17%,1,631,255,14,8,1,2,2,1,ER,PREDICTED: 60S ribosomal protein L7a-like [Mus musculus]
+gi|34915988|ref|NP_033898.1|,17%,2,39,343,8,2,3,0,1,2,membrane,basigin [Mus musculus]
+gi|125628650|ref|NP_080285.2|,17%,1,77,283,8,0,0,1,1,6,membrane,coiled-coil domain-containing protein 47 precursor [Mus musculus]
+gi|61888838|ref|NP_058043.3|,17%,1,539,465,6,0,5,1,0,0,metabolism,3-hydroxyacyl-CoA dehydrogenase type-2 [Mus musculus]
+gi|6753010|ref|NP_035913.1|,17%,1,579,474,5,2,3,0,0,0,metabolism,anterior gradient protein 2 homolog precursor [Mus musculus]
+gi|21703854|ref|NP_663403.1|,17%,1,283,390,11,3,1,1,2,4,metabolism,dehydrogenase/reductase SDR family member 7B [Mus musculus]
+gi|19923070|ref|NP_598879.1|,17%,1,245,367,6,1,2,0,1,2,metabolism,"trans-2,3-enoyl-CoA reductase [Mus musculus]"
+gi|162138915|ref|NP_034079.2|,17%,1,191,274,11,3,1,4,0,3,mitochondrial,"carnitine O-palmitoyltransferase 2, mitochondrial precursor [Mus musculus]"
+gi|6679184|ref|NP_032795.1|,17%,1,553,370,6,0,5,0,0,1,mitochondrial,"ornithine carbamoyltransferase, mitochondrial precursor [Mus musculus]"
+gi|89001109|ref|NP_034433.3|,17%,1,650,34,31,7,10,7,3,4,signaling,guanine nucleotide-binding protein subunit alpha-13 [Mus musculus]
+gi|85701714|ref|NP_001028371.1|,16%,1,644,104,25,8,7,7,2,1,channel/transporter,calcium-activated chloride channel [Mus musculus]
+gi|157311641|ref|NP_963287.2|,16%,1,163,74,39,0,5,6,7,21,cytoskeleton,LIM domain only 7 [Mus musculus]
+gi|124494244|ref|NP_001074243.1|,16%,2,74,1,34,2,10,11,4,7,cytoskeleton,myosin-1c [Mus musculus]
+gi|6753484|ref|NP_034063.1|,16%,1,590,144,37,0,6,19,4,8,ECM,collagen alpha-1(VI) chain precursor [Mus musculus]
+gi|22203747|ref|NP_666119.1|,16%,1,298,136,31,0,5,16,4,6,ECM,collagen alpha-2(VI) chain precursor [Mus musculus]
+gi|149257513|ref|XP_001478961.1|,16%,1,137,337,10,2,0,0,4,4,ER,PREDICTED: 60S ribosomal protein L17-like [Mus musculus]
+gi|255708458|ref|NP_001157528.1|,16%,1,382,167,18,2,5,5,3,3,hydrolase,phospholipase D1 [Mus musculus]
+gi|28076897|ref|NP_080914.1|,16%,2,269,434,14,3,3,3,0,5,metabolism,CDP-diacylglycerol--inositol 3-phosphatidyltransferase isoform 1 [Mus musculus]
+gi|21362277|ref|NP_620093.1|,16%,1,269,434,14,3,3,3,0,5,metabolism,CDP-diacylglycerol--inositol 3-phosphatidyltransferase isoform 2 [Mus musculus]
+gi|255958292|ref|NP_062672.2|,16%,1,384,216,18,3,5,3,4,3,metabolism,delta-1-pyrroline-5-carboxylate synthase [Mus musculus]
+gi|21450339|ref|NP_659179.1|,16%,1,276,309,8,3,5,0,0,0,metabolism,liver carboxylesterase B-1 [Mus musculus]
+gi|34328286|ref|NP_075863.2|,16%,1,491,429,5,3,2,0,0,0,mitochondrial,"succinate dehydrogenase [ubiquinone] iron-sulfur subunit, mitochondrial precursor [Mus musculus]"
+gi|229892347|ref|NP_766431.3|,16%,1,330,290,14,1,3,3,0,7,mitochondrial,torsin-1A-interacting protein 2 isoform b [Mus musculus]
+gi|41152517|ref|NP_036145.1|,16%,4,416,401,8,0,3,2,1,2,nuclear,core histone macro-H2A.1 isoform 1 [Mus musculus]
+gi|31560697|ref|NP_032223.2|,16%,1,456,453,7,3,2,2,0,0,nuclear,histone H1.0 [Mus musculus]
+gi|162287370|ref|NP_001002011.2|,16%,2,189,140,16,1,4,7,0,4,nuclear,prelamin-A/C [Mus musculus]
+gi|6680726|ref|NP_031509.1|,16%,1,569,147,8,1,3,2,2,0,signaling,rho-related GTP-binding protein RhoB precursor [Mus musculus]
+gi|226823359|ref|NP_034068.3|,16%,1,317,121,23,7,1,4,3,8,trafficking,coatomer subunit alpha [Mus musculus]
+gi|27754077|ref|NP_080609.2|,16%,1,410,413,7,0,2,3,0,2,unknown,hypothetical protein LOC67715 isoform 2 [Mus musculus]
+gi|14141178|ref|NP_114090.1|,15%,1,116,179,23,8,8,5,0,2,channel/transporter,ATP-binding cassette sub-family G member 5 [Mus musculus]
+gi|17530789|ref|NP_080456.1|,15%,1,211,239,17,5,2,5,3,2,channel/transporter,ATP-binding cassette sub-family G member 8 [Mus musculus]
+gi|66793411|ref|NP_035532.2|,15%,1,555,220,14,0,2,7,3,2,channel/transporter,sodium-dependent phosphate transport protein 2B [Mus musculus]
+gi|161016843|ref|NP_031909.2|,15%,1,184,185,17,0,9,5,1,2,cytoskeleton,desmoglein-2 precursor [Mus musculus]
+gi|6671672|ref|NP_031630.1|,15%,1,543,327,10,3,2,3,1,1,cytoskeleton,F-actin-capping protein subunit alpha-2 [Mus musculus]
+gi|269914154|ref|NP_808385.2|,15%,1,399,3,99,14,21,30,20,14,cytoskeleton,hypothetical protein LOC239673 [Mus musculus]
+gi|33598964|ref|NP_780469.1|,15%,1,484,1,202,37,54,48,26,37,cytoskeleton,non-muscle myosin IIb [Mus musculus]
+gi|309261892|ref|XP_003085430.1|,15%,2,212,500,5,0,0,3,0,2,ER,PREDICTED: hemoglobin subunit beta-1-like [Mus musculus]
+gi|226531119|ref|NP_034838.2|,15%,1,316,341,9,2,2,1,1,3,membrane,galectin-9 [Mus musculus]
+gi|17647499|ref|NP_058652.1|,15%,1,212,500,5,0,0,3,0,2,metabolism,hemoglobin subunit beta-2 [Mus musculus]
+gi|6755919|ref|NP_035794.1|,15%,3,87,379,44,11,11,9,5,8,metabolism,polyubiquitin-B [Mus musculus]
+gi|46195798|ref|NP_031864.2|,15%,3,441,289,17,11,5,0,0,1,mitochondrial,dolichyl-diphosphooligosaccharide--protein glycosyltransferase 48 kDa subunit precursor [Mus musculus]
+gi|23956104|ref|NP_067274.1|,15%,1,340,468,5,0,3,0,0,2,mitochondrial,"GTP:AMP phosphotransferase, mitochondrial [Mus musculus]"
+gi|18250284|ref|NP_083849.1|,15%,1,216,298,10,0,6,3,0,1,mitochondrial,"isocitrate dehydrogenase [NAD] subunit alpha, mitochondrial precursor [Mus musculus]"
+gi|9789997|ref|NP_062668.1|,15%,1,657,219,15,7,3,2,0,3,mitochondrial,"LETM1 and EF-hand domain-containing protein 1, mitochondrial precursor [Mus musculus]"
+gi|31982520|ref|NP_031407.2|,15%,1,477,355,7,0,6,0,0,1,mitochondrial,"long-chain specific acyl-CoA dehydrogenase, mitochondrial precursor [Mus musculus]"
+gi|23346461|ref|NP_694704.1|,15%,1,331,338,10,3,1,1,4,1,mitochondrial,"NADH dehydrogenase [ubiquinone] iron-sulfur protein 2, mitochondrial precursor [Mus musculus]"
+gi|309265149|ref|XP_003086447.1|,15%,1,441,289,17,11,5,0,0,1,mitochondrial,PREDICTED: dolichyl-diphosphooligosaccharide--protein glycosyltransferase 48 kDa subunit-like [Mus musculus]
+gi|157041229|ref|NP_001096635.1|,15%,1,160,357,6,6,0,0,0,0,nuclear,poly(rC)-binding protein 2 isoform 1 [Mus musculus]
+gi|33563256|ref|NP_034436.1|,15%,1,482,34,15,7,4,2,2,0,signaling,guanine nucleotide-binding protein G(k) subunit alpha [Mus musculus]
+gi|6754576|ref|NP_034869.1|,14%,1,596,226,44,7,11,15,8,3,adhesion,mucin-13 precursor [Mus musculus]
+gi|110556625|ref|NP_997091.3|,14%,1,19,104,26,8,7,7,3,1,channel/transporter,calcium-activated chloride channel regulator 4 [Mus musculus]
+gi|120444906|ref|NP_573447.2|,14%,1,57,17,7,1,6,0,0,0,channel/transporter,low affinity sodium-glucose cotransporter [Mus musculus]
+gi|58037367|ref|NP_083154.1|,14%,1,530,189,67,13,18,18,9,9,channel/transporter,sodium-dependent neutral amino acid transporter B(0)AT1 [Mus musculus]
+gi|21312570|ref|NP_081676.1|,14%,1,256,412,7,0,2,2,0,3,ER,protein ERGIC-53 precursor [Mus musculus]
+gi|225543319|ref|NP_033529.3|,14%,1,306,186,17,2,3,5,1,6,ER,transitional endoplasmic reticulum ATPase [Mus musculus]
+gi|145966840|ref|NP_031972.2|,14%,1,121,195,21,0,5,8,1,7,metabolism,eosinophil peroxidase precursor [Mus musculus]
+gi|31982393|ref|NP_031966.2|,14%,1,476,365,6,0,0,1,2,3,metabolism,epoxide hydrolase 2 [Mus musculus]
+gi|27370046|ref|NP_766303.1|,14%,1,405,369,6,1,0,2,0,3,metabolism,glycerol-3-phosphate acyltransferase 3 [Mus musculus]
+gi|228008307|ref|NP_079597.2|,14%,1,326,486,7,1,1,1,1,3,mitochondrial,"succinate dehydrogenase cytochrome b560 subunit, mitochondrial precursor [Mus musculus]"
+gi|188219585|ref|NP_032952.3|,14%,1,222,246,11,1,3,5,0,2,signaling,cGMP-dependent protein kinase 2 [Mus musculus]
+gi|27370362|ref|NP_766479.1|,14%,1,406,443,8,1,3,3,0,1,signaling,tyrosine-protein kinase STYK1 [Mus musculus]
+gi|161702988|ref|NP_033823.2|,13%,1,188,28,80,14,22,20,5,19,channel/transporter,apolipoprotein B precursor [Mus musculus]
+gi|6680710|ref|NP_031498.1|,13%,1,567,433,16,3,6,4,2,1,channel/transporter,aquaporin-1 [Mus musculus]
+gi|161086924|ref|NP_032856.2|,13%,1,185,13,55,17,13,11,2,12,channel/transporter,multidrug resistance protein 2 [Mus musculus]
+gi|21313234|ref|NP_080109.1|,13%,1,262,363,7,1,0,3,1,2,cytoskeleton,"IRTKS, brain-specific angiogenesis inhibitor 1-associated protein 2-like protein 1 [Mus musculus]"
+gi|21312960|ref|NP_080439.1|,13%,1,258,248,11,2,1,1,2,5,cytoskeleton,plakophilin-2 [Mus musculus]
+gi|40254525|ref|NP_071709.2|,13%,1,503,364,7,3,1,0,0,3,cytoskeleton,tropomyosin alpha-3 chain [Mus musculus]
+gi|133778955|ref|NP_034510.3|,13%,1,89,181,7,1,5,1,0,0,immunological ,"H-2 class I histocompatibility antigen, L-D alpha chain precursor [Mus musculus]"
+gi|31982122|ref|NP_032900.2|,13%,1,472,171,16,0,5,1,3,7,membrane,"1-phosphatidylinositol-4,5-bisphosphate phosphodiesterase beta-3 [Mus musculus]"
+gi|251823855|ref|NP_035834.2|,13%,1,356,395,9,4,0,1,2,2,metabolism,pantetheinase precursor [Mus musculus]
+gi|19527048|ref|NP_598595.1|,13%,1,237,458,6,6,0,0,0,0,nuclear,heterogeneous nuclear ribonucleoprotein F [Mus musculus]
+gi|309265106|ref|XP_003086424.1|,13%,4,51,340,5,5,0,0,0,0,nuclear,PREDICTED: serine/arginine-rich splicing factor 5-like [Mus musculus]
+gi|119226243|ref|NP_001073162.1|,13%,1,51,340,5,5,0,0,0,0,nuclear,serine/arginine-rich splicing factor 5 [Mus musculus]
+gi|149263967|ref|XP_001478849.1|,13%,1,144,368,6,2,3,1,0,0,trafficking,PREDICTED: transmembrane emp24 domain-containing protein 10-like [Mus musculus]
+gi|21312062|ref|NP_081051.1|,13%,2,144,368,6,2,3,1,0,0,trafficking,transmembrane emp24 domain-containing protein 10 precursor [Mus musculus]
+gi|226958351|ref|NP_038762.1|,12%,1,318,8,185,27,67,31,31,29,channel/transporter,sodium/potassium-transporting ATPase subunit alpha-4 [Mus musculus]
+gi|11967935|ref|NP_071856.1|,12%,1,55,296,10,0,3,4,1,2,channel/transporter,solute carrier family 13 member 2 [Mus musculus]
+gi|161086971|ref|NP_033927.2|,12%,1,186,327,7,2,1,2,1,1,cytoskeleton,F-actin-capping protein subunit alpha-1 [Mus musculus]
+gi|309264133|ref|XP_003086230.1|,12%,2,186,327,7,2,1,2,1,1,cytoskeleton,PREDICTED: f-actin-capping protein subunit alpha-1-like [Mus musculus]
+gi|86198316|ref|NP_033917.2|,12%,1,648,278,10,3,1,0,1,5,ER,protein disulfide-isomerase A4 [Mus musculus]
+gi|36031132|ref|NP_031530.2|,12%,1,496,58,16,6,4,3,3,0,ER,sarcoplasmic/endoplasmic reticulum calcium ATPase 1 [Mus musculus]
+gi|110625624|ref|NP_038714.2|,12%,1,20,376,5,1,0,2,0,2,ER,T-complex protein 1 subunit alpha [Mus musculus]
+gi|165377206|ref|NP_080241.3|,12%,1,196,464,6,4,0,0,0,2,ER,translocon-associated protein subunit alpha precursor [Mus musculus]
+gi|198386326|ref|NP_001128301.1|,12%,1,244,396,9,2,1,2,2,2,metabolism,acyl-CoA:lysophosphatidylglycerol acyltransferase 1 [Mus musculus]
+gi|6755004|ref|NP_036149.1|,12%,1,599,350,7,0,3,2,0,2,metabolism,"apoptosis-inducing factor 1, mitochondrial precursor [Mus musculus]"
+gi|11967965|ref|NP_071879.1|,12%,1,56,177,11,1,4,3,0,3,metabolism,leukotriene-B4 omega-hydroxylase 3 [Mus musculus]
+gi|19526814|ref|NP_598427.1|,12%,1,234,352,7,1,1,2,2,1,mitochondrial,"NADH dehydrogenase [ubiquinone] flavoprotein 1, mitochondrial precursor [Mus musculus]"
+gi|6754994|ref|NP_035995.1|,12%,1,598,357,5,5,0,0,0,0,nuclear,poly(rC)-binding protein 1 [Mus musculus]
+gi|14861844|ref|NP_149068.1|,12%,1,126,172,8,7,0,1,0,0,nuclear,putative ATP-dependent RNA helicase Pl10 [Mus musculus]
+gi|21311975|ref|NP_080953.1|,12%,1,252,51,14,3,6,2,2,1,signaling,ras-related protein Rab-13 [Mus musculus]
+gi|78711838|ref|NP_001030931.1|,12%,2,265,210,15,6,3,2,2,2,trafficking,AP-2 complex subunit beta [Mus musculus]
+gi|31543940|ref|NP_062780.2|,12%,1,454,205,8,5,1,1,0,1,trafficking,vesicle-associated membrane protein-associated protein B [Mus musculus]
+gi|157951706|ref|NP_067370.3|,11%,1,168,221,14,2,1,2,1,8,ER,hypoxia up-regulated protein 1 precursor [Mus musculus]
+gi|8394252|ref|NP_058602.1|,11%,1,637,431,5,3,1,0,0,1,ER,protein transport protein Sec61 subunit alpha isoform 1 [Mus musculus]
+gi|6753066|ref|NP_033805.1|,11%,1,581,314,6,0,1,4,0,1,hydrolase,membrane primary amine oxidase [Mus musculus]
+gi|6679457|ref|NP_032946.1|,11%,1,558,481,14,0,5,5,1,3,immunological ,bone marrow proteoglycan precursor [Mus musculus]
+gi|294997253|ref|NP_032225.2|,11%,1,425,181,6,0,3,0,0,3,immunological ,"histocompatibility 2, blastocyst [Mus musculus]"
+gi|309263668|ref|XP_003086105.1|,11%,6,150,181,7,2,1,2,0,2,immunological ,"PREDICTED: h-2 class I histocompatibility antigen, K-W28 alpha chain-like [Mus musculus]"
+gi|194328695|ref|NP_035766.2|,11%,1,231,444,8,2,2,2,1,1,membrane,phospholipid scramblase 1 [Mus musculus]
+gi|227116343|ref|NP_031669.3|,11%,1,323,436,11,5,1,5,0,0,membrane,platelet glycoprotein 4 [Mus musculus]
+gi|27369581|ref|NP_766024.1|,11%,1,402,422,5,1,2,2,0,0,mitochondrial,calcium-binding mitochondrial carrier protein Aralar1 [Mus musculus]
+gi|30520139|ref|NP_848830.1|,11%,1,434,456,6,3,0,0,1,2,signaling,cell cycle control protein 50B [Mus musculus]
+gi|37718983|ref|NP_937806.1|,11%,1,498,51,14,3,5,3,2,1,signaling,ras-related protein Rab-35 [Mus musculus]
+gi|157951727|ref|NP_663785.2|,10%,2,169,30,14,2,3,5,3,1,adhesion,catenin alpha-2 isoform 1 [Mus musculus]
+gi|169808418|ref|NP_082115.2|,10%,1,207,307,8,0,2,2,1,3,adhesion,CEACAM-20 [Mus musculus]
+gi|22122475|ref|NP_666122.1|,10%,1,292,388,12,5,4,0,2,1,adhesion,tetraspanin 8 [Mus musculus]
+gi|62234487|ref|NP_080758.1|,10%,1,540,249,11,7,1,1,1,1,channel/transporter,plasma membrane calcium ATPase 1 [Mus musculus]
+gi|22122753|ref|NP_666310.1|,10%,1,293,231,23,7,8,7,0,1,channel/transporter,sodium/myo-inositol cotransporter 2 [Mus musculus]
+gi|23943838|ref|NP_694790.1|,10%,1,336,389,11,2,1,1,0,7,channel/transporter,"solute carrier family 25, member 1 [Mus musculus]"
+gi|124487419|ref|NP_034798.2|,10%,1,73,3,74,12,20,30,2,10,cytoskeleton,"keratin, type II cytoskeletal 2 epidermal [Mus musculus]"
+gi|85701680|ref|NP_001028349.1|,10%,1,643,3,70,11,15,24,8,12,cytoskeleton,"keratin, type II cytoskeletal 2 oral [Mus musculus]"
+gi|224809300|ref|NP_001029051.2|,10%,1,300,72,7,3,0,2,0,2,cytoskeleton,tubulin alpha chain-like 3 [Mus musculus]
+gi|31982199|ref|NP_032611.2|,10%,1,474,212,20,4,2,5,4,5,hydrolase,meprin A subunit alpha [Mus musculus]
+gi|21699058|ref|NP_660112.1|,10%,1,281,322,16,2,5,5,0,4,membrane,lysophospholipid acyltransferase 5 [Mus musculus]
+gi|80861460|ref|NP_001001488.2|,10%,1,627,222,14,1,5,5,2,1,membrane,probable phospholipid-transporting ATPase IC [Mus musculus]
+gi|251823824|ref|NP_082166.3|,10%,1,355,260,19,3,4,9,0,3,membrane,sushi domain-containing protein 2 isoform 1 [Mus musculus]
+gi|268839831|ref|NP_932116.2|,10%,1,397,33,28,3,13,7,2,3,metabolism,carboxylesterase 2-like [Mus musculus]
+gi|162287142|ref|NP_038523.2|,10%,1,192,253,8,0,3,0,0,5,metabolism,"carnitine O-palmitoyltransferase 1, liver isoform [Mus musculus]"
+gi|124486722|ref|NP_001074540.1|,10%,1,63,439,9,0,2,1,0,6,metabolism,lysocardiolipin acyltransferase 1 [Mus musculus]
+gi|45476581|ref|NP_035457.1|,10%,1,507,293,13,2,10,1,0,0,metabolism,non-specific lipid-transfer protein [Mus musculus]
+gi|13385942|ref|NP_080720.1|,10%,1,103,402,8,0,7,0,0,1,mitochondrial,"citrate synthase, mitochondrial precursor [Mus musculus]"
+gi|13277362|ref|NP_077762.1|,10%,1,88,177,14,1,6,5,0,2,mitochondrial,"cytochrome P450, family 4, subfamily f, polypeptide 16 [Mus musculus]"
+gi|162461907|ref|NP_034611.2|,10%,1,193,354,7,1,5,0,0,1,mitochondrial,"stress-70 protein, mitochondrial [Mus musculus]"
+gi|6755594|ref|NP_035561.1|,10%,2,171,286,7,6,0,0,1,0,nuclear,116 kDa U5 small nuclear ribonucleoprotein component [Mus musculus]
+gi|13384620|ref|NP_079555.1|,10%,1,92,471,5,3,0,0,0,2,nuclear,heterogeneous nuclear ribonucleoprotein K [Mus musculus]
+gi|188219589|ref|NP_034851.2|,10%,1,223,140,6,0,1,3,0,2,nuclear,lamin-B1 [Mus musculus]
+gi|30519943|ref|NP_848729.1|,10%,1,432,418,6,0,5,0,0,1,trafficking,sorting and assembly machinery component 50 homolog [Mus musculus]
+gi|189458807|ref|NP_001032800.2|,9%,1,227,224,13,0,3,2,1,7,adhesion,cingulin [Mus musculus]
+gi|6753438|ref|NP_034032.1|,9%,1,589,497,5,0,2,1,2,0,adhesion,claudin-3 [Mus musculus]
+gi|165377237|ref|NP_112474.2|,9%,1,197,320,16,3,5,3,1,4,channel/transporter,"solute carrier family 2, facilitated glucose transporter member 2 [Mus musculus]"
+gi|157824093|ref|NP_780339.2|,9%,1,166,276,10,3,4,1,1,1,channel/transporter,transient receptor potential cation channel subfamily M member 4 [Mus musculus]
+gi|134288917|ref|NP_084514.2|,9%,1,111,53,35,2,1,4,7,21,cytoskeleton,cytoplasmic dynein 1 heavy chain 1 [Mus musculus]
+gi|145966915|ref|NP_598841.1|,9%,1,122,61,22,2,3,5,3,9,cytoskeleton,filamin-B [Mus musculus]
+gi|126116585|ref|NP_032499.2|,9%,1,80,3,77,17,20,25,5,10,cytoskeleton,"keratin, type II cytoskeletal 1 [Mus musculus]"
+gi|124430500|ref|NP_001074440.1|,9%,1,61,38,13,6,2,4,0,1,cytoskeleton,"tubulin, beta 1 [Mus musculus]"
+gi|270341357|ref|NP_001161976.1|,9%,1,400,415,6,0,0,2,1,3,hydrolase,"phospholipase A2, group IVC [Mus musculus]"
+gi|70778974|ref|NP_001020484.1|,9%,2,548,479,5,1,0,2,2,0,membrane,tapasin [Mus musculus]
+gi|171184435|ref|NP_067320.2|,9%,1,209,488,7,1,0,4,0,2,metabolism,3-hydroxyacyl-CoA dehydratase 3 [Mus musculus]
+gi|160948612|ref|NP_034136.2|,9%,1,182,73,10,3,2,2,0,3,mitochondrial,cytochrome P450 2D9 [Mus musculus]
+gi|6681123|ref|NP_031849.1|,9%,1,576,407,7,1,3,2,0,1,mitochondrial,cytochrome P450 4B1 [Mus musculus]
+gi|148747128|ref|NP_032434.3|,9%,1,128,310,8,4,0,1,2,1,mitochondrial,dolichyl-diphosphooligosaccharide--protein glycosyltransferase subunit STT3A [Mus musculus]
+gi|254588014|ref|NP_080070.2|,9%,1,366,425,5,2,2,0,0,1,mitochondrial,"electron transfer flavoprotein-ubiquinone oxidoreductase, mitochondrial precursor [Mus musculus]"
+gi|224967104|ref|NP_080775.3|,9%,1,302,340,7,7,0,0,0,0,nuclear,arginine/serine-rich splicing factor 6 [Mus musculus]
+gi|229608895|ref|NP_598576.2|,9%,1,327,400,8,4,2,2,0,0,nuclear,lamin-B receptor [Mus musculus]
+gi|153791270|ref|NP_034813.2|,9%,1,153,156,17,1,2,12,0,2,nuclear,laminin subunit gamma-1 precursor [Mus musculus]
+gi|302318906|ref|NP_001180548.1|,8%,1,429,485,9,3,3,2,1,0,adhesion,claudin-7 [Mus musculus]
+gi|282165827|ref|NP_001028536.2|,8%,1,411,238,17,2,6,7,1,1,adhesion,protocadherin-24 [Mus musculus]
+gi|157168326|ref|NP_619593.2|,8%,1,161,8,60,17,22,7,8,6,channel/transporter,potassium-transporting ATPase alpha chain 2 [Mus musculus]
+gi|294979183|ref|NP_001171095.1|,8%,1,423,391,10,2,2,3,2,1,channel/transporter,sodium-coupled monocarboxylate transporter 2 [Mus musculus]
+gi|162135966|ref|NP_766084.3|,8%,1,190,197,19,1,2,5,0,11,cytoskeleton,cordon-bleu [Mus musculus]
+gi|31980832|ref|NP_058575.2|,8%,1,461,3,6,0,1,2,3,0,cytoskeleton,"keratin, type II cuticular Hb5 [Mus musculus]"
+gi|226437587|ref|NP_034062.3|,8%,1,312,208,24,0,7,12,0,5,ECM,collagen alpha-2(IV) chain preproprotein [Mus musculus]
+gi|242247116|ref|NP_081039.2|,8%,1,350,137,28,0,3,17,2,6,ECM,collagen alpha-4(VI) chain precursor [Mus musculus]
+gi|244791271|ref|NP_081245.1|,8%,1,353,271,12,1,0,2,3,6,ER,protein transport protein Sec31A [Mus musculus]
+gi|21312968|ref|NP_080431.1|,8%,1,259,492,6,5,0,1,0,0,ER,translocon-associated protein subunit gamma [Mus musculus]
+gi|188528894|ref|NP_542123.3|,8%,1,225,330,11,1,1,4,0,5,membrane,transmembrane 9 superfamily member 2 precursor [Mus musculus]
+gi|27369998|ref|NP_766273.1|,8%,1,404,417,6,1,2,0,1,2,mitochondrial,calcium-binding mitochondrial carrier protein SCaMC-1 [Mus musculus]
+gi|269784682|ref|NP_062766.2|,8%,1,398,280,9,0,0,0,0,9,mitochondrial,cytochrome P450 3A25 [Mus musculus]
+gi|257796245|ref|NP_663589.3|,8%,1,389,461,6,0,5,1,0,0,mitochondrial,"dihydrolipoyllysine-residue acetyltransferase component of pyruvate dehydrogenase complex, mitochondrial [Mus musculus]"
+gi|31981340|ref|NP_036030.2|,8%,1,467,502,5,0,3,2,0,0,mitochondrial,mannose-P-dolichol utilization defect 1 protein [Mus musculus]
+gi|160333923|ref|NP_058085.2|,8%,1,179,332,10,8,1,0,0,1,nuclear,heterogeneous nuclear ribonucleoprotein U [Mus musculus]
+gi|88853578|ref|NP_031480.2|,8%,1,649,210,10,4,1,2,1,2,trafficking,AP-1 complex subunit beta-1 [Mus musculus]
+gi|117959930|ref|NP_963910.1|,8%,3,47,34,12,5,4,1,2,0,trafficking,protein ALEX [Mus musculus]
+gi|27734186|ref|NP_775564.1|,7%,1,409,406,7,1,2,1,0,3,channel/transporter,large neutral amino acids transporter small subunit 4 [Mus musculus]
+gi|239985622|ref|NP_081016.2|,7%,1,347,491,6,0,1,3,0,2,channel/transporter,proton-coupled folate transporter [Mus musculus]
+gi|51092293|ref|NP_001003667.1|,7%,1,519,3,125,15,35,34,18,23,cytoskeleton,"keratin, type II cytoskeletal 1b [Mus musculus]"
+gi|68299824|ref|NP_851417.2|,7%,2,444,223,12,4,6,1,0,1,cytoskeleton,myosin-1e [Mus musculus]
+gi|309267203|ref|XP_003086989.1|,7%,2,118,3,58,10,12,23,5,8,cytoskeleton,"PREDICTED: keratin, type II cytoskeletal 78-like, partial [Mus musculus]"
+gi|190014629|ref|NP_780495.2|,7%,1,228,387,12,1,2,4,2,3,cytoskeleton,taperin [Mus musculus]
+gi|67906177|ref|NP_033173.2|,7%,1,611,342,9,1,3,2,0,3,ER,protein transport protein Sec23A [Mus musculus]
+gi|21450117|ref|NP_659127.1|,7%,1,273,405,8,1,1,1,1,4,metabolism,dimethylaniline monooxygenase [N-oxide-forming] 4 [Mus musculus]
+gi|125628640|ref|NP_808278.2|,7%,1,76,244,13,2,2,5,2,2,metabolism,dual oxidase 2 [Mus musculus]
+gi|6678329|ref|NP_033399.1|,7%,1,549,410,7,0,1,4,0,2,metabolism,protein-glutamine gamma-glutamyltransferase 2 [Mus musculus]
+gi|148747522|ref|NP_062797.3|,7%,1,130,73,13,4,2,2,1,4,mitochondrial,"cytochrome P450, family 2, subfamily d, polypeptide 22 [Mus musculus]"
+gi|254939516|ref|NP_001156944.1|,7%,2,130,73,13,4,2,2,1,4,mitochondrial,"cytochrome P450, family 2, subfamily d, polypeptide 22 [Mus musculus]"
+gi|20373155|ref|NP_570952.1|,7%,1,247,177,6,0,2,2,0,2,mitochondrial,"cytochrome P450, family 4, subfamily f, polypeptide 13 [Mus musculus]"
+gi|244790045|ref|NP_067482.4|,7%,1,352,399,8,4,1,0,2,1,mitochondrial,"sulfide:quinone oxidoreductase, mitochondrial precursor [Mus musculus]"
+gi|255683322|ref|NP_766413.2|,7%,1,381,345,8,3,0,0,2,3,signaling,probable G-protein coupled receptor 128 precursor [Mus musculus]
+gi|258547152|ref|NP_001158149.1|,7%,1,390,346,8,1,0,1,0,6,signaling,programmed cell death 6-interacting protein [Mus musculus]
+gi|242332572|ref|NP_057930.2|,7%,1,351,242,13,5,3,2,1,2,signaling,ras GTPase-activating-like protein IQGAP1 [Mus musculus]
+gi|118344444|ref|NP_081987.1|,7%,1,49,284,7,1,0,1,1,4,signaling,ras GTPase-activating-like protein IQGAP2 [Mus musculus]
+gi|6671561|ref|NP_031484.1|,7%,2,42,107,12,3,0,3,2,4,trafficking,AP-2 complex subunit alpha-1 [Mus musculus]
+gi|114052811|ref|NP_038797.2|,6%,1,33,311,7,0,0,0,3,4,adhesion,tight junction protein ZO-3 [Mus musculus]
+gi|227499249|ref|NP_034547.2|,6%,1,324,360,7,0,2,2,0,3,channel/transporter,hephaestin isoform 1 [Mus musculus]
+gi|20982825|ref|NP_631881.1|,6%,1,250,324,15,5,4,4,1,1,channel/transporter,sodium- and chloride-dependent transporter XTRP3A [Mus musculus]
+gi|110347555|ref|NP_663398.2|,6%,1,17,359,7,2,0,4,0,1,channel/transporter,sodium-coupled monocarboxylate transporter 1 [Mus musculus]
+gi|227908843|ref|NP_001004184.2|,6%,1,325,448,7,0,3,1,1,2,channel/transporter,"solute carrier family 28, member 1 [Mus musculus]"
+gi|171543883|ref|NP_035047.2|,6%,1,210,356,7,0,1,2,0,4,ECM,nidogen-1 precursor [Mus musculus]
+gi|84370361|ref|NP_032721.2|,6%,1,638,329,11,0,2,4,0,5,ECM,nidogen-2 precursor [Mus musculus]
+gi|119372300|ref|NP_062691.3|,6%,1,52,467,5,0,1,2,0,2,ER,atlastin-2 [Mus musculus]
+gi|6679465|ref|NP_032951.1|,6%,1,559,463,6,1,3,0,0,2,ER,glucosidase 2 subunit beta precursor [Mus musculus]
+gi|34610235|ref|NP_918943.1|,6%,1,494,411,7,0,1,4,0,2,ER,reticulon-4 isoform A [Mus musculus]
+gi|254039658|ref|NP_001156808.1|,6%,1,360,58,6,3,0,0,1,2,ER,sarcoplasmic/endoplasmic reticulum calcium ATPase 3 isoform a [Mus musculus]
+gi|46560565|ref|NP_081411.2|,6%,1,512,428,5,0,0,0,1,4,ER,"SEC24 related gene family, member D [Mus musculus]"
+gi|31560705|ref|NP_032007.2|,6%,1,457,25,34,5,12,7,4,6,metabolism,long-chain-fatty-acid--CoA ligase 1 [Mus musculus]
+gi|157671923|ref|NP_062613.3|,6%,2,87,379,44,11,11,9,5,8,metabolism,polyubiquitin-C [Mus musculus]
+gi|157384934|ref|NP_001095058.1|,6%,1,165,177,5,0,3,1,0,1,mitochondrial,"cytochrome P450, family 4, subfamily f, polypeptide 40 [Mus musculus]"
+gi|62198714|ref|YP_220550.1|,6%,4,202,475,5,0,2,1,0,2,mitochondrial,NADH dehydrogenase subunit 1 [Mus musculus domesticus]
+gi|55769578|ref|NP_766284.2|,6%,1,524,282,8,0,3,2,3,0,nuclear,inaD-like protein isoform 1 [Mus musculus]
+gi|114326497|ref|NP_032508.2|,6%,1,37,275,10,0,0,7,0,3,nuclear,laminin subunit beta-1 [Mus musculus]
+gi|40068493|ref|NP_951062.1|,6%,1,501,172,5,5,0,0,0,0,nuclear,probable ATP-dependent RNA helicase [Mus musculus]
+gi|254675277|ref|NP_033412.2|,5%,1,370,349,8,1,3,2,1,1,adhesion,tight junction protein ZO-1 [Mus musculus]
+gi|8567336|ref|NP_059502.1|,5%,1,640,423,5,0,0,0,1,4,channel/transporter,calcium-activated chloride channel regulator 1 precursor [Mus musculus]
+gi|12963733|ref|NP_076046.1|,5%,1,84,457,6,1,2,3,0,0,channel/transporter,choline transporter-like protein 4 [Mus musculus]
+gi|37537522|ref|NP_659097.2|,5%,1,497,2,53,2,8,17,10,16,cytoskeleton,epiplakin [Mus musculus]
+gi|47523977|ref|NP_998893.1|,5%,1,517,3,43,7,9,17,2,8,cytoskeleton,"keratin, type II cytoskeletal 72 [Mus musculus]"
+gi|31543113|ref|NP_032905.2|,5%,1,451,16,24,2,13,6,1,2,cytoskeleton,plastin-2 [Mus musculus]
+gi|51092301|ref|NP_001003670.1|,5%,1,520,3,27,4,6,11,2,4,cytoskeleton,type II keratin Kb14 [Mus musculus]
+gi|161484654|ref|NP_034061.2|,5%,1,187,68,15,0,1,6,1,7,ECM,collagen alpha-1(IV) chain precursor [Mus musculus]
+gi|13507656|ref|NP_109636.1|,5%,1,114,450,7,0,2,2,0,3,ER,endoplasmic reticulum aminopeptidase 1 [Mus musculus]
+gi|255069795|ref|NP_035820.3|,5%,1,379,473,5,0,0,1,1,3,ER,valyl-tRNA synthetase [Mus musculus]
+gi|183979966|ref|NP_032331.2|,5%,1,220,116,30,0,3,20,2,5,membrane,basement membrane-specific heparan sulfate proteoglycan core protein [Mus musculus]
+gi|124487350|ref|NP_033868.3|,5%,1,72,88,5,3,0,0,1,1,metabolism,cholinesterase precursor [Mus musculus]
+gi|225735584|ref|NP_001139572.1|,5%,2,309,55,7,2,3,1,0,1,metabolism,hexokinase-1 isoform HK1 [Mus musculus]
+gi|236466498|ref|NP_942602.2|,5%,1,332,408,7,0,0,2,3,2,metabolism,UDP-glucose:glycoprotein glucosyltransferase 1 precursor [Mus musculus]
+gi|158937326|ref|NP_444414.2|,5%,1,173,22,5,0,1,0,2,2,metabolism,UDP-glucuronosyltransferase 2A1 precursor [Mus musculus]
+gi|150456419|ref|NP_031868.2|,5%,1,151,353,7,2,0,1,0,4,nuclear,ATP-dependent RNA helicase A [Mus musculus]
+gi|71061455|ref|NP_001021118.1|,5%,1,614,480,5,0,0,0,1,4,trafficking,dynamin-1-like protein [Mus musculus]
+gi|256985117|ref|NP_001157265.1|,5%,1,387,426,5,0,1,0,1,3,unknown,hypothetical protein LOC320827 [Mus musculus]
+gi|6753374|ref|NP_033994.1|,4%,1,587,484,10,2,3,3,1,1,adhesion,cadherin-1 [Mus musculus]
+gi|125347376|ref|NP_034357.2|,4%,1,75,61,11,1,3,3,1,3,cytoskeleton,filamin-A [Mus musculus]
+gi|22094119|ref|NP_035716.1|,4%,1,291,1,9,2,0,0,2,5,cytoskeleton,myosin-18a [Mus musculus]
+gi|13385998|ref|NP_080784.1|,4%,1,104,23,11,4,3,2,1,1,mitochondrial,"heat shock protein 75 kDa, mitochondrial precursor [Mus musculus]"
+gi|61743961|ref|NP_033773.1|,4%,1,538,155,22,1,4,9,6,2,nuclear,AHNAK nucleoprotein isoform 1 [Mus musculus]
+gi|124487155|ref|NP_001074640.1|,4%,1,66,165,19,1,0,7,5,6,nuclear,laminin subunit alpha-5 precursor [Mus musculus]
+gi|239052674|ref|NP_542369.2|,4%,1,335,498,5,0,1,1,0,3,nuclear,major vault protein [Mus musculus]
+gi|110835726|ref|NP_001036085.1|,4%,2,21,466,5,5,0,0,0,0,nuclear,putative pre-mRNA-splicing factor ATP-dependent RNA helicase DHX15 [Mus musculus]
+gi|61102728|ref|NP_542120.2|,4%,1,536,312,7,2,2,0,0,3,signaling,"inositol 1,4,5-trisphosphate receptor type 3 [Mus musculus]"
+gi|15426055|ref|NP_203534.1|,4%,1,158,409,7,5,0,1,0,1,trafficking,coatomer subunit beta [Mus musculus]
+gi|312222765|ref|NP_001185914.1|,3%,2,178,460,6,0,1,2,0,3,adhesion,tight junction protein ZO-2 [Mus musculus]
+gi|145580629|ref|NP_997652.4|,3%,1,118,3,58,10,12,23,5,8,cytoskeleton,keratin Kb40 [Mus musculus]
+gi|15431281|ref|NP_203537.1|,3%,1,159,4,12,3,3,1,3,2,cytoskeleton,"keratin, type I cytoskeletal 23 [Mus musculus]"
+gi|122425580|ref|NP_083669.1|,3%,1,58,4,24,6,7,5,3,3,cytoskeleton,"keratin, type I cytoskeletal 24 [Mus musculus]"
+gi|55926127|ref|NP_067262.1|,3%,1,525,10,6,2,0,3,0,1,cytoskeleton,"spectrin beta chain, brain 2 [Mus musculus]"
+gi|227116327|ref|NP_035732.2|,3%,1,322,371,5,0,1,0,1,3,cytoskeleton,talin-1 [Mus musculus]
+gi|111120329|ref|NP_031769.2|,3%,1,23,386,12,0,4,8,0,0,ECM,collagen alpha-2(I) chain precursor [Mus musculus]
+gi|247494234|ref|NP_001156498.1|,3%,1,354,347,8,1,1,3,0,3,ER,"DnaJ (Hsp40) homolog, subfamily C, member 13 [Mus musculus]"
+gi|146219837|ref|NP_034253.3|,3%,1,124,419,6,1,0,2,1,2,ER,eukaryotic translation initiation factor 3 subunit A [Mus musculus]
+gi|166064044|ref|NP_031804.3|,3%,1,199,1,8,0,2,4,1,1,immunological,macrophage colony-stimulating factor 1 isoform 1 precursor [Mus musculus]
+gi|61651673|ref|NP_077184.2|,3%,1,537,449,7,2,2,2,0,1,mitochondrial,dolichyl-diphosphooligosaccharide--protein glycosyltransferase subunit STT3B [Mus musculus]
+gi|22165382|ref|NP_666199.1|,3%,1,295,494,5,0,0,0,3,2,signaling,casein kinase I isoform alpha [Mus musculus]
+gi|22165388|ref|NP_666261.1|,3%,1,297,493,6,1,1,2,0,2,unknown,hypothetical protein LOC230579 [Mus musculus]
+gi|71143152|ref|NP_796343.2|,2%,1,616,1,9,1,3,3,2,0,cytoskeleton,"myosin heavy chain, skeletal muscle [Mus musculus]"
+gi|115511010|ref|NP_032689.2|,2%,1,38,5,6,2,0,1,2,1,cytoskeleton,myosin-7a [Mus musculus]
+gi|34328108|ref|NP_031768.2|,2%,1,490,393,10,0,2,5,1,2,ECM,collagen alpha-1(I) chain precursor [Mus musculus]
+gi|253683445|ref|NP_001156627.1|,2%,1,357,68,12,0,0,2,2,8,ECM,"collagen, type IV, alpha 5 [Mus musculus]"
+gi|46849812|ref|NP_034363.1|,2%,1,515,421,6,0,2,3,0,1,ECM,fibronectin precursor [Mus musculus]
+gi|54607016|ref|NP_001003934.1|,2%,3,200,442,8,3,2,1,1,1,ER,reticulon-3 isoform 1 [Mus musculus]
+gi|40018610|ref|NP_796188.2|,2%,1,500,427,5,5,0,0,0,0,nuclear,U5 small nuclear ribonucleoprotein 200 kDa helicase [Mus musculus]
+gi|110225379|ref|NP_031405.2|,1%,1,14,2,6,1,1,3,1,0,channel/transporter,ATP-binding cassette sub-family A member 2 [Mus musculus]
+gi|124487348|ref|NP_001074553.1|,1%,1,71,2,10,0,4,2,1,3,channel/transporter,cubilin precursor [Mus musculus]
+gi|312433955|ref|NP_001186065.1|,1%,1,447,2,5,0,2,0,3,0,cytoskeleton,microtubule-actin cross-linking factor 1 isoform 1 [Mus musculus]
+gi|18859641|ref|NP_542766.1|,1%,1,226,1,9,1,3,4,1,0,cytoskeleton,"myosin heavy chain, cardiac muscle beta [Mus musculus]"
+gi|153792649|ref|NP_001093105.1|,1%,1,156,1,9,1,3,3,1,1,cytoskeleton,"myosin heavy chain, fast skeletal muscle, embryonic [Mus musculus]"
+gi|67189167|ref|NP_034985.2|,1%,1,577,1,10,1,3,3,2,1,cytoskeleton,"myosin heavy chain, skeletal muscle, fetal [Mus musculus]"
+gi|225543191|ref|NP_742120.2|,1%,1,305,1,23,5,6,5,5,2,cytoskeleton,rootletin [Mus musculus]
+gi|30794162|ref|NP_083122.1|,1%,1,435,503,5,0,0,2,3,0,metabolism,ubiquitin carboxyl-terminal hydrolase 20 [Mus musculus]

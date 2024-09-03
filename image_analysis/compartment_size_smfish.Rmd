@@ -1,0 +1,243 @@
+---
+title: "smFISH quantification and cell compartment size analysis"
+output: html_notebook
+---
+
+
+```{r}
+rm(list=ls()) 
+
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(ggrepel)
+library(ggpubr)
+library(tidyverse)
+```
+
+
+```{r}
+directory = getwd()
+directory_split = unlist(strsplit(directory, '/'))
+root_dir =  paste0(directory_split[1:length(directory_split)-1], collapse = '/')
+source(paste(root_dir,"/functions.R",sep=""))
+dir_output = paste(directory,"output",sep="/")
+if (!dir.exists(dir_output)) {dir.create(dir_output)}
+dir_input = paste(directory,"input",sep="/")
+
+```
+
+# cell compartment size analysis
+```{r}
+compartment = read.csv(paste0(dir_input,"/compartment_size.csv"))
+measurments = c('apical','basal','nuc_y','nuc_x')
+measurments_num = length(measurments)
+col_names = c(colnames(compartment)[1:4],measurments)
+num_rows = nrow(compartment)/measurments_num
+processed_data = data.frame(matrix(NA,nrow=num_rows,ncol=length(col_names)))
+colnames(processed_data) = col_names
+for (i in 1:num_rows){
+  j = (i-1) * measurments_num + 1
+  processed_data[i,colnames(compartment)[1:4]] = compartment[j,1:4]
+  processed_data[i,measurments] = compartment$distance[j:(j+3)]
+}
+
+processed_data = processed_data[processed_data$organism=="human",]
+
+summirized_data = data.frame(matrix(NA,nrow=1,ncol=length(col_names)))
+colnames(summirized_data) = col_names
+
+for (org in unique(processed_data$id)){
+  for (i in unique(processed_data$image[processed_data$id==org])){
+    for (zone in c('base','mid','tip')){
+      cur_data = processed_data[processed_data$id==org & processed_data$image == i & processed_data$zone == zone,]
+      apical = median(cur_data$apical)
+      basal = median(cur_data$basal)
+      nuc_y = median(cur_data$nuc_y)
+      nuc_x = median(cur_data$nuc_x)
+      summirized_data = rbind(summirized_data, c(unlist(cur_data[1,1:4]),c(apical, basal, nuc_y, nuc_x)))
+    }
+  }
+}
+
+summirized_data = summirized_data %>%
+  mutate_at(vars(all_of(measurments)), as.numeric)
+
+summirized_data = summirized_data[2:nrow(summirized_data),]
+summirized_data$a_b_ratio = summirized_data$apical/summirized_data$basal
+summirized_data$a_b_ratio_log = log(summirized_data$a_b_ratio,2)
+summirized_data = na.omit(summirized_data)
+
+```
+
+```{r}
+plot = pivot_longer(summirized_data[,c("apical","basal","id")],c("apical","basal"),names_to = "apicome",values_to = "length_um")
+plot$apicome[plot$apicome=="apical"] = "Apical"
+plot$apicome[plot$apicome=="basal"] = "Basal"
+
+ggplot(plot, aes(x=apicome,y=length_um)) +
+  geom_violin(alpha=1, fill="tomato2",trim=F) +
+  geom_boxplot(outlier.shape=NA, width=0.1,fill="cornsilk") +
+  scale_y_continuous(breaks = seq(0, 30, by = 5))+
+  # geom_jitter(size=1, alpha=0.4, position=position_jitter(width =0.2)) +
+  theme_bw(base_size = 18) + 
+  theme(legend.position ="none",panel.grid = element_blank(),axis.text=element_text(color="black"))+
+  ylab("Compartment size (µm)") + xlab(NULL) + ggtitle("") +
+  stat_compare_means(label="p.format",label.x = 1.4, label.y = 25,size=5)
+
+ggsave(paste(dir_output,"/compartment_size.pdf",sep=""),width=6,height=3,units="in")
+
+apical_median_size = median(plot$length_um[plot$apicome=="Apical"])
+basal_median_size = median(plot$length_um[plot$apicome=="Basal"])
+
+print(paste0("Apical: ",apical_median_size,"µm, Basal: ",basal_median_size,"µm"))
+```
+
+# quantification of smFISH (genes)
+
+```{r}
+medians_human = read.csv(paste(root_dir,"/human_rna/output/medians.csv",sep=""),row.names=1)
+smfish = read.csv(paste0(dir_input,"/smFISH_quantification.csv"),row.names=1)
+
+```
+
+## plot spearman
+```{r}
+smfish$gene = toupper(smfish$gene)
+
+medians_smfsih = smfish[,c("gene","log2_fc_intensity")] %>%
+  group_by(gene) %>%
+  summarise(
+    median_smFISH = median(log2_fc_intensity, na.rm = TRUE),
+    sd_smFSIH = sd(log2_fc_intensity, na.rm = TRUE),
+    sem_smFSIH = sd(log2_fc_intensity, na.rm = TRUE) / sqrt(n())
+  )
+
+plot = merge(medians_smfsih,medians_human[c("gene","log2_fc","SEM")])
+
+ggplot(plot, aes(log2_fc, median_smFISH)) +
+  geom_point(color = "black", size = 2) +
+  geom_errorbar(aes(ymin=median_smFISH-sem_smFSIH,ymax=median_smFISH+sem_smFSIH), width=0.1, color="black") +
+  geom_errorbar(aes(xmin=log2_fc-SEM,xmax=log2_fc+SEM), width=0.1, color="black") +
+  theme_bw(base_size = 14) +
+  geom_text_repel(aes(label=gene),max.overlaps = 100, size=4)+
+  geom_hline(yintercept=0, linetype="dashed",alpha = 0.3) +
+  geom_vline(xintercept=0, linetype="dashed",alpha = 0.3) +
+  stat_cor(aes(log2_fc, median_smFISH), digits=2,method = "spearman", 
+           inherit.aes=F,label.y.npc = "top",label.x.npc = "left",size=5) +
+  theme(panel.grid=element_blank(),axis.text=element_text(color="black")) +
+  xlab("log2(apical/basal) - LCM-seq") + ylab("log2(apical/basal) - smFISH dots intensity")
+
+ggsave(paste(dir_output,"/smFSIH_LCM_correlation.pdf",sep=""),width=6,height=6,units="in")
+shell.exec(paste(dir_output,"/smFSIH_LCM_correlation.pdf",sep=""))
+```
+# quantification of smFISH (mitochondria + ribosomes)
+## import intensity measurements
+```{r}
+intensity = read.csv(paste(dir_input,"intensity_all.csv",sep="/"),row.names=1)
+```
+
+## Wilcox one sample signed rank test
+```{r}
+pvalues = data.frame(
+  type=c("Mitochondria","Ribosome","Mitochondria","Ribosome"),
+  organism=c("Human","Human","Mouse","Mouse"),
+  x=c(1,1,2,2),
+  p=c(NA,NA,NA,NA),
+  effect=c(NA,NA,NA,NA))
+
+for (org in c("Human","Mouse")){
+  ribo = intensity[(intensity$organism==org) & (intensity$type=="Ribosome"),]
+  mito = intensity[(intensity$organism==org) & (intensity$type=="Mitochondria"),]
+    
+  patients = unique(ribo$patient)
+  ribo_pvals = rep(NA,length(patients))
+  ribo_means = rep(NA,length(patients))
+  mito_pvals = rep(NA,length(patients))
+  mito_means = rep(NA,length(patients))
+  for (i in 1:length(unique(mito$patient))){
+    cur_patient_mito_ratios = mito$ratio[mito$patient==patients[i]]
+    mito_means[i] = median(cur_patient_mito_ratios)
+    if(!is.na(mito_means[i])){mito_pvals[i] = wilcox.test(cur_patient_mito_ratios,mu=1,alternative="two.sided")$p.value}
+  }
+  mito_means = mito_means[!is.na(mito_means)]
+  mito_pvals = mito_pvals[!is.na(mito_pvals)]
+  for (i in 1:length(unique(ribo$patient))){
+    cur_patient_ribo_ratios = ribo$ratio[ribo$patient==patients[i]]
+    ribo_means[i] = median(cur_patient_ribo_ratios)
+    ribo_pval = wilcox.test(cur_patient_ribo_ratios,mu=1,alternative="two.sided")
+    ribo_pvals[i] = ribo_pval$p.value
+  }
+  ribo_means = ribo_means[!is.na(ribo_means)]
+  ribo_pvals = ribo_pvals[!is.na(ribo_pvals)]
+  
+  fisher_method = function(p_values) {
+    chi_sq = -2 * sum(log(p_values))
+    degrees_freedom = 2 * length(p_values)
+    p_value = pchisq(chi_sq, df = degrees_freedom, lower.tail = FALSE)
+    return(p_value)
+  }
+  
+  ribo_pvals = p.adjust(ribo_pvals, method = "BH")
+  mito_pvals = p.adjust(mito_pvals, method = "BH")
+    
+  ribo_pval = fisher_method(ribo_pvals)
+  mito_pval = fisher_method(mito_pvals)
+  ribo_effect_size = median(ribo_means)
+  mito_effect_size = median(mito_means)
+  
+  pvalues$p[pvalues$organism==org & pvalues$type=="Mitochondria"] = mito_pval
+  pvalues$p[pvalues$organism==org & pvalues$type=="Ribosome"] = ribo_pval
+  pvalues$effect[pvalues$organism==org & pvalues$type=="Mitochondria"] = mito_effect_size
+  pvalues$effect[pvalues$organism==org & pvalues$type=="Ribosome"] = ribo_effect_size
+}
+intensity$log2fc = log(intensity$ratio,2)
+
+```
+
+
+## plot violins
+```{r}
+
+plot = intensity[intensity$type=="Ribosome",]
+pvals = pvalues[pvalues$type=="Ribosome",]
+max_y = max(plot$log2fc) * 1.4 
+p1 = ggplot(data=plot, aes(x=organism, y=log2fc)) +
+  geom_hline(yintercept=0,alpha=0.5,linetype="dashed") +
+  geom_violin(alpha=1, fill="aquamarine",trim=F) +
+  geom_jitter(size=1, alpha=0.5, color="seagreen4", position=position_jitter(width =.2)) +
+  geom_boxplot(outlier.shape=NA, width=0.1) +
+  theme_bw(base_size=14) + 
+  theme(legend.position ="none",axis.text.x=element_text(color="black",angle=0,vjust =0.6),panel.grid = element_blank(),axis.text.y = element_text(color="black")) +
+  xlab("") + ggtitle("Ribosomal RNA") +
+  ylab("log2(apical/basal) intensity ") +
+  lapply(1:nrow(pvals), function(i) {
+    annotate("text",x=pvals$x[i],y=max_y,label=sprintf(paste0("p=",format.pval(pvals$p[i],digits=2))), size=4)
+  })
+
+
+plot = intensity[intensity$type=="Mitochondria",]
+pvals = pvalues[pvalues$type=="Mitochondria",]
+max_y = max(plot$log2fc) * 1.4 
+p2 = ggplot(data=plot, aes(x=organism, y=log2fc)) +
+  geom_hline(yintercept=0,alpha=0.5,linetype="dashed") +
+  geom_violin(alpha=1, fill="aquamarine",trim=F) +
+  geom_jitter(size=1, alpha=0.5, color="seagreen4", position=position_jitter(width =.2)) +
+  geom_boxplot(outlier.shape=NA, width=0.1) +
+  theme_bw(base_size=14) + 
+  theme(legend.position ="none",axis.text.x=element_text(color="black",angle=0,vjust =0.6),panel.grid = element_blank(),axis.text.y = element_text(color="black")) +
+  xlab("") + ggtitle("Mitochondrial RNA") +
+  ylab("log2(apical/basal) intensity ") +
+  lapply(1:nrow(pvals), function(i) {
+    annotate("text",x=pvals$x[i],y=max_y,label=sprintf(paste0("p=",format.pval(pvals$p[i],digits=2))), size=4)
+  })
+
+  
+
+p1 | p2 
+ggsave(paste0(dir_output,"/ribo_mito_intensity_violin.pdf"),width=7,height=3,units="in")
+
+```
+

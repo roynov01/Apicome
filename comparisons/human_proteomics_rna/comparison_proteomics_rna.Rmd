@@ -26,7 +26,6 @@ if (!dir.exists(dir_output)) {dir.create(dir_output)}
 ```
 
 # import data
-## Import proteomics data 
 ```{r}
 data = read.csv(paste(root_dir,"human_proteomics","output","processed_data.csv",sep="/"))
 rownames(data) = data$gene
@@ -34,21 +33,54 @@ prot_raw = data[1:8]
 
 prot_med = read.csv(paste(root_dir,"human_proteomics","output","processed_data.csv",sep="/"))
 colnames(prot_med)[colnames(prot_med)=="a_b_ratio"] = "log2_fc"
-```
 
-## Import RNA-seq data 
-```{r}
 rna_raw = read.csv(paste(root_dir,"human_rna","output","export_data.csv",sep="/"),row.names=1)
 rna_med = read.csv(paste(root_dir,"human_rna","output","medians.csv",sep="/"),row.names=1)
 ```
-
-# non-normilized correlation
-## merge median values 
+# merge median values of apicome
 ```{r}
 columns = "gene|expression_mean|log2_fc|qval$"
 rna_prot = merge(rna_med[,grepl(columns,colnames(rna_med))],prot_med[,grepl(columns,colnames(prot_med))],by="gene",suffixes=c("_rna","_prot"))
 ```
+# Check zonation correlation (tip/base)
+```{r}
+rna_med$tip_rna = (rna_med$apical_tip + rna_med$basal_tip)/2
+rna_med$base_rna = (rna_med$apical_base + rna_med$basal_base)/2
 
+rna_med$ratio_rna = log2((rna_med$tip_rna) / (rna_med$base_rna))
+rna_med$expression_mean = apply(rna_med[,c("tip_rna","base_rna")],1,mean)
+rna_med$gene = rownames(rna_med)
+
+pn = min(c(min(prot_med$apical_tip[prot_med$apical_tip>0]),
+           min(prot_med$apical_base[prot_med$apical_base >0])))
+# pn = 1e-6
+prot_med$ratio_protein = log2((prot_med$apical_tip+pn)/(prot_med$apical_base+pn))
+# prot_med$ratio_protein = prot_med$log2_fc
+
+merged = merge(rna_med[c("expression_mean","gene","ratio_rna")],
+               prot_med[,c("ratio_protein","expression_mean","gene")],
+               by="gene",suffixes = c("_rna","_protein"))
+```
+
+
+```{r}
+exp_thresh = 1e-4
+plot = merged[(merged$expression_mean_protein > exp_thresh) &
+                (merged$expression_mean_rna > exp_thresh),]
+ggplot(plot, aes(ratio_rna, ratio_protein)) +
+  geom_point() +
+  stat_cor(method="spearman",digits=2) +
+  theme_bw(base_size=14) +
+  xlab("log2(tip/base) - mRNA") +  ylab("log2(tip/base) - Protein") +
+  geom_hline(yintercept=0, color="black",alpha = 0.2,linetype="dashed") +
+  geom_vline(xintercept=0, color="black",alpha = 0.2,linetype="dashed") +
+  theme(legend.position="none",panel.grid=element_blank(),axis.text=element_text(color="black")) +
+  ggtitle("")
+
+ggsave(paste(dir_output,"/mRNA_protein_zonation_corr.pdf",sep=""),width=6,height=6,units="in")
+```
+
+# non-normilized correlation mRNA/protein
 ## plot spearman correlation
 ```{r}
 EXPRESS_THRESH = 1e-5
@@ -73,11 +105,99 @@ ggsave(paste(dir_output,"/RNA_protein_scatter_all.pdf",sep=""),width=6,height=6,
 # shell.exec(paste(dir_output,"/RNA_protein_scatter_all.pdf",sep=""))
 ```
 
-# import and filter for enterocyte specific genes
-## load sc_data, from yotam
+# show number of coordant/discordant genes
+## table
+```{r}
+EXPRESS_THRESH = 0
+plot = rna_prot[rna_prot$expression_mean_rna >= EXPRESS_THRESH & rna_prot$expression_mean_prot >= EXPRESS_THRESH,]
+
+thresh_prot = 0
+thresh_rna = 0
+
+
+count_rna_apical = sum(plot$log2_fc_rna > thresh_rna)
+count_rna_basal = sum(plot$log2_fc_rna < -thresh_rna)
+count_prot_apical = sum(plot$log2_fc_prot > thresh_prot)
+count_prot_basal = sum(plot$log2_fc_prot < -thresh_prot)
+
+quarters = data.frame(
+  q = c(1,2,3,4),
+  type = c("Coordant","discordant","Coordant","discordant"),
+  mRNA = c("Apical\nmRNA","Basal\nmRNA","Basal\nmRNA","Apical\nmRNA"),
+  Protein = c("Apical\nprotein","Apical\nprotein","Basal\nprotein","Basal\nprotein"),
+  count_rna = c(count_rna_apical,count_rna_basal,count_rna_basal,count_rna_apical),
+  count_prot = c(count_prot_apical,count_prot_apical,count_prot_basal,count_prot_basal),
+  count_both = c(sum(plot$log2_fc_prot > thresh_prot & plot$log2_fc_rna > thresh_rna),
+            sum(plot$log2_fc_prot > thresh_prot & plot$log2_fc_rna < -thresh_rna),
+            sum(plot$log2_fc_prot < -thresh_prot & plot$log2_fc_rna < -thresh_rna),
+            sum(plot$log2_fc_prot < -thresh_prot & plot$log2_fc_rna > thresh_rna)
+  ),
+  population_size = rep(nrow(plot),4),
+  pval = c(NA,NA,NA,NA)
+)
+
+quarters$mRNA = factor(quarters$mRNA,levels=c("Basal\nmRNA","Apical\nmRNA"))
+quarters$Protein = factor(quarters$Protein,levels=c("Basal\nprotein","Apical\nprotein"))
+
+
+quarters$pval = phyper(q=quarters$count_both,
+                       m=quarters$count_rna,
+                       n=quarters$count_prot,
+                       k=quarters$population_size,
+                       lower.tail=F)
+
+quarters$pval = phyper(q=quarters$count_both, 
+  m=quarters$count_rna, 
+  n=quarters$population_size - quarters$count_rna, 
+  k=quarters$count_prot,
+  lower.tail=F)
+
+quarters$pval_sci = sapply(quarters$pval, function(p) {
+  formatted_p = ifelse(p < 0.01, sprintf("%.2e", p), sprintf("%.1f", p))
+  gsub("e(-?)0", "e\\1", formatted_p)
+})
+
+quarters$percent = round(quarters$count_both/sum(quarters$count_both)*100,1)
+quarters$label = paste0(quarters$count_both," (",quarters$percent,"%)\n","p=", quarters$pval_sci)
+
+colors = c("springgreen2","khaki1")
+
+p1 = ggplot(quarters, aes(x = mRNA, y = Protein)) +
+  # geom_tile(fill = "lightblue", color = "darkblue", size = 1.2) + 
+  geom_tile(aes(fill=type), color = "darkblue", size = 1.2) + 
+  scale_fill_manual(values=colors)+
+  geom_text(aes(label = label), size = 6) + 
+  scale_x_discrete(expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  xlab(NULL) + ylab(NULL) + 
+  theme_minimal() + 
+  coord_fixed(ratio = 0.7)+
+  theme(axis.text = element_text(color="black",size=16),
+        legend.position = "none",
+        plot.margin=margin(0,0,0,0),
+        panel.border = element_rect(color="darkblue", fill=NA, size=2))
+# ggsave(paste(dir_output,"/hypergeometric.pdf",sep=""),width=5,height=4,units="in")
+# shell.exec(paste(dir_output,"/hypergeometric.pdf",sep=""))
+
+p2 = pie_chart(c("Coordant","Discordant"),
+          c(sum(quarters$count_both[quarters$q %in% c(1,3)]),
+            sum(quarters$count_both[quarters$q %in% c(2,4)])),
+          colors = colors,
+          thickness = 1.5) 
+p2 = p2 + theme(legend.text = element_text(size=8),plot.margin=margin(0,0,0,0))
+
+# p2 / p1 
+ p2 / p1 + plot_layout(ncol = 1, heights = c(1.5, 1))
+
+ggsave(paste(dir_output,"/piechart.pdf",sep=""),width=6,height=6,units="in")
+shell.exec(paste(dir_output,"/piechart.pdf",sep=""))
+
+```
+
+# filter for enterocyte specific genes
+## load scRNAseq data, from Harnik et al. 2024.
 ```{r}
 dataset = read.csv(paste(directory,"input","signature_matrix_yotams.csv",sep="/"),row.names=1)
-# dataset = read.csv(paste(directory,"input","signature_matrix_elmentaite.csv",sep="/"),row.names=1)
 
 dataset = dataset[rowSums(dataset)>0,]
 dataset$Best4 = NULL
@@ -144,15 +264,12 @@ prot_epi$a_b_ratio = log(prot_epi$ratio,2)
 prot_epi$gene = rownames(prot_epi)
 
 plot = merge(prot_epi[,c("a_b_ratio","gene")],rna_epi[,c("a_b_ratio","gene")],by="gene",suffixes=c("_prot","_rna"))
-plot$signif = F
 
 ggplot(plot, aes(a_b_ratio_rna, a_b_ratio_prot)) +
-  geom_point(aes(color=signif,size=signif,fill=signif),shape=21,fill="black") +
+  geom_point(color="black") +
   stat_cor(method="spearman",digits=2) + 
-  geom_text_repel(data=plot[plot$signif == F,],aes(a_b_ratio_rna, a_b_ratio_prot,label=gene),max.overlaps = 3, size=3)+
+  geom_text_repel(aes(label=gene),max.overlaps = 3, size=3)+
   theme_bw(base_size=18) +
-  scale_color_manual(values = c("black","red")) +
-  scale_size_manual(values=c(1,3))+
   xlab("log2(apical/basal) - mRNA") +  ylab("log2(apical/basal) - Protein") +
   geom_hline(yintercept=0, color="black",alpha = 0.2,linetype="dashed") +
   geom_vline(xintercept=0, color="black",alpha = 0.2,linetype="dashed") +

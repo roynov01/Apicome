@@ -27,15 +27,13 @@ root_dir =  paste0(unlist(strsplit(directory, '/'))[-length(unlist(strsplit(dire
 source(paste(root_dir,"/functions.R",sep=""))
 outputs_dir = paste(directory,"output",sep="/")
 if (!dir.exists(outputs_dir)) {dir.create(outputs_dir)}
+input_dir = paste(directory,"input",sep="/")
+
 ```
-# type of pipeline, which genes to filter
-(uncomment )
 
 # Input data
 ## read tables
 ```{r}
-input_dir = paste(directory,"input",sep="/")
-
 human_lcm = read.csv(paste(input_dir,"UMI_TABLE_HUMAN_APICOME_UTAP.csv",sep="/"), row.names=1)
 
 sample_names = data.frame(samples = colnames(human_lcm))
@@ -44,51 +42,12 @@ rownames(meta) = sample_names$samples
 
 human_lcm = CreateSeuratObject(counts=human_lcm,meta.data=meta)
 human_lcm$Sample_origin = paste(human_lcm$apicome,human_lcm$zone,sep="_")
-
-```
-
-# QC plots
-```{r}
 Idents(human_lcm) = human_lcm$Sample_origin
+
 ```
 
 
-```{r}
-THRESHOLD_UMI = 10000
-human_lcm[["percent.mito"]] = PercentageFeatureSet(human_lcm, pattern = "^MT-|MTRNR")
-human_lcm[["percent.ribo"]] = PercentageFeatureSet(human_lcm, pattern ="^RP[SL]")
-
-VlnPlot(human_lcm, c("percent.mito"),split.by="apicome") + xlab("")
-# ggsave(paste(outputs_dir,"/mito_precent_violin.pdf",sep=''),width=12,height=8,units="in")
-
-VlnPlot(human_lcm, c("percent.ribo"),split.by="apicome") + xlab("")
-# ggsave(paste(outputs_dir,"/ribo_precent_violin.pdf",sep=''),width=12,height=8,units="in")
-
-VlnPlot(human_lcm, c("nCount_RNA"),split.by="apicome") + xlab("")
-# ggsave(paste(outputs_dir,"/UMIs_violin.pdf",sep=''),width=12,height=8,units="in")
-
-meta = human_lcm@meta.data
-meta$color = "black"
-meta$color[meta$nCount_RNA < THRESHOLD_UMI] = "red"
-meta$sample_names_patient = paste(meta$Sample_origin,meta$patient,sep="_")
-ggplot(meta, aes(x=sample_names_patient,y=nCount_RNA,fill=color)) + 
-  geom_col()+ 
-  coord_flip() +
-  theme_bw(base_size=18)  + 
-  theme(axis.text.y = element_markdown(),axis.title.x = element_blank(),axis.title.y = element_blank())+ 
-  scale_fill_identity()+
-  geom_hline(yintercept=THRESHOLD_UMI, linetype="dashed", color = "orange")+
-  ggtitle("number of UMIs")
-# ggsave(paste(outputs_dir,"/UMIs_bar.pdf",sep=''),width=12,height=8,units="in")
-```
-
-# Filtering (non-coding/mitochondrial or epithelial only)
-## export table
-```{r}
-raw_data = as.data.frame(human_lcm@assays$RNA$counts)
-write.csv(human_lcm@assays$RNA$counts,paste(outputs_dir,"/data_all_genes.csv",sep=""))
-```
-## filter protein coding genes
+# Filtering mitochondrial genes
 ```{r}
 types = read.csv(paste(input_dir,"Human_GRch38_101_ensemblBioMart_ref.csv",sep="/"))
 
@@ -99,66 +58,116 @@ description = types[types$external_gene_name %in% rownames(human_lcm),c("externa
 human_lcm = subset(human_lcm,features = rownames(human_lcm)[(rownames(human_lcm) %in% types$external_gene_name[types$gene_biotype == "protein_coding"])])
 human_lcm = human_lcm[!grepl("^MT-|MTRNR", rownames(human_lcm)), ]
 
+raw_data = as.data.frame(human_lcm@assays$RNA$counts)
+
 ```
 ## export table
 ```{r}
-raw_data = as.data.frame(human_lcm@assays$RNA$counts)
-write.csv(human_lcm@assays$RNA$counts,paste(outputs_dir,"/data.csv",sep=""))
+write.csv(raw_data,paste(outputs_dir,"/data.csv",sep=""))
 ```
 
-# Normilization
+# plot number of UMIs
 ```{r}
-human_lcm = NormalizeData(object = human_lcm,normalization.method="RC",scale.factor = 1, verbose = F)
+umi = as.data.frame(colSums(raw_data))
+colnames(umi) = "UMI"
+umi$apicome = sapply(str_split(rownames(umi), "_"), function(x) x[1])
+umi$zone = sapply(str_split(rownames(umi), "_"), function(x) x[2])
+umi$apicome[umi$apicome=="apical"] = "Apical samples"
+umi$apicome[umi$apicome=="basal"] = "Basal amples"
+umi$UMI = log10(umi$UMI)
+ggplot(umi, aes( apicome,UMI)) +
+  geom_violin(alpha=1, fill="burlywood3",trim=F) +
+  geom_boxplot(outlier.shape=NA, width=0.1,fill="cornsilk") +
+  geom_jitter(size=2, alpha=0.6, position=position_jitter(width =0.2)) +
+  theme_bw(base_size = 18) + 
+  theme(legend.position ="none",panel.grid = element_blank(),axis.text=element_text(color="black"))+
+  ylab("log10(UMIs)") + xlab(NULL) + ggtitle("") +
+  stat_compare_means(label="p.format",label.x = 1.4, label.y = 5.2,size=5)
+ggsave(paste(outputs_dir,"/UMIs_violin.pdf",sep=""),width=6,height=6,units="in")
+
 ```
 
 # PCA
-## scale data + PCA
 ```{r}
-umi_thresh = 10000
-human_lcm_high = subset(human_lcm,subset=nCount_RNA>umi_thresh)
-human_lcm_high = FindVariableFeatures(object = human_lcm_high, verbose = F)
+umi_thresh = 20000
+exp_thresh = 1e-4
 
-human_lcm_high = ScaleData(human_lcm_high, features=rownames(human_lcm_high), verbose = F)
-human_lcm_high = RunPCA(object = human_lcm_high,features=VariableFeatures(object=human_lcm_high),npcs=7, verbose = F)
+column_sums_df = data.frame(sample = names(colSums(raw_data)),umi = colSums(raw_data))
+df = raw_data[,column_sums_df$sample[column_sums_df$umi>umi_thresh]] # filter samples by threshold
+
+df = matnorm(df) # normilize
+df_filtered = df[rowMeans(df) >= exp_thresh,] # filter by expression level
+
+results = pca(df_filtered)
+plot = results$pca_df
+split_df = as.data.frame(do.call(rbind, strsplit(rownames(plot), "_")))
+plot = cbind(split_df, plot)
+colnames(plot)[1:3] = c("Apicome","Zone","Patient")
+
+xlabel = paste0("PC1 (",round(results$variance$Variance[results$variance$PC == 1] * 100,2),"%)")
+ylabel = paste0("PC2 (",round(results$variance$Variance[results$variance$PC == 2] * 100,2),"%)")
+
+plot$Zone = str_to_title(plot$Zone)
+plot$Apicome = str_to_title(plot$Apicome)
+p1 = ggplot(plot, aes(x=PC1,y=PC2)) +
+    geom_point(aes(fill=Apicome), size=4,shape=21,color="black") +
+    theme_bw(base_size = 14) +
+    scale_fill_manual(values=c("#ee854a","#82c6e2")) +
+  theme(legend.position="top",
+          legend.background=element_rect(colour="black",linewidth=0.5),
+        panel.grid=element_blank(),
+        legend.title=element_text(hjust = 0.5),
+        axis.text=element_text(color="black")) +
+  xlab("") + ylab(ylabel)
+
+p2 = ggplot(plot, aes(x=PC1,y=PC2)) +
+    geom_point(aes(fill=Zone), size=4,shape=21,color="black") +
+    theme_bw(base_size = 14) +
+    scale_fill_manual(values=c("#6acc64","#956cb4")) +
+  theme(legend.position="top",
+        legend.background=element_rect(colour="black",linewidth=0.5),
+        panel.grid=element_blank(),
+        legend.title=element_text(hjust = 0.5),
+        axis.text=element_text(color="black")) +
+  xlab(xlabel) + ylab("")
+
+p3 = ggplot(plot, aes(x=PC1,y=PC2)) +
+    geom_point(aes(fill=Patient), size=4,shape=21,color="black") +
+    theme_bw(base_size = 14) +
+    scale_fill_brewer(palette = "Set1") +
+    theme(legend.position="top",
+          legend.background=element_rect(colour="black",linewidth=0.5),
+          legend.title=element_text(hjust = 0.5),
+          panel.grid=element_blank(),
+          axis.text=element_text(color="black")) +
+  xlab("") + ylab("") +
+  guides(fill = guide_legend(ncol = 4))
+
+p1 | p2 | p3 
+ggsave(paste(outputs_dir,"/PCA.pdf",sep=""),width=15,height=5,units="in")
 ```
 
-## PC1+PC2 plot
+## PCA of non-chemo patients
 ```{r}
-p1 = DimPlot(human_lcm_high, reduction = 'pca', group.by="zone", pt.size = 3) + 
-  xlab(paste("PC1 (",round(human_lcm_high@reductions$pca@stdev[1],1),"%)",sep="")) +
-  theme_bw(base_size=18)+
-  ylab("") +
-  theme(legend.background=element_rect(colour="black",linewidth=0.5),legend.position=c(0.18,0.2),
-        panel.grid=element_blank(),axis.text=element_text(color="black")) +
-  ggtitle(element_blank()) +
-  scale_color_manual(values=c("#6acc64","#956cb4"))+
-  coord_fixed(ratio = 1)
+chemo_patients = c("P1","P5","P8","P13")
 
-p2 = DimPlot(human_lcm_high,group.by="apicome", pt.size = 3,  reduction = 'pca') + 
-  theme_bw(base_size=18)+
-  xlab("")+
-  ylab("") +
-  theme(legend.background=element_rect(colour="black",linewidth=0.5),legend.position=c(0.18,0.2),
-        panel.grid=element_blank(),axis.text=element_text(color="black")) +
-  ggtitle(element_blank()) +
-  scale_color_manual(values=c("#ee854a","#82c6e2")) +
-  coord_fixed(ratio = 1)
+plot$chemo = "Non-chemo"
+plot$chemo[plot$Patient %in% chemo_patients] = "Chemo"
+p4 = ggplot(plot, aes(x=PC1,y=PC2)) +
+    geom_point(aes(fill=chemo), size=4,shape=21,color="black") +
+    theme_bw(base_size = 14) +
+    scale_fill_brewer(palette = "Set1") +
+    theme(legend.position=c(0.8,0.2),
+          legend.background=element_rect(colour="black",linewidth=0.5),
+          legend.title=element_text(hjust = 0.5),
+          panel.grid=element_blank(),
+          axis.text=element_text(color="black")) +
+  xlab("") + ylab("") +labs(fill="Chemotherapy")
 
-p3 = DimPlot(human_lcm_high,group.by="patient", pt.size = 3,  reduction = 'pca') + 
-  theme_bw(base_size=18)+
-  xlab("") +
-  ylab("") +
-  theme(legend.position=c(0.45,0.2),
-        legend.background=element_rect(colour="black",linewidth=0.5),
-        # legend.box.background=element_rect(fill="white", color ="black"),
-        legend.direction="horizontal",panel.grid=element_blank(),axis.text=element_text(color="black")) +
-  # theme(legend.position=c(0.2,0.2),legend.box.background=element_rect(fill="white", color ="black"),legend.direction="horizontal") +
-  ggtitle(element_blank())+
-  coord_fixed(ratio = 1)
+p1 + xlab("") + ylab(ylabel) +labs(fill="Apicome") + theme(legend.position = c(0.8,0.2))|
+p2 + xlab(xlabel) + ylab("") +labs(fill="Zone") + theme(legend.position = c(0.8,0.2)) |p4
 
-plot = arrangeGrob(p2,p1,p3,ncol=3,top=paste("PC2 (",round(human_lcm_high@reductions$pca@stdev[2],1),"%)",sep="")) 
-ggsave(paste(outputs_dir,"/PCA_all.pdf",sep=''),width=16,height=6,units="in",plot=plot)
-shell.exec(paste(outputs_dir,"/PCA_all.pdf",sep=''))
+ggsave(paste(outputs_dir,"/PCA_chemo.pdf",sep=""),width=15,height=5,units="in")
 ```
 
 # Apicome score
@@ -185,12 +194,16 @@ for (p in patients){
   medians[[paste0("ratio_tip_",p)]] = (medians[,paste0("apical_tip_",p)]+pn)/(medians[,paste0("basal_tip_",p)]+pn)
   medians[[paste0("ratio_base_",p)]] = (medians[,paste0("apical_base_",p)]+pn)/(medians[,paste0("basal_base_",p)]+pn)
 }
-medians[,grepl("ratio_",colnames(medians))] = log( medians[,grepl("ratio_",colnames(medians))],2)
+medians[,grepl("ratio_",colnames(medians))] = log(medians[,grepl("ratio_",colnames(medians))],2)
+
+num_ratios = ncol(medians[,grepl("ratio_",colnames(medians))])
+medians$SEM = apply(medians[,grepl("ratio_",colnames(medians))],1,sd) / sqrt(num_ratios)
 
 medians$log2_fc = apply(medians[,grepl("ratio_",colnames(medians))],1,mean)
 medians$tip_a_b = apply(medians[,grepl("ratio_tip",colnames(medians))],1,mean)
 medians$base_a_b = apply(medians[,grepl("ratio_base",colnames(medians))],1,mean)
 medians$gene = rownames(medians)
+
 ```
 
 # Signed rank test
@@ -269,6 +282,59 @@ ggplot(plot, aes(log10_expression,log2_fc)) +
 
 ggsave(paste(outputs_dir,"MA_with_selected.pdf",sep="\\"),width=6,height=6,units="in")
 
+```
+
+# GSEA
+## run GSEA
+```{r}
+exp_thresh = 0
+to_gsea = medians[medians$expression_mean >= exp_thresh,]
+gsea = GSEA_function(to_gsea$gene,to_gsea$log2_fc,organism = "Homo sapiens",qval_threshold = 1)
+gsea$GSEA$direction[gsea$GSEA$direction=="upregulated"] = "z_Apical"
+gsea$GSEA$direction[gsea$GSEA$direction=="downregulated"] = "Basal"
+
+```
+
+## plot
+```{r}
+qval_thresh = 0.1
+plot = gsea$GSEA[gsea$GSEA$padj <= qval_thresh]
+p = plot_GSEA_dotplot(plot,alpha=F,title=NULL,grid=T) 
+
+p + theme(legend.position = c(0.25,0.75)) 
+
+ggsave(paste(outputs_dir,"/GSEA_mRNA.pdf",sep=""),width=5,height=5,units="in")
+```
+## plot a single pathway 
+```{r}
+genes = gsea$GSEA$leadingEdge[grepl("oxida",gsea$GSEA$pathway,ignore.case = T)][[1]]
+
+plot = medians
+
+plot$signif = F
+plot$signif[plot$gene %in% genes] = T
+plot = plot[order(plot$signif),]
+
+plot$log10_expression = log10(plot$expression_mean)
+ggplot(plot, aes(log10_expression,log2_fc,color=signif)) +
+  geom_point() +
+  geom_text_repel(aes(label=gene,color=signif),data=plot[plot$signif==T,],max.overlaps = 5,size=4) +
+  xlab(expression("log10(max expression)")) + 
+  ylab(expression("log2(apical/basal)")) +
+  theme_bw(base_size=14)+
+  scale_size_manual(values=c("no"=1,"signif"=1,"selected"=3))+
+  scale_color_manual(values=c("blue","red")) +
+  theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank(),legend.position="none")
+```
+
+## export
+```{r}
+to_save = gsea$GSEA
+to_save$leadingEdge = NULL
+to_save$direction[to_save$direction=="z_Apical"] = "Apical"
+to_save = to_save[order(to_save$NES,decreasing = T),]
+write.csv(to_save, paste(outputs_dir,"/export_gsea.csv",sep=""),row.names = F)
+shell.exec(paste(outputs_dir,"/export_gsea.csv",sep=""))
 ```
 
 # plot apicome across villi zones

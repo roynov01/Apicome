@@ -247,9 +247,6 @@ for (group in groups){
   group1 = plot$a_b_ratio[plot$group==group]
   group2 = plot$a_b_ratio[plot$group!=group]
   p = wilcox.test(group1,group2,alternative="two.sided")
-    # group1 = plot$a_b_ratio[plot$group==control]
-  # group = plot$a_b_ratio[plot$group==group]
-  # p = wilcox.test(group,alternative="two.sided")
   p_values$pval[p_values$group2==group] = p$p.value
 }
 
@@ -462,7 +459,6 @@ ggsave(paste(dir_output,"/boxplots.pdf",sep=""),width=10.5,height=12,units="in")
 # shell.exec(paste(dir_output,"/boxplots.pdf",sep=""))
 ```
 
-
 # pathview kegg pathway visualization
 ```{r}
 translation_human = read.csv(paste(root_dir,"human_proteomics","input","human_ensemble_conversion.csv",sep="/"))
@@ -499,11 +495,11 @@ subcellular = distinct(subcellular[,c("Full_names","GO.id")])
 
 ```{r}
 unique_values = subcellular %>%
-  pull(GO.id) %>%  # Extract the column as a vector
+  pull(GO.id) %>% 
   str_split(";") %>%     
-  unlist() %>%           # Flatten the list into a vector
-  trimws() %>%           # Trim any leading or trailing whitespace
-  unique()               # Get unique values
+  unlist() %>% 
+  trimws() %>% 
+  unique() 
 
 non_nuclear_id = unique_values[!grepl("Nuc",unique_values,ignore.case = T)]
 non_nuclear_id = sapply(str_split(non_nuclear_id, "\\(GO:"), function(x) x[2])
@@ -514,7 +510,6 @@ for (id in non_nuclear_id){
   cur_grepl = grepl(id, subcellular$GO.id)
   subcellular$nuc[cur_grepl] = F
 }
-
 
 nuclear_genes = subcellular$Full_names[subcellular$nuc==T]
 data$filter = sapply(rownames(data), function(gene) any(grepl(paste0("(^|\\s)",gene, "($|\\s)"), nuclear_genes)))
@@ -582,7 +577,6 @@ h$gene = factor(h$gene, levels = h$gene[order(h$delta)])
 
 h_long = pivot_longer(h[,c("gene","Basal","Apical","delta")],-c(gene,delta),names_to="apicome",values_to="rel_expression")
 h_long$apicome = factor(h_long$apicome,levels=c("Basal","Apical"))
-
 ```
 
 ```{r}

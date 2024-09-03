@@ -1,0 +1,133 @@
+---
+title: "Correlation with S.J et al. 2011"
+output: html_notebook
+author: "Roy Novoselsky"
+date: "Aug 2024"
+---
+
+```{r}
+rm(list=ls()) 
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(ggrepel)
+library(ggpubr)
+library(readxl)
+library(tidyverse)
+library(patchwork)
+```
+
+```{r}
+directory = getwd()
+directory_split = unlist(strsplit(directory, '/'))
+root_dir =  paste0(directory_split[-c(length(directory_split), length(directory_split)-1)], collapse = '/')
+source(paste(root_dir,"/functions.R",sep=""))
+dir_output = paste(directory,"output",sep="/")
+if (!dir.exists(dir_output)) {dir.create(dir_output)}
+dir_input = gsub("output","input",dir_output)
+```
+
+# turnover rates vs mRNA polarization
+https://www.nature.com/articles/nature10098#Sec10 
+
+## load RNA and protein data
+```{r}
+data = read.csv(paste(root_dir,"human_proteomics","output","processed_data.csv",sep="/"))
+medians_human = read.csv(paste(root_dir,"human_rna","output","medians.csv",sep="/"),row.names=1)
+```
+
+## import data from paper
+```{r}
+turnover = read.csv(paste0(dir_input,'/Global quantification of mammalian gene expression control.csv'))
+colnames(turnover)[colnames(turnover)=="Gene.Names"] = "gene"
+turnover$gene = toupper(turnover$gene)
+turnover = turnover[turnover$gene!="",]
+turnover = turnover[,c("gene","mRNA.half.life.average..h.","Protein.half.life.average..h.","translation.rate.constant..ksp..average..molecules..mRNA.h..","Protein.length..amino.acids.","Protein.molecular.weight..kDa.","Protein.copy.number.average..molecules.cell.","mRNA.copy.number.average..molecules.cell.")]
+colnames(turnover) = c("gene","halflife_mRNA","halflife_prot","translation_rate","protein_length",
+                       "protein_weight","protein_number","mRNA_number")
+
+turnover =  separate_rows(turnover,gene, sep = ";")
+turnover = aggregate(.~gene, data=turnover, mean, na.rm=T, na.action=NULL) # mean of duplicates
+```
+
+## merge with LCMseq and proteomics
+```{r}
+turnover_merged = merge(turnover,medians_human[,c("gene","log2_fc","expression_mean")],by="gene")
+turnover_merged = merge(turnover_merged,data[,c("gene","expression_mean")],by="gene",suffixes=c("_mRNA","_prot"),all=T)
+
+turnover_merged$apicome_mRNA = "Apical"
+turnover_merged$apicome_mRNA[turnover_merged$log2_fc_mRNA < 0] = "Basal"
+turnover_merged$apicome_mRNA = factor(turnover_merged$apicome_mRNA,levels=c("Basal","Apical"))
+```
+
+## Add protein half-life from Harnik et al. 2021. 
+https://www.nature.com/articles/s42255-021-00504-6 
+```{r}
+harnik = read.csv(paste(dir_input,"Harnik et al.csv",sep="/"))
+harnik$gene = toupper(harnik$gene)
+harnik = harnik[,colnames(harnik) %in% c("half.life.MAP..hours.","gene")]
+colnames(harnik) = c("gene","harnik_halflife")
+
+turnover_merged = merge(turnover_merged,harnik,by="gene",all=T)
+```
+
+## calculate correlations
+```{r}
+exp_thresh = 0
+plot = turnover_merged[turnover_merged$expression_mean_mRNA >= exp_thresh,]
+plot = plot[!is.na(plot$gene),]
+plot[c("gene", "apicome_prot", "apicome_mRNA", "qval_mRNA", "qval_prot", "protein_number", "protein_weight", "mRNA_number")] = NULL
+
+correlation = lapply(plot[, !colnames(plot) %in% c("log2_fc")],
+                          function(x) cor.test(plot$log2_fc, x, method = "spearman"))
+correlations = data.frame(
+  variable = names(correlation), 
+  corr = sapply(correlation, function(res) as.double(res$estimate)),
+  pval = sapply(correlation, function(res) as.double(res$p.value))
+)
+correlations$qval = p.adjust(correlations$pval, method = "BH")
+
+correlations$Significance = paste0("R = ",round(correlations$corr,2))
+correlations$log2_fc = "mRNA"
+
+correlations$source = "S.B. et al."
+correlations$source[correlations$variable %in% c("expression_mean_mRNA","expression_mean_prot")] = "Current study"
+correlations$source[correlations$variable == "harnik_halflife"] = "H.Y. et al."
+correlations$source = factor(correlations$source,levels=c("S.B. et al.","H.Y. et al.","Current study"))
+```
+
+## plot correlations
+```{r}
+plot = correlations[order(correlations$corr),]
+plot$variable = gsub("expression_mean_mRNA","mRNA\nexpression+++",plot$variable)
+plot$variable = gsub("expression_mean_prot","Protein\nabundance+++",plot$variable)
+plot$variable = gsub("halflife_mRNA","mRNA\nhalf-life+",plot$variable)
+plot$variable = gsub("halflife_prot","Protein\nhalf-life+",plot$variable)
+plot$variable = gsub("protein_length","Protein\nlength+",plot$variable)
+plot$variable = gsub("translation_rate","Translation\nrate+",plot$variable)
+plot$variable = gsub("harnik_halflife","Protein\nhalf-life++",plot$variable)
+plot$variable = factor(plot$variable, levels = unique(plot$variable))
+
+ggplot(plot, aes(x = variable, y = log2_fc, fill = corr)) +
+  geom_tile(color = "black") +
+  geom_text(aes(label = Significance), color = "white", size = 5) +
+  scale_fill_gradient2(low = "#022958", high = "#5E001E", mid = "white", midpoint = 0,
+                        space = "Lab", name="Spearman") +
+  theme_minimal(base_size=14) +
+  theme(axis.text.x = element_text(color="black",size=14),
+        axis.ticks.x = element_blank(),
+        panel.grid=element_blank(),
+        axis.ticks.y = element_blank(),
+        legend.direction = "horizontal",
+        legend.title=element_blank(),
+        axis.text.y = element_blank(),
+        panel.spacing = unit(0, "lines"),
+        axis.ticks = element_blank()) +
+  labs( x = NULL, y = NULL) 
+
+ggsave(paste(dir_output,"/correlation_matrix.pdf",sep=""), width = 12, height = 1,unit="in")
+shell.exec(paste(dir_output,"/correlation_matrix.pdf",sep=""))
+```
+

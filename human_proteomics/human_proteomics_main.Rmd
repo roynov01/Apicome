@@ -31,15 +31,12 @@ source(paste(root_dir,"/functions.R",sep=""))
 
 # load data & metadata
 ```{r}
-dir_output = paste(directory,"/output",sep="/")
+dir_output = paste(directory,"output",sep="/")
+
 data = read.csv(paste(dir_output,"data.csv",sep="/"),row.names=1)
+rownames(data) = data$gene
 metadata_features = read.csv(paste(dir_output,"metadata.csv",sep="/"),row.names=1)
 
-folders = c("validations","QC")
-for (folder in folders){
-  path = paste(dir_output,folder,sep="/")
-  if (!dir.exists(path)) {dir.create(path)}
-}
 ```
 
 # plot number of proteins detected
@@ -91,6 +88,10 @@ ggsave(paste(dir_output,"/QC.pdf",sep=""),width=8,height=8,units="in")
 
 ```
 
+```{r}
+data[is.na(data)] = 0
+```
+
 # filter low quality samples
 ```{r}
 write.csv(data,paste(dir_output,"all_samples.csv",sep="/"))
@@ -98,7 +99,11 @@ meta["basal_base_P13","filter"] = T # contaminated sample
 data = data[,meta$filter == F]
 ```
 
-# PCA
+## filter
+```{r}
+# data = data[data$filter == F,colnames(data)[colnames(data)!="non_nuc"]]
+```
+# create seurat object
 ```{r}
 data[is.na(data)] = 0
 
@@ -112,15 +117,8 @@ seurat_obj = NormalizeData(object = seurat_obj,normalization.method="RC",scale.f
 seurat_obj = FindVariableFeatures(object = seurat_obj)
 seurat_obj = ScaleData(seurat_obj, features=rownames(seurat_obj), verbose = F)
 seurat_obj = RunPCA(object = seurat_obj,features=VariableFeatures(object= seurat_obj),npcs=7, verbose = F)
-Idents(seurat_obj) = seurat_obj$sample_origin
-
-DimPlot(seurat_obj, pt.size = 4,  reduction = 'pca') + 
-  xlab(paste("PC1 (",round(seurat_obj@reductions$pca@stdev[1],1),"%)",sep="")) +  
-  ylab(paste("PC2 (",round(seurat_obj@reductions$pca@stdev[2],1),"%)",sep="")) +
-  ggtitle("PCA of LCM samples") 
-# ggsave(paste(dir_output,"/PCA.pdf",sep=""),width=8,height=8,units="in")
-
 ```
+
 
 # normilization and median of each condition
 ```{r}
@@ -179,10 +177,8 @@ data$expression_mean = (data$apical_tip+data$basal_tip)/2
 ```{r}
 QVAL_THRESH = 0.25
 
-genes = c("ANPEP","VIL1","SI","SLC5A1","ACTB","ALPI","ITGA6","COL6A2","ACE2","GPA33","HEPH")
-genes = c("ANPEP","SLC5A1","ITGA6","COL6A2","ACE2","GPA33")
+genes = c("ANPEP","SLC5A1","ITGA6","CASK","ACE2","GPA33")
 
-# plot = data[!is.na(data$qval),]
 plot = data
 plot$signif = "no"
 plot$signif[plot$qval < QVAL_THRESH] = "signif"
@@ -192,7 +188,6 @@ plot$signif = factor(plot$signif,levels=c("no","signif","selected"))
 plot = plot[order(plot$signif),]
 
 plot$log10_expression = log(plot$expression_mean,10)
-# plot$log2_fc = log(plot$a_b_ratio,2)
 plot$log10_qval = -log(plot$qval,10)
 
 ggplot(plot, aes(log10_expression,a_b_ratio,fill=signif)) +
@@ -208,8 +203,11 @@ ggplot(plot, aes(log10_expression,a_b_ratio,fill=signif)) +
 ggsave(paste(dir_output,"/MA_proteins.pdf",sep=""),width=6,height=6,units="in")
 
 ```
+
 ```{r}
-nrow(plot[plot$qval<=0.25,]) / nrow(plot)
+print(paste0("significant polarized proteins: ",nrow(drop_na(plot[plot$qval<=0.25,])),"   Which is ",(nrow(drop_na(plot[plot$qval<=0.25,])) / nrow(plot))*100," %"))
+print(paste0("apical: ",nrow(drop_na(plot[(plot$qval<=0.25) & (plot$a_b_ratio>0),]))))
+print(paste0("basal: ",nrow(drop_na(plot[(plot$qval<=0.25) & (plot$a_b_ratio<0),]))))
 ```
 
 # Violin plot
@@ -224,7 +222,7 @@ slcs = find_gene(plot,"^SLC",gene=T)
 ribo = find_gene(plot,"^RP[LS]",gene=T)
 mito = find_gene(plot,", mitochondrial")
 histones = find_gene(plot,"histon")
-matrisome = read.csv("X:\\Common\\useful_datasets\\Matrisome_HomoS_Naba_et_al_2012.csv",header=T)
+matrisome = read.csv(paste0(directory,"/input/Matrisome_HomoS_Naba_et_al_2012.csv"))
 matrisome = matrisome$Gene.Symbol
 
 plot$group = "Other"
@@ -261,9 +259,12 @@ p_values$qval = p.adjust(p_values$pval, method="BH")
 
 ## plot violin of all groups
 ```{r}
-max_y = max(plot$a_b_ratio) * 1.5 
+plot = drop_na(plot)
+max_y = max(plot$a_b_ratio) * 1.2
 
 plot = plot[plot$group!=control,]
+
+median(plot$a_b_ratio[plot$group=="Ribosomal"],na.rm = T)
 
 ggplot(data=plot, aes(x=group, y=a_b_ratio)) +
   geom_hline(yintercept=0,alpha=0.5,linetype="dashed") +
@@ -282,7 +283,6 @@ ggsave(paste(dir_output,"/groups_violin.pdf",sep=""),width=5,height=6,units="in"
 
 ```
 
-
 # heatmap
 ## rearrange data
 ```{r}
@@ -292,12 +292,11 @@ h$max = apply(h[,c("Basal","Apical")],1,max)
 h$Apical = h$Apical/h$max
 h$Basal = h$Basal/h$max
 h$delta = h$Basal - h$Apical
-h$gene = factor(h$gene, levels = h$gene[order(h$delta)])
+h$gene = factor(h$gene, levels = h$gene[order(h$delta)]) # rearrange heatmap according to delta
 
 h_long = pivot_longer(h[,c("gene","qval","Basal","Apical","delta")],-c(gene,qval,delta),names_to="apicome",values_to="rel_expression")
 h_long$apicome = factor(h_long$apicome,levels=c("Basal","Apical"))
 
-h_long = h_long[!is.na(h_long$qval),]
 ```
 
 ## plot function
@@ -323,75 +322,38 @@ heatmap_prot = function(genes,title="",all=F){
 ```{r}
 h_long$pathway = NA
 
-mucus = c("ZG16","CLCA1","TDB","SPINK4","FCGBP","BCAS","TFF3","FIZZ2","LYPD8","TMEM16A",
-          find_gene(data,"^MUC",gene=T))
-mucus = mucus[mucus!="MUCL1"]
-lipids = c('CD36','FABP2','FABP1','APOA4','APOA1','PCK1','MTTP','GK','PCK2','APOB','PDK4','DGAT1','APOC3','ACSL5','LPGAT1','CREB3L3','MFSD2A','SCARB1','SLC27A4','DGAT2')
-glucose = c('SLC5A1','SLC2A5','SLC2A2','SLC5A9','SLC23A1','SLC2A1')
-amino_acids = c('SLC15A1','SLC1A1','SLC36A1','SLC3A1','SLC6A19','SLC7A7','SLC7A8','SLC7A9')
+mucus = c("ZG16","CLCA1","FCGBP","MUC3A","MUC13","MUC2","MUC6")
+lipids = c('PNLIP','CD36','FABP2','FABP1','APOA4','APOA1','PCK1','MTTP','GK',
+           'PCK2','APOB','PDK4','DGAT1','ACSL5','SLC27A4','DGAT2')
+glucose = c('SLC5A1','SLC2A5','SLC2A2')
+amino_acids = c('SLC36A1','SLC3A1','SLC6A19')
 enzymes = c('ANPEP','SI','LCT','MGAM','ENPEP','DPP4','PEPD','LIPA','TMPRSS15')
-xenobiotics = c('CYP3A4','CYP3A5','CPY1A1','CYP2C9','CYP2C18','CBR1','ABCC2','ABCG2','FMO5')
-antimicrobial = c('DEFA5','DEFA6','REG3A','REG1A','LYZ','ITLN2','DMBT1','SLC12A2','GP2','RETNLB','GPX2','ITLN1','ITGB8','GSTA2','SNHG1','GAS5','AQP1')
+xenobiotics = c('CYP3A4','CYP3A5','CYP2C9','CBR1','ABCC2','ABCG2','FMO5')
 sulfur = data$gene[startsWith(data$gene,'SULT')]
-ecm = c("HSPG2","COL6A2","COL6A1","COL1A1","COL1A2","COL6A3","ITGA6","ITGB4") # kegg_get_genes("hsa04512")$gene
-# heatmap_prot(ecm, title="ECM-receptor interaction")
-ecm = ecm[ecm!="CD36"]
+ecm = find_gene(data,"^ITG",gene=T) 
 
-
-mucus_t = "Mucus composition"
-lipids_t = "Fatty-acid transport and processing"
-glucose_t = "Glucose transport"
-amino_acids_t = "Amino-acids transport"
-enzymes_t = "Digestive enzymes" 
-xenobiotics_t = "Xenobiotic metabolism"
-antimicrobial_t = "Antimicrobial response"
-sulfur_t = "Sulfotransferases"
-ecm_t = "ECM"
-histones_t = "Histones"
-  
-h_long$pathway[h_long$gene %in% mucus] = mucus_t
-h_long$pathway[h_long$gene %in% lipids] = lipids_t
-h_long$pathway[h_long$gene %in% glucose] = glucose_t
-h_long$pathway[h_long$gene %in% amino_acids] = amino_acids_t
-h_long$pathway[h_long$gene %in% enzymes] = enzymes_t
-h_long$pathway[h_long$gene %in% xenobiotics] = xenobiotics_t
-h_long$pathway[h_long$gene %in% antimicrobial] = antimicrobial_t
-h_long$pathway[h_long$gene %in% sulfur] = sulfur_t
-h_long$pathway[h_long$gene %in% ecm] = ecm_t
-h_long$pathway[h_long$gene %in% histones] = histones_t
+h_long$pathway[h_long$gene %in% mucus] = "Mucus composition"
+h_long$pathway[h_long$gene %in% lipids] = "Fatty-acid transport and processing"
+h_long$pathway[h_long$gene %in% glucose] = "Monosacharide transport"
+h_long$pathway[h_long$gene %in% amino_acids] = "Amino-acids transport"
+h_long$pathway[h_long$gene %in% enzymes] = "Digestive enzymes" 
+h_long$pathway[h_long$gene %in% xenobiotics] = "Xenobiotic metabolism"
+h_long$pathway[h_long$gene %in% sulfur] = "Sulfotransferases"
+h_long$pathway[h_long$gene %in% ecm] = "Integrins"
 
 h_long_sub = h_long[!is.na(h_long$pathway),]
-h_long_sub$pathway = factor(h_long_sub$pathway,levels=c(amino_acids_t,lipids_t,glucose_t,enzymes_t,xenobiotics_t,antimicrobial_t,sulfur_t,mucus_t,ecm_t,histones_t))
+
+h_long_sub$pathway = factor(h_long_sub$pathway,
+  levels=c("Amino-acids transport","Mucus composition", "Fatty-acid transport and processing", 
+           "Integrins","Digestive enzymes","Xenobiotic metabolism","Sulfotransferases","Monosacharide transport"))
+
 ```
 
-## plot first row of heatmaps
+## plot heatmaps
 ```{r}
-h_long_sub1 = h_long_sub[grepl("Glucose|Fatty|Mucus|Amino|ECM",h_long_sub$pathway),]
+h_long_sub1 = h_long_sub[grepl("Digestive|Fatty|Amino|Integrin|Mucus|Xenobiotic|Sulfo|Monos",h_long_sub$pathway),]
 
 ggplot(h_long_sub1,aes(y=apicome,x=gene,fill=rel_expression)) +
-  geom_tile(color="black") +
-  facet_grid(.~pathway, scales="free_x",space="free_x") +  
-  scale_fill_viridis(name="Relative abundance",breaks = c(0, 1), labels = c("0", "1")) +
-  theme_minimal(base_size=18) +
-  theme(axis.text.x=element_text(color="black",angle=45,hjust=1,vjust =1.1),  
-        axis.text.y=element_text(color="black"),
-        panel.background=element_blank(),
-        panel.grid=element_blank(),
-        strip.background=element_blank(),
-        axis.ticks=element_blank(),
-        strip.text.x=element_text(angle = 0), 
-        panel.spacing=unit(1, "lines"),
-        legend.position = "none") +
-  xlab("") + ylab("") + ggtitle("") 
-
-ggsave(paste(dir_output,"/heatmap_long_1.pdf",sep=""),width=12,height=3,units="in")
-```
-
-
-```{r}
-h_long_sub2 = h_long_sub[grepl("Digestive|Xenobiotic|Sulfo|Histon",h_long_sub$pathway),]
-
-ggplot(h_long_sub2,aes(y=apicome,x=gene,fill=rel_expression)) +
   geom_tile(color="black") +
   facet_grid(.~pathway, scales="free_x",space="free_x") +  
   scale_fill_viridis(name="Relative abundance",breaks = c(0, 1), labels = c("0", "1")) +
@@ -407,16 +369,261 @@ ggplot(h_long_sub2,aes(y=apicome,x=gene,fill=rel_expression)) +
         legend.position = "right") +
   xlab("") + ylab("") + ggtitle("") 
 
-ggsave(paste(dir_output,"/heatmap_long_2.pdf",sep=""),width=12,height=3,units="in")
+ggsave(paste(dir_output,"/heatmap_long.pdf",sep=""),width=24,height=3,units="in")
+
 ```
+
+# boxplots of figure 4A (Fig S4)
+```{r}
+h = data[,grepl("apical_tip_P|basal_tip_P",colnames(data))]
+max_abundance = apply(h,1,max)
+h = h / max_abundance
+h$gene = rownames(h)
+h_long = pivot_longer(h,-c(gene),names_to="sample",values_to="rel_expression")
+h_long = separate(h_long,col="sample", into = c("apicome", "zone", "patient"), sep = "_")
+
+h_long$zone = NULL
+delta = h_long %>%
+  group_by(gene, apicome) %>%
+  summarise(mean_rel_expression = mean(rel_expression, na.rm = TRUE)) %>%
+  spread(apicome, mean_rel_expression) %>%
+  mutate(delta = apical - basal)
+
+h_long = merge(h_long,delta[,c("gene","delta")],by="gene")
+
+h_long$pathway = NA
+
+h_long$pathway[h_long$gene %in% mucus] = "Mucus composition"
+h_long$pathway[h_long$gene %in% lipids] = "Fatty-acid transport and processing"
+h_long$pathway[h_long$gene %in% glucose] = "Monosacharide transport"
+h_long$pathway[h_long$gene %in% amino_acids] = "Amino-acids transport"
+h_long$pathway[h_long$gene %in% enzymes] = "Digestive enzymes" 
+h_long$pathway[h_long$gene %in% xenobiotics] = "Xenobiotic metabolism"
+h_long$pathway[h_long$gene %in% sulfur] = "Sulfotransferases"
+h_long$pathway[h_long$gene %in% ecm] = "Integrins"
+
+h_long_sub = h_long[!is.na(h_long$pathway),]
+
+h_long_sub$pathway = factor(h_long_sub$pathway,
+  levels=c("Amino-acids transport","Mucus composition", "Fatty-acid transport and processing", 
+           "Integrins","Digestive enzymes","Xenobiotic metabolism","Sulfotransferases","Monosacharide transport"))
+h_long_sub$apicome = str_to_title(h_long_sub$apicome)
+h_long_sub$apicome = factor(h_long_sub$apicome,levels=c("Basal","Apical"))
+```
+
+```{r}
+create_violin = function(pathway,legend=F,ylabel=T) {
+  to_plot = h_long_sub[h_long_sub$pathway==pathway,]
+  to_plot$gene = factor(to_plot$gene,levels=unique(to_plot$gene[order(to_plot$delta,decreasing=T)]))
+  p = ggplot(to_plot, aes(x = apicome, y = rel_expression)) +
+    facet_grid(~gene) +
+    geom_boxplot(aes(fill=apicome),outlier.shape = NA) +
+    theme_bw() + 
+    # geom_jitter(size=0.5, alpha=0.7, position=position_jitter(width=0.2)) +
+    scale_fill_manual(values=c("orange","lightblue"))+
+    theme(panel.grid = element_blank(), 
+          axis.text.x = element_blank(),
+          axis.ticks.x = element_blank(),
+          axis.text = element_text(color = "black")) +
+    xlab(NULL) + ggtitle(pathway) +
+    ylab("") +
+    scale_y_continuous(breaks = c(0, 1), labels = c(0, 1)) 
+  if (legend==T){
+    p = p + theme(legend.position="right",
+        legend.spacing.y = unit(0, "cm"),
+        legend.background=element_rect(colour="black",linewidth=0.5),
+        legend.direction = "vertical",
+        legend.text = element_text(size = 14),  
+        legend.key.size = unit(1.5, "lines"),
+        legend.title = element_blank())
+  } else {p = p + theme(legend.position = "none")}
+  if (ylabel==T){p = p + ylab("Relative abundance")}
+  return (p)
+}
+
+plots = list()
+plots[[1]] = create_violin("Xenobiotic metabolism", legend=T) 
+plots[[2]] = create_violin("Mucus composition")
+plots[[3]] = create_violin("Digestive enzymes")
+plots[[4]] = create_violin("Fatty-acid transport and processing")
+plots[[5]] = create_violin("Monosacharide transport") + create_violin("Integrins",ylabel=F)
+plots[[6]] = create_violin("Amino-acids transport") + create_violin("Sulfotransferases",ylabel=F)
+
+legend = get_legend(plots[[1]])
+plots[[1]] = plots[[1]] + theme(legend.position="none")
+first_plot_with_legend = plot_grid(plots[[1]], legend, ncol = 2, rel_widths = c(4, 1))
+
+combined_plot = plot_grid(first_plot_with_legend, 
+                          plots[[2]], plots[[3]], plots[[4]], plots[[5]], plots[[6]],
+                          ncol=1, rel_heights=rep(1,length(plots))) +
+  theme(plot.margin = unit(c(0.07, 0.07, 0.07, 0.07), "cm"))
+
+ggsave(paste(dir_output,"/boxplots.pdf",sep=""),width=10.5,height=12,units="in")
+# shell.exec(paste(dir_output,"/boxplots.pdf",sep=""))
+```
+
 
 # pathview kegg pathway visualization
 ```{r}
 translation_human = read.csv(paste(root_dir,"human_proteomics","input","human_ensemble_conversion.csv",sep="/"))
 translation_human = translation_human[!duplicated(translation_human$external_gene_name),]
 
-kegg_draw_pathway(gene_names=data$gene,values=data$a_b_ratio,pathway.id="04975",filename="FattyAcid",limit=1)
-kegg_draw_pathway(gene_names=data$gene,values=data$a_b_ratio,pathway.id="04973",filename="Carbohydrates",limit=1)
+kegg_draw_pathway(gene_names=data$gene,values=data$a_b_ratio,pathway.id="04975",filename="FattyAcid",limit =1)
+kegg_draw_pathway(gene_names=data$gene,values=data$a_b_ratio,pathway.id="04973",filename="Carbohydrates",limit =1)
+```
+
+# filter non-nuclear only proteins
+## find non nuclear genes
+```{r}
+subcellular1 = read.csv(paste0(directory,"/input/uniprot_GO_human.csv"))
+subcellular2 = read.csv(paste0(directory,"/input/HPA_subcellular_location_v23.0.csv"),row.names = 1)
+
+subcellular_long = subcellular1[,c("Gene_name","Reviewed")] %>%
+  mutate(Full_names = Gene_name) %>%
+  separate_rows(Gene_name, sep = " ")
+subcellular_long$Reviewed = NULL
+
+subcellular = merge(subcellular2[,c("Gene.name","GO.id")],subcellular_long,by.x="Gene.name",by.y="Gene_name",all.x=T,all.y=F)
+subcellular = subcellular[, c("Full_names", "GO.id")]
+
+subcellular$first_gene = sapply(str_split(subcellular$Full_names, " "), function(x) x[1])
+subcellular$gene_name_len = nchar(subcellular$Full_names)
+
+subcellular = subcellular %>%
+  group_by(first_gene) %>%
+  filter(gene_name_len == max(gene_name_len)) %>%
+  ungroup()
+
+subcellular = distinct(subcellular[,c("Full_names","GO.id")])
+```
+
+```{r}
+unique_values = subcellular %>%
+  pull(GO.id) %>%  # Extract the column as a vector
+  str_split(";") %>%     
+  unlist() %>%           # Flatten the list into a vector
+  trimws() %>%           # Trim any leading or trailing whitespace
+  unique()               # Get unique values
+
+non_nuclear_id = unique_values[!grepl("Nuc",unique_values,ignore.case = T)]
+non_nuclear_id = sapply(str_split(non_nuclear_id, "\\(GO:"), function(x) x[2])
+non_nuclear_id = non_nuclear_id[!is.na(non_nuclear_id)]
+non_nuclear_id = gsub("\\)","",non_nuclear_id)
+subcellular$nuc = T
+for (id in non_nuclear_id){
+  cur_grepl = grepl(id, subcellular$GO.id)
+  subcellular$nuc[cur_grepl] = F
+}
+
+
+nuclear_genes = subcellular$Full_names[subcellular$nuc==T]
+data$filter = sapply(rownames(data), function(gene) any(grepl(paste0("(^|\\s)",gene, "($|\\s)"), nuclear_genes)))
+data$filter[grepl("^HIST|^H2|^H1|^H3",rownames(data))] = T # remove histones
+
+```
+
+## filter matrisome
+```{r}
+data$filter[rownames(data) %in% matrisome] = T
+```
+
+## check correlation apical/basal between filtered and non-filtered data
+```{r}
+data_cyto = data[data$filter==F,]
+data_cyto = matnorm(data_cyto)
+data_cyto = data_cyto[,grepl("_P",colnames(data_cyto))]
+
+pn = min(data_cyto[data_cyto>0])
+pn = 0
+data_cyto$expression_mean = apply(data_cyto,1,mean,na.rm=T)
+data_cyto$apical = apply(data_cyto[,grepl("apical_tip_",colnames(data_cyto))],1,median)
+data_cyto$basal = apply(data_cyto[,grepl("basal_tip_",colnames(data_cyto))],1,median)
+data_cyto$log2_fc = log2((data_cyto$apical + pn) / (data_cyto$basal + pn))
+data_cyto$gene = rownames(data_cyto)
+
+data_all = data[,grepl("_P",colnames(data))]
+pn = min(data_all[data_all>0])
+pn = 0
+data_all$expression_mean = apply(data_all,1,mean,na.rm=T)
+data_all$apical = apply(data_all[,grepl("apical_tip_",colnames(data_all))],1,median)
+data_all$basal = apply(data_all[,grepl("basal_tip_",colnames(data_all))],1,median)
+data_all$log2_fc = log2((data_all$apical + pn) / (data_all$basal + pn))
+data_all$gene = rownames(data_all)
+
+columns = c("gene","expression_mean","log2_fc","apical","basal")
+data_merged = merge(data_cyto[,columns],data_all[,columns],by="gene",suffixes=c("_cyto","_all"),all=F)
+
+cor(data_merged$log2_fc_all, data_merged$log2_fc_cyto, method = "spearman")
+
+plot = data_merged
+ggplot(plot, aes(log2_fc_all, log2_fc_cyto)) +
+  geom_point() +
+  stat_cor(method="spearman",digits=2) +
+  theme_bw(base_size=14) +
+  xlab("log2(apical/basal) - All proteins") +  ylab("log2(apical/basal) - Cytoplasmic only") +
+  geom_hline(yintercept=0, color="black",alpha = 0.2,linetype="dashed") +
+  geom_vline(xintercept=0, color="black",alpha = 0.2,linetype="dashed") +
+  theme(panel.grid=element_blank(),
+        axis.text=element_text(color="black"),
+        legend.position = "none") +
+  ggtitle("")
+ggsave(paste(dir_output,"/filtering_correlation.pdf",sep=""),width=5,height=5,units="in")
+```
+
+# heatmaps on filtered data
+```{r}
+h = data_cyto[,c("gene","basal","apical")]
+colnames(h) = c("gene","Basal","Apical")
+h$max = apply(h[,c("Basal","Apical")],1,max)
+h$Apical = h$Apical/h$max
+h$Basal = h$Basal/h$max
+h$delta = h$Basal - h$Apical
+h$gene = factor(h$gene, levels = h$gene[order(h$delta)])
+
+h_long = pivot_longer(h[,c("gene","Basal","Apical","delta")],-c(gene,delta),names_to="apicome",values_to="rel_expression")
+h_long$apicome = factor(h_long$apicome,levels=c("Basal","Apical"))
+
+```
+
+```{r}
+h_long$pathway = NA
+
+h_long$pathway[h_long$gene %in% mucus] = "Mucus composition"
+h_long$pathway[h_long$gene %in% lipids] = "Fatty-acid transport and processing"
+h_long$pathway[h_long$gene %in% glucose] = "Monosacharide transport"
+h_long$pathway[h_long$gene %in% amino_acids] = "Amino-acids transport"
+h_long$pathway[h_long$gene %in% enzymes] = "Digestive enzymes" 
+h_long$pathway[h_long$gene %in% xenobiotics] = "Xenobiotic metabolism"
+h_long$pathway[h_long$gene %in% sulfur] = "Sulfotransferases"
+h_long$pathway[h_long$gene %in% ecm] = "Integrins"
+
+h_long_sub = h_long[!is.na(h_long$pathway),]
+h_long_sub$pathway = factor(h_long_sub$pathway,
+  levels=c("Amino-acids transport","Mucus composition", "Fatty-acid transport and processing", 
+           "Integrins","Digestive enzymes","Xenobiotic metabolism","Sulfotransferases","Monosacharide transport"))
+
+```
+
+```{r}
+h_long_sub1 = h_long_sub[grepl("Digestive|Fatty|Amino|Integrin|Mucus|Xenobiotic|Sulfo|Monos",h_long_sub$pathway),]
+
+ggplot(h_long_sub1,aes(y=apicome,x=gene,fill=rel_expression)) +
+  geom_tile(color="black") +
+  facet_grid(.~pathway, scales="free_x",space="free_x") +  
+  scale_fill_viridis(name="Relative abundance",breaks = c(0, 1), labels = c("0", "1")) +
+  theme_minimal(base_size=18) +
+  theme(axis.text.x=element_text(color="black",angle=45,hjust=1,vjust =1.1),  
+        axis.text.y=element_text(color="black"),
+        panel.background=element_blank(),
+        panel.grid=element_blank(),
+        strip.background=element_blank(),
+        axis.ticks=element_blank(),
+        strip.text.x=element_text(angle = 0), 
+        panel.spacing=unit(1, "lines"),
+        legend.position = "right") +
+  xlab("") + ylab("") + ggtitle("") 
+
+ggsave(paste(dir_output,"/filtered_heatmap_long.pdf",sep=""),width=24,height=3,units="in")
 ```
 
 # export data

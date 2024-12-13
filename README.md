@@ -23,5 +23,5 @@ The code is used to process the raw data and make all figures from the article.
    5.3. smFISH quantification (ribosome & mitochondria) - quantification of intensity
 
 
-![](image.jpg)
+![](img.PNG)
 

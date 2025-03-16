@@ -1,5 +1,5 @@
 # Intra-cellular polarization of RNAs and proteins in the human small intestinal epithelium
-This code is associated with the following manuscript: *link*.
+This code is associated with the following [article](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3002942).
 
 The code is used to process the raw data and make all figures from the article.
 
